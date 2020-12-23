@@ -1,11 +1,13 @@
-var player;
-var bulletArray = [];
+var entityList = [];
 const root2 = Math.sqrt(2);
-const zoom = 5/6;
 
 function loadGame() {
-    player = new Player(50,50, "blue", 300, 500);
+    hitbox1 = new Hitbox([new rectHitbox(-20, 0, 40, 20), new rectHitbox(-5, -20, 10, 20), new rectHitbox(-15, -10, 5, 10), new rectHitbox(10, -10, 5, 10)]);
+    hitbox2 = new Hitbox([new rectHitbox(-10, -15, 30, 30)]);
+    // console.log(hitbox.shapeList);
     gameScreen.start();
+    entityList[0] = new Player1(300, 100, 0, hitbox1, gameScreen);
+    entityList[1] = new Player2(100, 300, 0, hitbox2, gameScreen);
 }
 
 var gameScreen = {
@@ -14,14 +16,14 @@ var gameScreen = {
         this.canvas.width = 960;
         this.canvas.height = 540;
         this.context = this.canvas.getContext("2d");
-        this.background = document.getElementById("space");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(main, 15);
-        // this.canvas.x = (window.innerWidth-this.canvas.width)/2;
-        // this.canvas.y = (window.innerHeight-this.canvas.height)/2;
-        console.log(this.canvas.x);
-        this.clickedKeys = [];
+        this.clickedKeys = []; // detecting single press of key
+
+
+        // Event listeners
         window.addEventListener('keydown', function (e) {
+            gameScreen.clickedKeys = [];
             gameScreen.keys = (gameScreen.keys || []);
             gameScreen.keys[e.keyCode] = true;
             gameScreen.clickedKeys[e.keyCode] = true;
@@ -30,20 +32,19 @@ var gameScreen = {
             gameScreen.keys[e.keyCode] = false;
         })
         window.addEventListener('mousemove', function (e) {
-            var rect = gameScreen.canvas.getBoundingClientRect();
+            var rect = gameScreen.canvas.getBoundingClientRect(); // adjust for position of canvas relative to window
             gameScreen.x = e.pageX - rect.left;
             gameScreen.y = e.pageY - rect.top;
         })
         window.addEventListener('mousedown', function (e) {
             gameScreen.pressed = true;
         })
-        // window.addEventListener('mouseup', function (e) {
-        //     gameScreen.pressed = false;
-        // })
+        window.addEventListener('mouseup', function (e) {
+            gameScreen.pressed = false;
+        })
     },
     clear : function() {
         this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
-        this.context.drawImage(document.getElementById("space"), player.x/this.canvas.width*1920*(1-zoom), player.y/this.canvas.height*1080*(1-zoom), 1920*zoom, 1080*zoom, 0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
@@ -63,115 +64,14 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
-    player.update();
-    bulletArray.forEach(b => {
-        b.update();
+
+    // update all the entities (movement, collision, etc.)
+    entityList.forEach(e => {
+        e.update();
     });
-    gameScreen.clickedKeys = [];
-}
-
-function Player(width, height, color, x, y) {
-    this.gameScreen = gameScreen;
-    this.angle = 0;
-    this.left_bullet = true;
-    this.bulletColorInd = 0;
-    this.bulletColor = ["red", "magenta", "yellow", "green"];
-    this.changeColor = false;
-    this.width = width;
-    this.height = height;
-    this.x = x,
-    this.y = y;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.imageRed = document.getElementById("playerred");
-    this.imagePurple = document.getElementById("playerpurple");
-    this.imageYellow = document.getElementById("playeryellow");
-    this.imageGreen = document.getElementById("playergreen");
-    this.images = [this.imageRed, this.imagePurple, this.imageYellow, this.imageGreen];
-    this.update = function() {
-        this.move();
-        this.shoot();
-        context = this.gameScreen.context;
-        context.save();
-
-        context.translate(this.x,this.y);
-        this.angle = getAngle(this.x, this.y, this.gameScreen.x, this.gameScreen.y);
-        context.rotate(this.angle + Math.PI/2);
-        context.translate(-this.x,-this.y);
-
-        context.drawImage(this.images[this.bulletColorInd], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-
-        context.restore();
-    }
-    this.move = function() {
-        this.speedX = 0;
-        this.speedY = 0;
-        if (this.gameScreen.keys && this.gameScreen.keys[87]) {this.speedY = 5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[65]) {this.speedX = -5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[83]) {this.speedY = -5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[68]) {this.speedX = 5;}
-        if (this.speedX != 0 && this.speedY != 0) {
-            this.speedX /= root2;
-            this.speedY /= root2;
-        }
-        this.x += this.speedX;
-        this.y -= this.speedY;
-
-        this.borderCollision();
-    }
-    this.borderCollision = function() {
-        if (this.x > this.gameScreen.canvas.width - this.width/2) {this.x = this.gameScreen.canvas.width - this.width/2;}
-        else if (this.x < this.width/2) {this.x = this.width/2}
-        if (this.y > this.gameScreen.canvas.height - this.height/2) {this.y = this.gameScreen.canvas.height - this.height/2;}
-        else if (this.y < this.height/2) {this.y = this.height/2;}
-    }
-    this.shoot = function() {
-        if (this.gameScreen.clickedKeys[32]) {this.changeColor = true;}
-        if (this.changeColor) {
-            this.bulletColorInd = (this.bulletColorInd + 1) % 4;
-            this.changeColor = false;
-        }
-        if (this.gameScreen.pressed) {
-            this.gameScreen.pressed = false;
-            if (this.left_bullet) {
-                bulletArray.push(new Bullet(5, 30, this.angle, 20, this.x-Math.cos(this.angle+Math.PI/2)*this.width/3, 
-                                this.y-Math.sin(this.angle+Math.PI/2)*this.height/3, this.bulletColor[this.bulletColorInd]));
-                this.left_bullet = false;
-            }
-            else {
-                bulletArray.push(new Bullet(5, 30, this.angle, 20, this.x+Math.cos(this.angle+Math.PI/2)*this.width/3, 
-                                this.y+Math.sin(this.angle+Math.PI/2)*this.height/3, this.bulletColor[this.bulletColorInd]));
-                this.left_bullet = true;
-            }
-        }
-    }
-}
-
-function Bullet(width, height, angle, speed, x, y, color) {
-    this.gameScreen = gameScreen;
-    this.width = width;
-    this.height = height;
-    this.angle = angle;
-    this.speed = speed;
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.update = function() {
-        this.move();
-        context = this.gameScreen.context;
-        context.save();
-
-        context.translate(this.x,this.y);
-        context.rotate(this.angle+Math.PI/2);
-        context.translate(-this.x,-this.y);
-
-        context.fillStyle = this.color;
-        context.fillRect(this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-
-        context.restore();
-    }
-    this.move = function() {
-        this.x += Math.cos(this.angle)*this.speed;
-        this.y += Math.sin(this.angle)*this.speed;
-    }
+    // draw all the entities after updating them
+    entityList.forEach(e => {
+        e.draw(gameScreen.context);
+    });
+    entityList[0].collision(entityList[1]);
 }
