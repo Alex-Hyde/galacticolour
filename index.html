@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <style>
 canvas {
-    border:1px solid #d3d3d3;
+    border:3px solid #FF0000;
     background-color: #f1f1f1;
-    /* margin: auto; */
+    margin: auto;
     display: block;
 }
 </style>
@@ -38,8 +38,9 @@ var gameScreen = {
         this.background = document.getElementById("space");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(main, 15);
-        this.x = 0;
-        this.y = 0;
+        // this.canvas.x = (window.innerWidth-this.canvas.width)/2;
+        // this.canvas.y = (window.innerHeight-this.canvas.height)/2;
+        console.log(this.canvas.x);
         this.clickedKeys = [];
         window.addEventListener('keydown', function (e) {
             gameScreen.keys = (gameScreen.keys || []);
@@ -50,8 +51,9 @@ var gameScreen = {
             gameScreen.keys[e.keyCode] = false;
         })
         window.addEventListener('mousemove', function (e) {
-            gameScreen.x = e.pageX;
-            gameScreen.y = e.pageY;
+            var rect = gameScreen.canvas.getBoundingClientRect();
+            gameScreen.x = e.pageX - rect.left;
+            gameScreen.y = e.pageY - rect.top;
         })
         window.addEventListener('mousedown', function (e) {
             gameScreen.pressed = true;
