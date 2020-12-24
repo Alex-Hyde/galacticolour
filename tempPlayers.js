@@ -20,10 +20,10 @@ function Player2(x, y, angle, hitbox, gameScreen) {
     this.gameScreen = gameScreen
 
     this.update = function() {
-        if (this.gameScreen.keys && this.gameScreen.keys[87]) {this.y -= 5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[65]) {this.x -= 5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[83]) {this.y += 5;}
-        if (this.gameScreen.keys && this.gameScreen.keys[68]) {this.x += 5;}
+        if (this.gameScreen.keys && this.gameScreen.keys[87]) {this.y -= 2;}
+        if (this.gameScreen.keys && this.gameScreen.keys[65]) {this.x -= 2;}
+        if (this.gameScreen.keys && this.gameScreen.keys[83]) {this.y += 2;}
+        if (this.gameScreen.keys && this.gameScreen.keys[68]) {this.x += 2;}
         if (this.gameScreen.keys && this.gameScreen.keys[67]) {this.angle += 0.1;}
     }
 }

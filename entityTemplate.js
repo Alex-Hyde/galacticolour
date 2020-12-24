@@ -13,23 +13,24 @@ function Hitbox(shapeList) {
     }
 
     this.collision = function(hitbox, parentEntity1, parentEntity2) {
+        collided = false;
         this.shapeList.forEach(a => {
             hitbox.shapeList.forEach(b => {
                 if (collision(a, b, parentEntity1, parentEntity2)) {
                     this.color = "red";
                     parentEntity2.hitbox.color = "red";
-                    return true;
+                    collided = true;
+                    return;
                 }
-                return false;
             });
         });
+        return collided;
     }
 }
 
 // rectangular hitbox
 // coordinates of the top left corner relative to the center of the entity
 function rectHitbox(x, y, w, h) {
-    this.type = "rect";
     this.x = x;
     this.y = y;
     this.w = w;
@@ -75,21 +76,17 @@ function Entity(x, y, angle, hitbox) {
 
     this.update = function() {
     }
-
-    // function run at the end of every game loop. for reseting variables
+    // function run at the end of every game loop for reseting variables
     this.reset = function() {
     }
-
     this.draw = function(ctx) {
         this.drawHitbox(ctx);
     }
-
     this.drawHitbox = function(ctx) {
         this.hitbox.draw(ctx, this);
     }
-
     this.collision = function(other) {
-        this.hitbox.collision(other.hitbox, this, other);
+        return this.hitbox.collision(other.hitbox, this, other);
     }
 }
 
@@ -110,21 +107,52 @@ function collision(a, b, parentEntity1, parentEntity2) {
             inter = intTwoLines(aP[0], aP[1], parentEntity1.angle + i*Math.PI/2, bP[0], bP[1], parentEntity2.angle + j*Math.PI/2);
 
             // (< 1) used as a tolerance for rounding error
-            if (Math.abs(inter[0] - aP[0]) + Math.abs(inter[0] - aP2[0]) - Math.abs(aP[0] - aP2[0]) < 1 &&
-                Math.abs(inter[1] - aP[1]) + Math.abs(inter[1] - aP2[1]) - Math.abs(aP[1] - aP2[1]) < 1 &&
-                Math.abs(inter[0] - bP[0]) + Math.abs(inter[0] - bP2[0]) - Math.abs(bP[0] - bP2[0]) < 1 &&
-                Math.abs(inter[1] - bP[1]) + Math.abs(inter[1] - bP2[1]) - Math.abs(bP[1] - bP2[1]) < 1) {
+            if (Math.abs(inter[0] - aP[0]) + Math.abs(inter[0] - aP2[0]) - Math.abs(aP[0] - aP2[0]) <= 1 &&
+                Math.abs(inter[1] - aP[1]) + Math.abs(inter[1] - aP2[1]) - Math.abs(aP[1] - aP2[1]) <= 1 &&
+                Math.abs(inter[0] - bP[0]) + Math.abs(inter[0] - bP2[0]) - Math.abs(bP[0] - bP2[0]) <= 1 &&
+                Math.abs(inter[1] - bP[1]) + Math.abs(inter[1] - bP2[1]) - Math.abs(bP[1] - bP2[1]) <= 1) {
                 return true;
             }
         }
     }
+
+    // special case if one hitbox is fully inside the other hitbox
+    // simply check if any one point is inside the other hitbox
+
+    AB = subtractPoints(bPoints[1], bPoints[0]);
+    AD = subtractPoints(bPoints[3], bPoints[0]);
+    AP = subtractPoints(aPoints[0], bPoints[0]);
+    if (0 < dot(AP, AB) && dot(AP, AB) < dot(AB, AB) && 0 < dot(AP, AD) && dot(AP, AD) < dot(AD, AD)) {return true;}
+    AB = subtractPoints(aPoints[1], aPoints[0]);
+    AD = subtractPoints(aPoints[3], aPoints[0]);
+    AP = subtractPoints(bPoints[0], aPoints[0]);
+    if (0 < dot(AP, AB) && dot(AP, AB) < dot(AB, AB) && 0 < dot(AP, AD) && dot(AP, AD) < dot(AD, AD)) {return true;}
+
     return false;
+}
+
+// dot product helper function
+function dot([x1,y1],[x2,y2]) {
+    return x1*x2 + y1*y2;
+}
+
+function subtractPoints([x1,y1], [x2,y2]) {
+    return [x1-x2,y1-y2];
 }
 
 // intersection between two lines in y-intercept form
 function intTwoLines(x1, y1, a1, x2, y2, a2) {
-    m1 = Math.tan(a1);
-    m2 = Math.tan(a2);
+    if (Math.abs(a1) == Math.PI/2) { // vertical slope
+        m1 = 9999;
+    } else {
+        m1 = Math.tan(a1);
+    }
+    if (Math.abs(a2) == Math.PI/2) { // vertical slope
+        m2 = 9999;
+    } else {
+        m2 = Math.tan(a2);
+    }
+    
     b1 = y1 - m1 * x1;
     b2 = y2 - m2 * x2;
     x = (b2 - b1)/(m1 - m2);
