@@ -1,17 +1,26 @@
 function Hitbox(shapeList) {
     // list of shapes, each with a coordinate relative to the center of the entity
     this.shapeList = shapeList;
+    this.color = "grey";
 
     this.draw = function(ctx, parentEntity) {
         this.shapeList.forEach(s => {
+            ctx.strokeStyle = this.color;
             s.draw(ctx, parentEntity.x, parentEntity.y, parentEntity.angle);
         });
+        this.color = "black";
+        ctx.strokeStyle = "black";
     }
 
     this.collision = function(hitbox, parentEntity1, parentEntity2) {
         this.shapeList.forEach(a => {
             hitbox.shapeList.forEach(b => {
-                if (collision(a, b, parentEntity1, parentEntity2));
+                if (collision(a, b, parentEntity1, parentEntity2)) {
+                    this.color = "red";
+                    parentEntity2.hitbox.color = "red";
+                    return true;
+                }
+                return false;
             });
         });
     }
@@ -64,7 +73,12 @@ function Entity(x, y, angle, hitbox) {
     this.angle = angle;
     this.hitbox = hitbox;
 
-    this.update = function() {}
+    this.update = function() {
+    }
+
+    // function run at the end of every game loop. for reseting variables
+    this.reset = function() {
+    }
 
     this.draw = function(ctx) {
         this.drawHitbox(ctx);
@@ -100,11 +114,11 @@ function collision(a, b, parentEntity1, parentEntity2) {
                 Math.abs(inter[1] - aP[1]) + Math.abs(inter[1] - aP2[1]) - Math.abs(aP[1] - aP2[1]) < 1 &&
                 Math.abs(inter[0] - bP[0]) + Math.abs(inter[0] - bP2[0]) - Math.abs(bP[0] - bP2[0]) < 1 &&
                 Math.abs(inter[1] - bP[1]) + Math.abs(inter[1] - bP2[1]) - Math.abs(bP[1] - bP2[1]) < 1) {
-                gameScreen.context.fillStyle = "blue";
-                gameScreen.context.fillRect(inter[0]-2, inter[1]-2, 4, 4);
+                return true;
             }
         }
     }
+    return false;
 }
 
 // intersection between two lines in y-intercept form

@@ -72,6 +72,6 @@ function main() {
     // draw all the entities after updating them
     entityList.forEach(e => {
         e.draw(gameScreen.context);
+        e.reset();
     });
-    entityList[0].collision(entityList[1]);
 }
