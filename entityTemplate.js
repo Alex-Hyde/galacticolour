@@ -14,10 +14,11 @@ function Hitbox(shapeList) {
 
     this.collision = function(hitbox, parentEntity1, parentEntity2) {
         collided = false;
+        // check collision between any two shapes in each hitbox (nested foreach loop)
         this.shapeList.forEach(a => {
             hitbox.shapeList.forEach(b => {
                 if (collision(a, b, parentEntity1, parentEntity2)) {
-                    this.color = "red";
+                    this.color = "red"; // change colour of hitbox when it is colliding with another entity
                     parentEntity2.hitbox.color = "red";
                     collided = true;
                     return;
@@ -48,14 +49,21 @@ function rectHitbox(x, y, w, h) {
         ctx.restore();
     }
 
+    // return coordinates of points relative to the top left of the canvas
     this.getAbsolutePoints = function(x, y, angle) {
-        relativePoints = [rotatePoint(this.x, this.y, angle), rotatePoint(this.x + this.w, this.y, angle),
-                          rotatePoint(this.x + this.w, this.y + this.h, angle), rotatePoint(this.x, this.y + this.h, angle)];
+        // coordinates relative to center of the parent entity
+        relativePoints = this.getRelativePoints(angle);
+        // adjust to position relative to canvas
         for (i = 0; i < 4; i++) {
             relativePoints[i][0] += x;
             relativePoints[i][1] += y;
         }
         return relativePoints;
+    }
+    // return coordinates relative to center of the parent entity (since coordinates (this.x, this.y) are stored as relative to the entity)
+    this.getRelativePoints = function(angle) {
+        return [rotatePoint(this.x, this.y, angle), rotatePoint(this.x + this.w, this.y, angle),
+                rotatePoint(this.x + this.w, this.y + this.h, angle), rotatePoint(this.x, this.y + this.h, angle)];
     }
 }
 
@@ -72,7 +80,7 @@ function Entity(x, y, angle, hitbox) {
     this.x = x;
     this.y = y;
     this.angle = angle;
-    this.hitbox = hitbox;
+    this.hitbox = hitbox; // hitbox object
 
     this.update = function() {
     }
@@ -85,6 +93,7 @@ function Entity(x, y, angle, hitbox) {
     this.drawHitbox = function(ctx) {
         this.hitbox.draw(ctx, this);
     }
+    // boolean function, true is there is a collision between the two entities, false otherwise
     this.collision = function(other) {
         return this.hitbox.collision(other.hitbox, this, other);
     }
@@ -106,7 +115,7 @@ function collision(a, b, parentEntity1, parentEntity2) {
 
             inter = intTwoLines(aP[0], aP[1], parentEntity1.angle + i*Math.PI/2, bP[0], bP[1], parentEntity2.angle + j*Math.PI/2);
 
-            // (< 1) used as a tolerance for rounding error
+            // (<= 1) used as a tolerance for rounding error
             if (Math.abs(inter[0] - aP[0]) + Math.abs(inter[0] - aP2[0]) - Math.abs(aP[0] - aP2[0]) <= 1 &&
                 Math.abs(inter[1] - aP[1]) + Math.abs(inter[1] - aP2[1]) - Math.abs(aP[1] - aP2[1]) <= 1 &&
                 Math.abs(inter[0] - bP[0]) + Math.abs(inter[0] - bP2[0]) - Math.abs(bP[0] - bP2[0]) <= 1 &&

@@ -10,7 +10,6 @@ function Player1(x, y, angle, hitbox, gameScreen) {
         if (this.gameScreen.keys && this.gameScreen.keys[66]) {this.angle += 0.1;}
 
         if (this.collision(entityList[1])) {
-            console.log("wack");
         }
     }
 }

@@ -1,6 +1,7 @@
 var entityList = [];
 const root2 = Math.sqrt(2);
 
+// function run on start
 function loadGame() {
     hitbox1 = new Hitbox([new rectHitbox(-20, 0, 40, 20), new rectHitbox(-5, -20, 10, 20), new rectHitbox(-15, -10, 5, 10), new rectHitbox(10, -10, 5, 10)]);
     hitbox2 = new Hitbox([new rectHitbox(-10, -15, 100,100)]);
