@@ -78,7 +78,7 @@ function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
     this.colour=colour;
     this.image=image;
 
-    this.updateplayer = function() {
+    this.update = function() {
         this.newPos();
         ctx = GameScreen.context;
         ctx.save();
