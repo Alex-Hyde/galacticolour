@@ -3,14 +3,14 @@ const root2 = Math.sqrt(2);
 
 // function run on start
 function loadGame() {
-    // console.log(hitbox.shapeList);
     gameScreen.start();
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
     player1.spawn();
     player2.spawn();
 
-    button = new Button(10, 20, 40, 50);
+    button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
+    console.log(button);
     button.addToScreen();
 }
 
