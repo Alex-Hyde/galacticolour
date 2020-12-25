@@ -2,16 +2,18 @@ var entityList = [];
 const root2 = Math.sqrt(2);
 
 // function run on start
-function loadGame() {
+function loadMenu() {
     gameScreen.start();
+    button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
+    button.addToScreen();
+}
+
+function loadGame() {
+    entityList = [];
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
     player1.spawn();
     player2.spawn();
-
-    button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
-    console.log(button);
-    button.addToScreen();
 }
 
 var gameScreen = {

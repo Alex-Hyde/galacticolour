@@ -52,5 +52,6 @@ function PlayButton(x, y) {
 
     this.onRelease = function() {
         this.image = this.defaultImage;
+        loadGame();
     }
 }
