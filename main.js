@@ -3,12 +3,12 @@ const root2 = Math.sqrt(2);
 
 // function run on start
 function loadGame() {
-    hitbox1 = new Hitbox([new rectHitbox(-20, 0, 40, 20), new rectHitbox(-5, -20, 10, 20), new rectHitbox(-15, -10, 5, 10), new rectHitbox(10, -10, 5, 10)]);
-    hitbox2 = new Hitbox([new rectHitbox(-10, -15, 100,100)]);
     // console.log(hitbox.shapeList);
     gameScreen.start();
-    entityList[0] = new Player1(300, 100, 0, hitbox1, gameScreen);
-    entityList[1] = new Player2(100, 300, 0, hitbox2, gameScreen);
+    player1 = new Player1(300, 100, 0);
+    player2 = new Player2(100, 300, 0);
+    player1.spawn();
+    player2.spawn();
 }
 
 var gameScreen = {

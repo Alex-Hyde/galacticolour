@@ -97,6 +97,9 @@ function Entity(x, y, angle, hitbox) {
     this.collision = function(other) {
         return this.hitbox.collision(other.hitbox, this, other);
     }
+    this.spawn = function() {
+        entityList.push(this);
+    }
 }
 
 // collision between two hitboxes
@@ -145,6 +148,7 @@ function dot([x1,y1],[x2,y2]) {
     return x1*x2 + y1*y2;
 }
 
+// subtract points helper function
 function subtractPoints([x1,y1], [x2,y2]) {
     return [x1-x2,y1-y2];
 }
