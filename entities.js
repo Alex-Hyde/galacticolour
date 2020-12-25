@@ -22,8 +22,10 @@ function Player(x,y,angle){
     this.projectiles=[];
 
     this.updateplayer = function() {
+    
+
         this.newPos();
-        ctx = GameScreen.context;
+        ctx = gameScreen.context;
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
@@ -54,9 +56,9 @@ function projectile(height, width, speed, colour, x, y,hitbox,colour,image){
         this.x += this.speed * Math.cos(this.angle-Math.PI/2);
         this.y += this.speed * Math.sin(this.angle-Math.PI/2);
     }
-    this.updateproj=function(){
+    this.update=function(){
         this.newPos();
-        ctx = GameScreen.context;
+        ctx = gameScreen.context;
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
@@ -80,7 +82,7 @@ function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
 
     this.update = function() {
         this.newPos();
-        ctx = GameScreen.context;
+        ctx = gameScreen.context;
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
