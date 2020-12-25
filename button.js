@@ -10,7 +10,7 @@ function Button(x, y, w, h) {
     // run every iteration of the main loop, determines which functions to run depending on mouse pos and action
     this.update = function() {
         if (this.mouseOver()) {
-            if (gameScreen.pressed && !this.pressed) {
+            if (gameScreen.clicked && !this.pressed) {
                 this.pressed = true;
                 this.onClick();
             } else if (!this.hovered) {

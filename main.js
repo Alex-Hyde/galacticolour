@@ -28,10 +28,10 @@ var gameScreen = {
         this.x = -1;
         this.y = -1;
         this.pressed = false;
+        this.clicked = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {
-            gameScreen.clickedKeys = [];
             gameScreen.keys = (gameScreen.keys || []);
             gameScreen.keys[e.keyCode] = true;
             gameScreen.clickedKeys[e.keyCode] = true;
@@ -46,6 +46,7 @@ var gameScreen = {
         })
         window.addEventListener('mousedown', function (e) {
             gameScreen.pressed = true;
+            gameScreen.clicked = true;
         })
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
@@ -53,6 +54,10 @@ var gameScreen = {
     },
     clear : function() {
         this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
+    },
+    reset : function() {
+        this.clicked = false;
+        this.clickedKeys = [];
     }
 }
 
@@ -82,4 +87,6 @@ function main() {
         e.draw(gameScreen.context);
         e.reset();
     });
+
+    gameScreen.reset();
 }
