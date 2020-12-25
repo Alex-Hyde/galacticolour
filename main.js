@@ -12,8 +12,12 @@ function loadGame() {
     entityList = [];
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
+    mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+    mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
     player1.spawn();
     player2.spawn();
+    mob1.spawn();
+    mob2.spawn();
 }
 
 var gameScreen = {
