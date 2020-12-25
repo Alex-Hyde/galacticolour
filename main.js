@@ -9,6 +9,9 @@ function loadGame() {
     player2 = new Player2(100, 300, 0);
     player1.spawn();
     player2.spawn();
+
+    button = new Button(10, 20, 40, 50);
+    button.addToScreen();
 }
 
 var gameScreen = {
@@ -20,7 +23,9 @@ var gameScreen = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(main, 15);
         this.clickedKeys = []; // detecting single press of key
-
+        this.x = -1;
+        this.y = -1;
+        this.pressed = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {
