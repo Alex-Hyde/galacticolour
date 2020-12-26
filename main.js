@@ -1,4 +1,5 @@
 var entityList = [];
+var levelList = [];
 const root2 = Math.sqrt(2);
 
 // function run on start
@@ -9,9 +10,23 @@ function loadMenu() {
 }
 
 function loadGame() {
+    wave1 = new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500);
+    wave2 = new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500);
+    level1 = new Level([wave1, wave2]);
+    levelList.push(level1);
     entityList = [];
     mainplayer= new Player(200,200, 0);
     mainplayer.spawn();
+    player1 = new Player1(300, 100, 0);
+    player2 = new Player2(100, 300, 0);
+    // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+    // mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
+    // mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
+    player1.spawn();
+    player2.spawn();
+    // mob1.spawn();
+    // mob2.spawn();
+    // mob3.spawn();
 }
 
 var gameScreen = {
@@ -26,7 +41,7 @@ var gameScreen = {
         this.x = -1;
         this.y = -1;
         this.pressed = false;
-        this.clicked=false;
+        this.clicked = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {
@@ -44,7 +59,7 @@ var gameScreen = {
         })
         window.addEventListener('mousedown', function (e) {
             gameScreen.pressed = true;
-            gameScreen.clicked=true;
+            gameScreen.clicked = true;
         })
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
@@ -57,15 +72,31 @@ var gameScreen = {
     clear : function() {
         this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
     },
-    reset: function(){
-        this.clicked=false;
-        this.clickedKeys=[];
+    reset : function() {
+        this.clicked = false;
+        this.clickedKeys = [];
     }
 }
 
+function getAngle(x1, y1, x2, y2) {
+    if (x2-x1 == 0) { // division by 0
+        if (y2-y1 < 0) {
+            return -Math.PI/2
+        }
+        return Math.PI/2;
+    }
+    var angle = Math.atan((y2-y1)/(x2-x1));
+    if (x2-x1 < 0) {
+        return Math.PI + angle;
+    }
+    return angle;
+}
 
 function main() {
     gameScreen.clear();
+    levelList.forEach(l => {
+       l.update();
+    });
     // update all the entities (movement, collision, etc.)
     entityList.forEach(e => {
         e.update();
