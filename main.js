@@ -15,6 +15,8 @@ function loadGame() {
     level1 = new Level([wave1, wave2]);
     levelList.push(level1);
     entityList = [];
+    mainplayer= new Player(200,200, 0);
+    mainplayer.spawn();
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
     // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
@@ -62,6 +64,10 @@ var gameScreen = {
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
         })
+        window.addEventListener('click', function (e) {
+            e.preventDefault();
+            gameScreen.clicked =true;
+        })
     },
     clear : function() {
         this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
@@ -100,6 +106,5 @@ function main() {
         e.draw(gameScreen.context);
         e.reset();
     });
-
     gameScreen.reset();
 }
