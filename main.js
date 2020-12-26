@@ -10,21 +10,21 @@ function loadMenu() {
 }
 
 function loadGame() {
-    //wave1 = new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500);
-    //wave2 = new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500);
-    //level1 = new Level([wave1, wave2]);
-    //levelList.push(level1);
+    wave1 = new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500);
+    wave2 = new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500);
+    level1 = new Level([wave1, wave2]);
+    levelList.push(level1);
     entityList = [];
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
-    mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
-    mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
-    //mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
+    // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+    // mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
+    // mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
     player1.spawn();
     player2.spawn();
-    mob1.spawn();
-    mob2.spawn();
-    //mob3.spawn();
+    // mob1.spawn();
+    // mob2.spawn();
+    // mob3.spawn();
 }
 
 var gameScreen = {
@@ -88,9 +88,9 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
-    //levelList.forEach(l => {
-    //    l.update();
-    //});
+    levelList.forEach(l => {
+       l.update();
+    });
     // update all the entities (movement, collision, etc.)
     entityList.forEach(e => {
         e.update();
