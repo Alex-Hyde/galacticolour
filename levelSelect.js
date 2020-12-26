@@ -1,4 +1,5 @@
-levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], [1400, 300], [1600, 100]];
+levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
+                    [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
 
 function loadLevelSelect() {
     entityList = [];
@@ -21,7 +22,7 @@ function LevelSelect() {
     this.animationIndex = 0;
     this.animationStart = null;
     this.animationEnd = null;
-    this.animationLength = 20; // constant
+    this.animationLength = 30; // constant
 
     this.update = function() {
         if (gameScreen.keys && gameScreen.keys[68] && !this.animation) {
@@ -109,6 +110,10 @@ function startLevelButton() {
     Button.call(this, (gameScreen.canvas.width - 200)/2, gameScreen.canvas.height - 10 - 50, 200, 50);
 
     this.onRelease = function() {
-        loadGame();
+        if (entityList[0].currentLevelIndex == 3) {
+            loadGorGor();
+        } else {
+            loadGame();
+        }
     }
 }
