@@ -17,14 +17,15 @@ function Button(x, y, w, h) {
                 this.hovered = true;
                 this.onHover();
             }
-        } else if (this.hovered && !this.pressed) {
+            if (!gameScreen.pressed && this.pressed) {
+                this.pressed = false;
+                this.hovered = false;
+                this.onRelease();
+            }
+        } else if ((this.hovered && !this.pressed) || (!gameScreen.pressed && this.pressed)) {
             this.hovered = false;
-            this.onUnHover();
-        }
-        if (!gameScreen.pressed && this.pressed) {
             this.pressed = false;
-            this.hovered = false;
-            this.onRelease();
+            this.onUnHover();
         }
     }
 

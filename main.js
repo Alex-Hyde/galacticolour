@@ -4,8 +4,12 @@ const root2 = Math.sqrt(2);
 
 // function run on start
 function loadMenu() {
-    gameScreen.start();
-    button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
+    if (!gameScreen.context) { // check if already started (if loading menu from a back button)
+        gameScreen.start();
+    }
+    entityList = [];
+    entityList[0] = new MainMenu();
+    button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
     button.addToScreen();
 }
 
@@ -63,10 +67,6 @@ var gameScreen = {
         })
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
-        })
-        window.addEventListener('click', function (e) {
-            e.preventDefault();
-            gameScreen.clicked =true;
         })
     },
     clear : function() {

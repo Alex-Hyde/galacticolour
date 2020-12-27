@@ -5,6 +5,7 @@ function loadLevelSelect() {
     entityList = [];
     entityList[0] = new LevelSelect();
     entityList[1] = new startLevelButton();
+    entityList[2] = new BackButton();
 
 }
 
@@ -108,6 +109,26 @@ function LevelSelect() {
 
 function startLevelButton() {
     Button.call(this, (gameScreen.canvas.width - 200)/2, gameScreen.canvas.height - 10 - 50, 200, 50);
+    this.defaultImage = document.getElementById("launchButtonDefault");
+    this.hoverImage = document.getElementById("launchButtonHover");
+    this.pressedImage = document.getElementById("launchButtonPressed");
+    this.image = this.defaultImage;
+
+    this.draw = function(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+    }
+
+    this.onHover = function() {
+        this.image = this.hoverImage;
+    }
+
+    this.onUnHover = function() {
+        this.image = this.defaultImage;
+    }
+
+    this.onClick = function() {
+        this.image = this.pressedImage;
+    }
 
     this.onRelease = function() {
         if (entityList[0].currentLevelIndex == 3) {
@@ -115,5 +136,33 @@ function startLevelButton() {
         } else {
             loadGame();
         }
+    }
+}
+
+function BackButton() {
+    Button.call(this, 10, 10, 70, 50);
+    this.defaultImage = document.getElementById("backButton");
+    this.hoverImage = document.getElementById("backButtonHover");
+    this.pressedImage = document.getElementById("backButtonPressed");
+    this.image = this.defaultImage;
+
+    this.draw = function(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+    }
+
+    this.onHover = function() {
+        this.image = this.hoverImage;
+    }
+
+    this.onUnHover = function() {
+        this.image = this.defaultImage;
+    }
+
+    this.onClick = function() {
+        this.image = this.pressedImage;
+    }
+
+    this.onRelease = function() {
+        loadMenu();
     }
 }

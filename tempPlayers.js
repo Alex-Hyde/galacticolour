@@ -26,32 +26,3 @@ function Player2(x, y, angle) {
         if (gameScreen.keys && gameScreen.keys[67]) {this.angle += 0.1;}
     }
 }
-
-function PlayButton(x, y) {
-    Button.call(this, x, y, 100, 100);
-    this.defaultImage = document.getElementById("playButton");
-    this.hoverImage = document.getElementById("playButtonHover");
-    this.pressedImage = document.getElementById("playButtonPressed");
-    this.image = this.defaultImage;
-    
-    this.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
-    }
-
-    this.onHover = function() {
-        this.image = this.hoverImage;
-    }
-
-    this.onUnHover = function() {
-        this.image = this.defaultImage;
-    }
-
-    this.onClick = function() {
-        this.image = this.pressedImage;
-    }
-
-    this.onRelease = function() {
-        this.image = this.defaultImage;
-        loadLevelSelect();
-    }
-}
