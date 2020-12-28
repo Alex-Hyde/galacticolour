@@ -8,25 +8,20 @@ function Level(waveList) {
     this.update = function() {
         dt = new Date()
         clock = dt.getTime();
-        console.log(entityList);
-        console.log(this.currentWave.waveSpawnLimit);
         if (this.currentWave.enemiesSpawned != this.currentWave.waveSpawnLimit) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
-                console.log("aa");
                 this.currentWave.spawnEnemies();
             }
          } else if (this.currentWave.enemiesKilled == this.currentWave.enemiesSpawned) {
             if (!this.currentWave.waveDone) {
                 d = new Date();
                 t = d.getTime();
-                console.log(t);
                 entityList.splice(2, this.currentWave.enemiesSpawned);
                 this.currentWave.doneTime = t;
                 this.currentWave.waveDone = true;
             }
             d = new Date();
             ti = d.getTime();
-            console.log(ti - this.currentWave.doneTime);
             this.waveClear(ti);
         }
     }
@@ -43,7 +38,6 @@ function Level(waveList) {
                 ctx.fillText("Game Over", gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             }
         } else {
-            console.log("waiting");
             ctx.fillText(`Wave ${this.waveNumber + 1} Completed.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             if (this.waveNumber != waveList.length-1){
                 if (time - this.currentWave.doneTime >= 4000) {
@@ -88,7 +82,6 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
     this.spawnEnemies = function() {
         mobIndex = Math.floor(Math.random() * mobList.length);
         currentMob = mobList[mobIndex];
-        console.log(currentMob);
         newMob = new currentMob[0](gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
         newMob.spawn();
         currentMob[1]--;

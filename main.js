@@ -1,6 +1,7 @@
 var entityList = [];
 var levelList = [];
 const root2 = Math.sqrt(2);
+var mainplayer= null;
 
 // function run on start
 function loadMenu() {
@@ -27,6 +28,8 @@ function loadGame() {
     // mob1.spawn();
     // mob2.spawn();
     // mob3.spawn();
+    tracker1= new tracker("yellow",100,100)
+    tracker1.spawn();
 }
 
 var gameScreen = {
@@ -64,9 +67,8 @@ var gameScreen = {
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
         })
-        window.addEventListener('click', function (e) {
+        window.addEventListener('contextmenu', function (e) {
             e.preventDefault();
-            gameScreen.clicked =true;
         })
     },
     clear : function() {
