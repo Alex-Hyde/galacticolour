@@ -7,9 +7,10 @@ function Level(waveList, levelID) {
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
-        player = new Player1(entityList[0].x, entityList[0].y, 0);
+        entityList.clear();
+        player = new Player(100, 100, 0);
         player.spawn();
-        entityList = entityList.slice(entityList.length-1, entityList.length); // or just clear list but this puts new spawned player in same pos as existing
+        entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
         startDate = new Date();
         this.startTime = startDate.getTime();
@@ -101,6 +102,7 @@ function Level(waveList, levelID) {
     this.levelClear = function() {
         this.complete = true;
         currentLevel = NaN;
+        loadLevelSelect();
     }
 
     this.clearMobs = function() {

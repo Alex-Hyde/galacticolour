@@ -8,12 +8,6 @@ function Player1(x, y, angle) {
         if (gameScreen.keys && gameScreen.keys[40]) {this.y += 5;}
         if (gameScreen.keys && gameScreen.keys[39]) {this.x += 5;}
         if (gameScreen.keys && gameScreen.keys[66]) {this.angle += 0.1;}
-<<<<<<< HEAD
-=======
-
-        //if (this.collision(entityList[1])) {
-        //}
->>>>>>> 78dd7196a50f754095003dacb54d8331b4dd9653
     }
 }
 
