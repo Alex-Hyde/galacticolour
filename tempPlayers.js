@@ -9,8 +9,8 @@ function Player1(x, y, angle) {
         if (gameScreen.keys && gameScreen.keys[39]) {this.x += 5;}
         if (gameScreen.keys && gameScreen.keys[66]) {this.angle += 0.1;}
 
-        if (this.collision(entityList[1])) {
-        }
+        //if (this.collision(entityList[1])) {
+        //}
     }
 }
 
@@ -52,6 +52,7 @@ function PlayButton(x, y) {
 
     this.onRelease = function() {
         this.image = this.defaultImage;
-        loadGame();
+        loadGame()
+        //levelList[0].loadLevel();
     }
 }

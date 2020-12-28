@@ -1,29 +1,36 @@
-var entityList = [];
+
+
+
+
 var levelList = [];
+var entityList = [];
+var currentLevel = NaN;
+//var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
 
 // function run on start
 function loadMenu() {
+    levelList = createLevelList();
     gameScreen.start();
     button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
     button.addToScreen();
 }
 
 function loadGame() {
-    //wave1 = new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500);
-    //wave2 = new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500);
-    //level1 = new Level([wave1, wave2]);
-    //levelList.push(level1);
+    //var level1 = new Level([new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500), new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500)]);
+    //var level2 = new Level([new Wave([[Mob2, 7], [Mob3, 10]], 17, 1500), new Wave([[Mob1, 3], [Mob2, 3]], 6, 1500)]);
+    //var level3 = new Level([new Wave([[Mob1, 9], [Mob2, 3], [Mob3, 2]], 14, 1500), new Wave([[Mob1, 5], [Mob2, 2], [Mob3, 6]], 13, 1500)]);
+    levelList = createLevelList();
     entityList = [];
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
-    mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
-    mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
+    //mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+    //mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
     //mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
     player1.spawn();
     player2.spawn();
-    mob1.spawn();
-    mob2.spawn();
+    //mob1.spawn();
+    //mob2.spawn();
     //mob3.spawn();
 }
 
@@ -88,9 +95,13 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
-    //levelList.forEach(l => {
-    //    l.update();
-    //});
+    // listen for level triggers
+    levelSelect();                // uses Level.loadLevel which sets currentLevel
+    // load current level
+    //console.log(currentLevel);
+    if (currentLevel) {
+        levelList[currentLevel-1].update();
+    }
     // update all the entities (movement, collision, etc.)
     entityList.forEach(e => {
         e.update();
