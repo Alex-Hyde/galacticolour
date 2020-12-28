@@ -20,7 +20,7 @@ function Level(waveList) {
                 d = new Date();
                 t = d.getTime();
                 console.log(t);
-                entityList.splice(2, this.currentWave.enemiesSpawned);
+                entityList.mobList.splice(2, this.currentWave.enemiesSpawned);
                 this.currentWave.doneTime = t;
                 this.currentWave.waveDone = true;
             }

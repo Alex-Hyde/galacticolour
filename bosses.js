@@ -67,6 +67,6 @@ function GorGorTheSpaceOgre() {
 }
 
 function loadGorGor() {
-    entityList = [];
-    entityList[0] = new GorGorTheSpaceOgre();
+    entityList.clear();
+    entityList.mobList.push(new GorGorTheSpaceOgre());
 }

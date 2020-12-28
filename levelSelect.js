@@ -1,11 +1,14 @@
+// position of levels on the map
 levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
                     [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
+levelImages = [document.getElementById("planet"), document.getElementById("planet2")];
 
+// loads the level select screen to display it
 function loadLevelSelect() {
-    entityList = [];
-    entityList[0] = new LevelSelect();
-    entityList[1] = new startLevelButton();
-    entityList[2] = new BackButton();
+    entityList.clear();
+    entityList.other.push(new LevelSelect());
+    entityList.buttons.push(new startLevelButton());
+    entityList.buttons.push(new BackButton());
 
 }
 
@@ -26,7 +29,9 @@ function LevelSelect() {
     this.animationLength = 30; // constant
 
     this.update = function() {
-        if (gameScreen.keys && gameScreen.keys[68] && !this.animation) {
+        // move right
+        if (((gameScreen.keys && gameScreen.keys[68]) || (gameScreen.pressed && gameScreen.x > this.x - this.bgX && 
+                    gameScreen.y > 100 && gameScreen.y < gameScreen.canvas.height - 100)) && !this.animation) {
             if (this.currentLevelIndex + 1 < levelCoordinates.length) {
                 this.currentLevelIndex++;
                 this.updateAngle(this.currentLevelIndex);
@@ -34,7 +39,9 @@ function LevelSelect() {
                 this.animationStart = [this.x, this.y];
                 this.animationEnd = levelCoordinates[this.currentLevelIndex];
             }
-        } else if (gameScreen.keys && gameScreen.keys[65] && !this.animation) {
+        // move left
+        } else if (((gameScreen.keys && gameScreen.keys[65]) || (gameScreen.pressed && gameScreen.x < this.x - this.bgX && 
+                    gameScreen.y > 100 && gameScreen.y < gameScreen.canvas.height - 100)) && !this.animation) {
             if (this.currentLevelIndex - 1 >= 0) {
                 this.currentLevelIndex--;
                 this.updateAngle(this.currentLevelIndex);
@@ -43,19 +50,22 @@ function LevelSelect() {
                 this.animationEnd = levelCoordinates[this.currentLevelIndex];
             }
         }
+        // slide ship to next/previous level
         if (this.animation) {
             this.animationIndex++;
             this.x = this.animationStart[0] + this.animationIndex / this.animationLength * (this.animationEnd[0] - this.animationStart[0]);
             this.y = this.animationStart[1] + this.animationIndex / this.animationLength * (this.animationEnd[1] - this.animationStart[1]);
+            this.updateBGX();
             if (this.animationIndex == this.animationLength) {
                 this.animation = false;
                 this.animationIndex = 0;
-                this.updateAngle(this.currentLevelIndex+1);
             }
+        } else {
+            this.updateAngle(this.currentLevelIndex+1);
         }
-        this.updateBGX();
     }
 
+    // points ship at the given level (by index)
     this.updateAngle = function(ind) {
         if (ind < levelCoordinates.length) {
             this.angle = getAngle(this.x, this.y, levelCoordinates[ind][0], levelCoordinates[ind][1]) + Math.PI/2;
@@ -64,8 +74,10 @@ function LevelSelect() {
         }
     }
     
+    // start by pointing ship at level 2 (since ship is at level 1)
     this.updateAngle(1);
 
+    // slide background with ship movement
     this.updateBGX = function() {
         if (this.x >= gameScreen.canvas.width/2 && this.x <= 3000 - gameScreen.canvas.width/2) {
             this.bgX = this.x - gameScreen.canvas.width/2;
@@ -88,7 +100,7 @@ function LevelSelect() {
                 ctx.stroke();
             }
             ctx.fillStyle = "blue";
-            ctx.fillRect(levelCoordinates[i][0] - this.bgX-20, levelCoordinates[i][1]-20, 40, 40);
+            ctx.drawImage(levelImages[i%2], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
         };
 
         ctx.save();
@@ -131,7 +143,7 @@ function startLevelButton() {
     }
 
     this.onRelease = function() {
-        if (entityList[0].currentLevelIndex == 3) {
+        if (entityList.other[0].currentLevelIndex == 3) {
             loadGorGor();
         } else {
             loadGame();

@@ -62,7 +62,7 @@ function Button(x, y, w, h) {
 
     // adds button to the rendered screen
     this.addToScreen = function() {
-        entityList.push(this);
+        entityList.buttons.push(this);
     }
 
     this.reset = function() {
