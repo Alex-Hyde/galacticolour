@@ -40,7 +40,7 @@ function loadGame() {
     // mob1.spawn();
     // mob2.spawn();
     // mob3.spawn();
-    tracker1= new tracker("yellow",100,100)
+    tracker1= new tracker("red",100,100)
     tracker1.spawn();
 }
 
@@ -62,6 +62,9 @@ var entityList = {
         this.mobList.forEach(e => {
             e.draw(gameScreen.context);
         });
+        this.playerProjectiles.forEach(e => {
+            e.draw(gameScreen.context);
+        });
         if (this.player) {
             this.player.draw(ctx);
         }
@@ -69,9 +72,6 @@ var entityList = {
             e.draw(gameScreen.context);
         });
         this.mobProjectiles.forEach(e => {
-            e.draw(gameScreen.context);
-        });
-        this.playerProjectiles.forEach(e => {
             e.draw(gameScreen.context);
         });
         this.buttons.forEach(e => {
