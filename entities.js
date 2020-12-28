@@ -15,12 +15,9 @@ function Player(x,y,angle){
     this.redship=document.getElementById("playerred")
     this.yellowship=document.getElementById("playeryellow")
     this.spacebardown=false;
-    console.log()
     this.shiptextures=[this.redship,this.greenship,this.purpleship,this.yellowship]; 
-    this.projectiles=[];
 
     this.update = function() {
-        //console.log(this.projectiles.length)
         this.newPos();
         if(gameScreen.clicked){
             this.shoot();
@@ -32,12 +29,7 @@ function Player(x,y,angle){
         this.colourindex+=1;
         this.spacebardown=true;
        }
-        
-        for(projindex=0; projindex<entityList.playerProjectiles.length; projindex++){
-            entityList.playerProjectiles[projindex].update();
-        }
-        entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540); 
-        
+       entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540);  
     }  
     this.draw =function(ctx){
         ctx.save();
@@ -110,7 +102,7 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
 
 //Enemy parent Class
 function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
-    Entity.call(this,x,y,angle,hitbox)
+    Entity.call(this,x,y,angle,hitbox);
     this.width = width;
     this.height = height;
     this.speed = speed;
@@ -128,5 +120,9 @@ function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
         ctx.translate(-this.x, -this.y);
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.restore(); 
+    }
+    this.newPos = function() {
+        this.x += this.speed * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed * Math.sin(this.angle-Math.PI/2);
     }
 }

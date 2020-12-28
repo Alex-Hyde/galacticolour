@@ -7,6 +7,7 @@ var entityList = [];
 var currentLevel = NaN;
 //var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
+var mainplayer= null;
 
 // function run on start
 function loadMenu() {
@@ -39,6 +40,8 @@ function loadGame() {
     // mob1.spawn();
     // mob2.spawn();
     // mob3.spawn();
+    tracker1= new tracker("red",100,100)
+    tracker1.spawn();
 }
 
 var entityList = {
@@ -59,6 +62,9 @@ var entityList = {
         this.mobList.forEach(e => {
             e.draw(gameScreen.context);
         });
+        this.playerProjectiles.forEach(e => {
+            e.draw(gameScreen.context);
+        });
         if (this.player) {
             this.player.draw(ctx);
         }
@@ -66,9 +72,6 @@ var entityList = {
             e.draw(gameScreen.context);
         });
         this.mobProjectiles.forEach(e => {
-            e.draw(gameScreen.context);
-        });
-        this.playerProjectiles.forEach(e => {
             e.draw(gameScreen.context);
         });
         this.buttons.forEach(e => {
@@ -131,6 +134,9 @@ var gameScreen = {
         })
         window.addEventListener('mouseup', function (e) {
             gameScreen.pressed = false;
+        })
+        window.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
         })
     },
     clear : function() {
