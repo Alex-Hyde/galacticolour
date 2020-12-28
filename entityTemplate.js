@@ -98,7 +98,7 @@ function Entity(x, y, angle, hitbox) {
         return this.hitbox.collision(other.hitbox, this, other);
     }
     this.spawn = function() {
-        entityList.push(this);
+        entityList.mobList.push(this);
     }
 }
 

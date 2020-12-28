@@ -15,10 +15,11 @@ function loadMenu() {
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
     }
-    entityList = [];
-    entityList[0] = new MainMenu();
+    entityList.clear();
+    entityList.other.push(new MainMenu());
     button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
     button.addToScreen();
+    staticAnimation([document.getElementById("playerred"),document.getElementById("playerpurple"),document.getElementById("playeryellow"),document.getElementById("playergreen")], 10, 100, 60, 60, 10, 9);
 }
 
 function loadGame() {
@@ -26,7 +27,7 @@ function loadGame() {
     //var level2 = new Level([new Wave([[Mob2, 7], [Mob3, 10]], 17, 1500), new Wave([[Mob1, 3], [Mob2, 3]], 6, 1500)]);
     //var level3 = new Level([new Wave([[Mob1, 9], [Mob2, 3], [Mob3, 2]], 14, 1500), new Wave([[Mob1, 5], [Mob2, 2], [Mob3, 6]], 13, 1500)]);
     levelList = createLevelList();
-    entityList = [];
+    entityList.clear();
     mainplayer= new Player(200,200, 0);
     mainplayer.spawn();
     player1 = new Player1(300, 100, 0);
@@ -41,6 +42,62 @@ function loadGame() {
     // mob3.spawn();
     tracker1= new tracker("yellow",100,100)
     tracker1.spawn();
+}
+
+var entityList = {
+    clear : function() {
+        this.other = [];
+        this.player = null;
+        this.mobList = [];
+        this.mobProjectiles = [];
+        this.playerProjectiles = [];
+        this.staticTextures = [];
+        this.buttons = [];
+    },
+    draw : function() {
+        // drawn in predetermined order: (mobs, player, static textures, mob bullets, player bullets, buttons)
+        this.other.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.mobList.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        if (this.player) {
+            this.player.draw(ctx);
+        }
+        this.staticTextures.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.mobProjectiles.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.playerProjectiles.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.buttons.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+    },
+    update : function() {
+        this.other.forEach(e => {
+            e.update();
+        });
+        this.mobList.forEach(e => {
+            e.update();
+        });
+        if (this.player) {
+            this.player.update();
+        }
+        this.mobProjectiles.forEach(e => {
+            e.update();
+        });
+        this.playerProjectiles.forEach(e => {
+            e.update();
+        });
+        this.buttons.forEach(e => {
+            e.update();
+        });
+    }
 }
 
 var gameScreen = {
@@ -115,13 +172,9 @@ function main() {
         levelList[currentLevel-1].update();
     }
     // update all the entities (movement, collision, etc.)
-    entityList.forEach(e => {
-        e.update();
-    });
+    entityList.update();
     // draw all the entities after updating them
-    entityList.forEach(e => {
-        e.draw(gameScreen.context);
-        e.reset();
-    });
+    entityList.draw(gameScreen.context);
+
     gameScreen.reset();
 }

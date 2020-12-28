@@ -23,7 +23,7 @@ function Mob2(x, y, angle) {
         clock = d.getTime();
         this.x = this.initX + 500 * Math.sin(clock/400);
         this.y = this.initY + 60 * (Math.cos(4 * Math.sin(clock/200)));
-        entityList.forEach(e => {
+        entityList.mobProjectiles.forEach(e => {
             if (e != this) {
                 this.collision(e);
             }
@@ -42,7 +42,7 @@ function Mob3(x, y, angle) {
         clock = d.getTime();
         this.x = this.initX + 100 * Math.tan(Math.sin(clock/200));
         this.y = this.initY + 100 * (Math.tan(Math.sin(clock/200)));
-        entityList.forEach(e => {
+        entityList.mobProjectiles.forEach(e => {
             if (e != this) {
                 this.collision(e);
             }
