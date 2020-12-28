@@ -1,7 +1,7 @@
 // position of levels on the map
 levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
                     [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
-levelImages = [document.getElementById("planet"), document.getElementById("planet2")];
+levelImages = [document.getElementById("planet"), document.getElementById("planet2"), document.getElementById("planet3"), document.getElementById("planet4"), document.getElementById("planet5")];
 
 // loads the level select screen to display it
 function loadLevelSelect() {
@@ -100,7 +100,7 @@ function LevelSelect() {
                 ctx.stroke();
             }
             ctx.fillStyle = "blue";
-            ctx.drawImage(levelImages[i%2], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
+            ctx.drawImage(levelImages[i%5], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
         };
 
         ctx.save();
