@@ -11,8 +11,12 @@ const root2 = Math.sqrt(2);
 // function run on start
 function loadMenu() {
     levelList = createLevelList();
-    gameScreen.start();
-    button = new PlayButton((gameScreen.canvas.width-100)/2, (gameScreen.canvas.height-100)/2);
+    if (!gameScreen.context) { // check if already started (if loading menu from a back button)
+        gameScreen.start();
+    }
+    entityList = [];
+    entityList[0] = new MainMenu();
+    button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
     button.addToScreen();
 }
 
@@ -22,16 +26,18 @@ function loadGame() {
     //var level3 = new Level([new Wave([[Mob1, 9], [Mob2, 3], [Mob3, 2]], 14, 1500), new Wave([[Mob1, 5], [Mob2, 2], [Mob3, 6]], 13, 1500)]);
     levelList = createLevelList();
     entityList = [];
+    mainplayer= new Player(200,200, 0);
+    mainplayer.spawn();
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
-    //mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
-    //mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
-    //mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
+    // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+    // mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
+    // mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
     player1.spawn();
     player2.spawn();
-    //mob1.spawn();
-    //mob2.spawn();
-    //mob3.spawn();
+    // mob1.spawn();
+    // mob2.spawn();
+    // mob3.spawn();
 }
 
 var gameScreen = {
@@ -111,6 +117,5 @@ function main() {
         e.draw(gameScreen.context);
         e.reset();
     });
-
     gameScreen.reset();
 }
