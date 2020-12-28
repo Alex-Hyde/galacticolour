@@ -1,12 +1,7 @@
 // position of levels on the map
 levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
                     [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
-<<<<<<< HEAD
 levelImages = [document.getElementById("planet"), document.getElementById("planet2"), document.getElementById("planet3"), document.getElementById("planet4"), document.getElementById("planet5")];
-=======
-levelImages = [document.getElementById("planet"), document.getElementById("planet2")];
-levelIndex = 0
->>>>>>> f81c83c1476963e1b0f80b6c0e4bcaa462f9890b
 
 // loads the level select screen to display it
 function loadLevelSelect() {
