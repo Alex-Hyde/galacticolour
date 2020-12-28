@@ -1,7 +1,3 @@
-
-
-
-
 var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
