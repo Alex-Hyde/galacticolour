@@ -161,6 +161,7 @@ function main() {
     // listen for level triggers
     levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
+    
     //console.log(currentLevel);
     if (currentLevel) {
         levelList[currentLevel-1].update();

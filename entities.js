@@ -20,7 +20,7 @@ function Player(x,y,angle){
     this.projectiles=[];
 
     this.update = function() {
-        console.log(this.projectiles.length)
+        //console.log(this.projectiles.length)
         this.newPos();
         if(gameScreen.clicked){
             this.shoot();
@@ -33,10 +33,11 @@ function Player(x,y,angle){
         this.spacebardown=true;
        }
         
-        for(projindex=0; projindex<this.projectiles.length; projindex++){
-            this.projectiles[projindex].update();
+        for(projindex=0; projindex<entityList.playerProjectiles.length; projindex++){
+            entityList.playerProjectiles[projindex].update();
         }
-        this.projectiles=this.projectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540); 
+        entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540); 
+        
     }  
     this.draw =function(ctx){
         ctx.save();
@@ -58,7 +59,7 @@ function Player(x,y,angle){
         this.y -= this.speed * Math.cos(this.angle);
     }
     this.shoot= function(){
-        this.projectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
+        entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
     }
 }
 
@@ -77,6 +78,23 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
     }
     this.update=function(){
         this.newPos();
+
+        mobIndex = 1;
+        entityList.mobList.slice(1).forEach(mob => {
+            mobHit = false;
+            projIndex = entityList.playerProjectiles.findIndex(p => p.moveAngle == this.moveAngle);
+            if (mob.collision(this)) {
+                mobHit = true;
+                entityList.mobList.splice(mobIndex, 1);
+                entityList.playerProjectiles.splice(projIndex, 1);
+                levelList[currentLevel - 1].currentWave.enemiesKilled ++;
+                console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
+            } else {
+                mobIndex++;
+            }
+            
+        })
+
         this.draw();
     }
     this.draw=function(){
