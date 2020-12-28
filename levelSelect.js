@@ -1,9 +1,11 @@
-levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], [1400, 300], [1600, 100]];
+levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
+                    [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
 
 function loadLevelSelect() {
     entityList = [];
     entityList[0] = new LevelSelect();
     entityList[1] = new startLevelButton();
+    entityList[2] = new BackButton();
 
 }
 
@@ -21,7 +23,7 @@ function LevelSelect() {
     this.animationIndex = 0;
     this.animationStart = null;
     this.animationEnd = null;
-    this.animationLength = 20; // constant
+    this.animationLength = 30; // constant
 
     this.update = function() {
         if (gameScreen.keys && gameScreen.keys[68] && !this.animation) {
@@ -107,8 +109,60 @@ function LevelSelect() {
 
 function startLevelButton() {
     Button.call(this, (gameScreen.canvas.width - 200)/2, gameScreen.canvas.height - 10 - 50, 200, 50);
+    this.defaultImage = document.getElementById("launchButtonDefault");
+    this.hoverImage = document.getElementById("launchButtonHover");
+    this.pressedImage = document.getElementById("launchButtonPressed");
+    this.image = this.defaultImage;
+
+    this.draw = function(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+    }
+
+    this.onHover = function() {
+        this.image = this.hoverImage;
+    }
+
+    this.onUnHover = function() {
+        this.image = this.defaultImage;
+    }
+
+    this.onClick = function() {
+        this.image = this.pressedImage;
+    }
 
     this.onRelease = function() {
-        loadGame();
+        if (entityList[0].currentLevelIndex == 3) {
+            loadGorGor();
+        } else {
+            loadGame();
+        }
+    }
+}
+
+function BackButton() {
+    Button.call(this, 10, 10, 70, 50);
+    this.defaultImage = document.getElementById("backButton");
+    this.hoverImage = document.getElementById("backButtonHover");
+    this.pressedImage = document.getElementById("backButtonPressed");
+    this.image = this.defaultImage;
+
+    this.draw = function(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+    }
+
+    this.onHover = function() {
+        this.image = this.hoverImage;
+    }
+
+    this.onUnHover = function() {
+        this.image = this.defaultImage;
+    }
+
+    this.onClick = function() {
+        this.image = this.pressedImage;
+    }
+
+    this.onRelease = function() {
+        loadMenu();
     }
 }
