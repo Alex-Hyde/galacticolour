@@ -8,7 +8,7 @@ function Hitbox(shapeList) {
             ctx.strokeStyle = this.color;
             s.draw(ctx, parentEntity.x, parentEntity.y, parentEntity.angle);
         });
-        this.color = "black";
+        this.color = "white";
         ctx.strokeStyle = "black";
     }
 

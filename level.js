@@ -3,18 +3,17 @@ function Level(waveList, levelID) {
     this.waveNumber = 0;
     this.currentWave = waveList[this.waveNumber];
     this.complete = false;
-    this.backgroundImg = NaN;
+    this.backgroundImg = document.getElementById("space");
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         entityList.clear();
         player = new Player(100, 100, 0);
         player.spawn();
-        entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
+        //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
         startDate = new Date();
         this.startTime = startDate.getTime();
-        // draw bg image
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
     }
     
@@ -25,17 +24,19 @@ function Level(waveList, levelID) {
         //console.log(this.currentWave.waveSpawnLimit);
         //console.log(clock);
         ctx = gameScreen.context;
+        ctx.drawImage(this.backgroundImg, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         ctx.font = "13px Courier";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         ctx.fillText("Press Esc to Exit Level", 100, 20);
         if (gameScreen.keys && gameScreen.keys[27]) {
             this.clearMobs();
             currentLevel = NaN;
+            loadLevelSelect();
         }
         if (clock - this.startTime < 3000) {
             ctx.textAlign = "center";
             ctx.font = "20px Courier";
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "white";
             if (this.complete) {
                 ctx.fillText(`Level ${currentLevel} has already been compeleted.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2 + 50);
             }
@@ -70,7 +71,7 @@ function Level(waveList, levelID) {
     this.waveClear = function(time) {
         ctx.textAlign = "center";
         ctx.font = "20px Courier";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         if (time - this.currentWave.doneTime >= 5000) {
             if (this.waveNumber != waveList.length-1) {
                 this.nextWave();
@@ -102,6 +103,7 @@ function Level(waveList, levelID) {
     this.levelClear = function() {
         this.complete = true;
         currentLevel = NaN;
+        console.log(this.complete);
         loadLevelSelect();
     }
 
@@ -142,7 +144,6 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
         newMob.spawn();
         currentMob[1]--;
         this.enemiesSpawned ++;
-        this.enemiesKilled ++;
         if (currentMob[1] == 0) {
             mobList.splice(mobIndex, 1);
         }

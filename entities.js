@@ -70,6 +70,23 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
     }
     this.update=function(){
         this.newPos();
+
+        mobIndex = 1;
+        entityList.mobList.slice(1).forEach(mob => {
+            mobHit = false;
+            projIndex = entityList.playerProjectiles.findIndex(p => p.moveAngle == this.moveAngle);
+            if (mob.collision(this)) {
+                mobHit = true;
+                entityList.mobList.splice(mobIndex, 1);
+                entityList.playerProjectiles.splice(projIndex, 1);
+                levelList[currentLevel - 1].currentWave.enemiesKilled ++;
+                console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
+            } else {
+                mobIndex++;
+            }
+            
+        })
+
         this.draw();
     }
     this.draw=function(){
