@@ -41,14 +41,19 @@ function Player(x,y,angle){
     }
     this.newPos = function() {
         this.moveAngle = 0;
-        this.speed = 0;
-        if (gameScreen.keys && gameScreen.keys[65]) {this.moveAngle = -5;}
-        if (gameScreen.keys && gameScreen.keys[68]) {this.moveAngle = 5; }
-        if (gameScreen.keys && gameScreen.keys[87]) {this.speed= 5; }
-        if (gameScreen.keys && gameScreen.keys[83]) {this.speed= -5; }
-        this.angle += this.moveAngle * Math.PI / 180;
-        this.x += this.speed * Math.sin(this.angle);
-        this.y -= this.speed * Math.cos(this.angle);
+        var speedx = 0;
+        var speedy = 0;
+        if (gameScreen.keys && gameScreen.keys[65]) {speedx = -5;}
+        if (gameScreen.keys && gameScreen.keys[68]) {speedx = 5; }
+        if (gameScreen.keys && gameScreen.keys[87]) {speedy= 5; }
+        if (gameScreen.keys && gameScreen.keys[83]) {speedy= -5; }
+        if (speedx && speedy) {
+            speedx /= root2;
+            speedy /= root2;
+        }
+        this.angle = getAngle(this.x, this.y, gameScreen.x, gameScreen.y) + Math.PI/2;
+        this.x += speedx
+        this.y -= speedy
     }
     this.shoot= function(){
         projsFired++;
