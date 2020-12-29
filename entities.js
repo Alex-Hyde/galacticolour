@@ -59,6 +59,13 @@ function Player(x,y,angle){
         projsFired++;
         entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
     }
+
+    this.spawn = function(x, y, angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        entityList.player = this;
+    }
 }
 
 //Projectile Parent Class
@@ -78,8 +85,8 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
     this.update=function(){
         this.newPos();
 
-        mobIndex = 1;
-        entityList.mobList.slice(1).forEach(mob => {
+        mobIndex = 0;
+        entityList.mobList.forEach(mob => {
             mobHit = false;
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {

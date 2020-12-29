@@ -8,8 +8,7 @@ function Level(waveList, levelID) {
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         entityList.clear();
-        mainplayer = new Player(100, 100, 0);
-        mainplayer.spawn();
+        player.spawn(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
         //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
         startDate = new Date();

@@ -12,8 +12,7 @@ function levelScroll(blockList, levelID, background, speed, endCoord) {
 
     this.loadLevel = function() {
         entityList.clear();
-        player = new Player(100, gameScreen.canvas.height/2, Math.PI/2);
-        entityList.player = player;
+        player.spawn(100, 100, Math.PI/2);
         entityList.other.push(this);
         this.reset();
     }

@@ -23,7 +23,7 @@ function tracker(x,y, angle){
             this.delaytimer=1;
             this.imageindex+=1;
         }
-        this.track(mainplayer.x,mainplayer.y);
+        this.track(player.x,player.y);
     }
 
     this.draw = function(ctx){
