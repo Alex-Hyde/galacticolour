@@ -9,6 +9,11 @@ function Mob1(x, y, angle) {
     this.update = function() {
         d = new Date();
         clock = d.getTime();
+        if (this.y > gameScreen.canvas.width) {
+            this.y = 0
+        } else if (this.y < 0) {
+            this.y = gameScreen.canvas.width
+        }
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
         this.y = this.initY + 40 * (Math.cos(clock/300) + Math.cos(clock/350)) + this.height/2;
     }
@@ -25,6 +30,11 @@ function Mob2(x, y, angle) {
     this.update = function() {
         d = new Date();
         clock = d.getTime();
+        if (this.y > gameScreen.canvas.width) {
+            this.y = 0
+        } else if (this.y < 0) {
+            this.y = gameScreen.canvas.width
+        }
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
         this.y = this.initY + 90 * (Math.cos(4 * Math.sin(clock/800))) + this.height/2;
         //entityList.mobProjectiles.forEach(e => {
@@ -46,6 +56,11 @@ function Mob3(x, y, angle) {
     this.update = function() {
         d = new Date();
         clock = d.getTime();
+        if (this.y > gameScreen.canvas.width) {
+            this.y = 0
+        } else if (this.y < 0) {
+            this.y = gameScreen.canvas.width
+        }
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
         this.y = this.initY + 500 * (Math.tan(Math.sin(clock/2000))) + this.height/2;
         //entityList.mobProjectiles.forEach(e => {
