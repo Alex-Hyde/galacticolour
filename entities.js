@@ -59,6 +59,13 @@ function Player(x,y,angle){
         projsFired++;
         entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
     }
+
+    this.spawn = function(x, y, angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        entityList.player = this;
+    }
 }
 
 //Projectile Parent Class
