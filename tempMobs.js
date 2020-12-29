@@ -19,11 +19,11 @@ function Mob2(x, y, angle) {
         clock = d.getTime();
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000));
         this.y = this.initY + 90 * (Math.cos(4 * Math.sin(clock/800)));
-        entityList.mobProjectiles.forEach(e => {
-            if (e != this) {
-                this.collision(e);
-            }
-        })
+        //entityList.mobProjectiles.forEach(e => {
+        //    if (e != this) {
+        //        this.collision(e);
+        //    }
+        //})
     }
 }
 
@@ -36,10 +36,10 @@ function Mob3(x, y, angle) {
         clock = d.getTime();
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000));
         this.y = this.initY + 500 * (Math.tan(Math.sin(clock/2000)));
-        entityList.mobProjectiles.forEach(e => {
-            if (e != this) {
-                this.collision(e);
-            }
-        })
+        //entityList.mobProjectiles.forEach(e => {
+        //    if (e != this) {
+        //        this.collision(e);
+        //    }
+        //})
     }
 }
