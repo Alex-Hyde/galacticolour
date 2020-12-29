@@ -35,7 +35,7 @@ function tracker(colour,x,y){
         this.image8=document.getElementById("redmob8");
         this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7,this.image8];
     }
-    enemy.call(this,50,50,x,y,0,thehitbox,2,colour,this.image0);
+    enemy.call(this,50,50,x,y,0,thehitbox,2,colour,this.image0,25);
  
 
     this.track = function(targetx,targety){
@@ -66,4 +66,4 @@ function tracker(colour,x,y){
     }
 
 
-///ADD TEXTURES FOR ALL COLOURS
+///DO DAMAGE BARS AND VARIABLE PROJECTILE DAMAGE

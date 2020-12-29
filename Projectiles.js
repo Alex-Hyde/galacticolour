@@ -13,7 +13,7 @@ function playerProjectile(angle,colour,x,y){
     if (colour=="purple"){
         this.image=document.getElementById("purplerocket")
     }
-    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image);
+    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image,10);
 }
 
 //////MAKE PROJECTILES SHOOTSS

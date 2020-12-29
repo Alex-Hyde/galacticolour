@@ -4,8 +4,8 @@ function Player(x,y,angle){
     bodyhitbox=new rectHitbox(-25,-15,50,35);
     fullhitbox=new Hitbox([headhitbox,bodyhitbox]);
     Entity.call(this,x,y,angle,fullhitbox);
-    this.width = 50;
-    this.height = 50;
+    this.width = 60;
+    this.height = 60;
     this.speed = 5;
     this.moveAngle=0;
     this.colourlist=["red","green","purple","yellow"];
@@ -56,10 +56,11 @@ function Player(x,y,angle){
 }
 
 //Projectile Parent Class
-function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
+function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage){
     Entity.call(this,x,y,angle,hitbox)
     this.height=height
     this.width=width
+    this.damage=damage
     this.speed=speed
     this.colour=colour  
     this.image=image
@@ -77,10 +78,12 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
             projIndex = entityList.playerProjectiles.findIndex(p => p.moveAngle == this.moveAngle);
             if (mob.collision(this)) {
                 mobHit = true;
-                entityList.mobList.splice(mobIndex, 1);
+                mob.health-= this.damage;
+                if (mob.health==0){
+                entityList.mobList.splice(mobIndex,1);
+                }
                 entityList.playerProjectiles.splice(projIndex, 1);
                 levelList[currentLevel - 1].currentWave.enemiesKilled ++;
-                console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
             } else {
                 mobIndex++;
             }
@@ -101,13 +104,15 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
 }
 
 //Enemy parent Class
-function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
+function enemy(width,height,x,y,angle,hitbox,speed,colour,image,health){
     Entity.call(this,x,y,angle,hitbox);
     this.width = width;
     this.height = height;
     this.speed = speed;
     this.hitbox=hitbox;
     this.colour=colour;
+    this.health=health;
+    this.totalhealth=health;
     this.image=image;
 
     this.update = function() {
@@ -119,6 +124,10 @@ function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.fillStyle=white
+        ctx.fillRect(this.x-this.width/2,this.y-this.heigh/1.5,50,5);
+        ctx.fillStyle=this.colour;
+        ctx.fillRect(this.x-this.width/2,this.y-this.heigh/1.5,50*(this.health/this.totalhealth),5);
         ctx.restore(); 
     }
     this.newPos = function() {
