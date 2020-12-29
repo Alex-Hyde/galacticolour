@@ -104,6 +104,7 @@ function Entity(x, y, angle, hitbox) {
         entityList.mobList.push(this);
     }
     this.healthBar = function() {
+        //console.log('h');
         length = 50;
         color = "green";
         if (this.health / this.maxHealth < 0.2) {
@@ -114,14 +115,14 @@ function Entity(x, y, angle, hitbox) {
             color = "orange";
         } else if (this.health / this.maxHealth < 0.6) {
             length = 30;
-            color = "yellow";
+            color = "#FCCF03";
         } else if (this.health / this.maxHealth < 0.8) {
             length = 40;
             color = "#4CA832";
         }
         ctx = gameScreen.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), length, 15);
+        ctx.fillRect(this.x - 25, this.y - (20 + this.height/2), length, 5);
     }
 }
 

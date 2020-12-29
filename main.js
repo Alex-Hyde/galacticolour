@@ -58,6 +58,7 @@ var entityList = {
         });
         this.mobList.forEach(e => {
             e.draw(gameScreen.context);
+            e.healthBar();
         });
         this.playerProjectiles.forEach(e => {
             e.draw(gameScreen.context);

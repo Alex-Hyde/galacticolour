@@ -78,11 +78,13 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
     this.update=function(){
         this.newPos();
 
-        mobIndex = 1;
-        entityList.mobList.slice(1).forEach(mob => {
+        mobIndex = 0;
+        entityList.mobList.forEach(mob => {
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 mob.health -= 25;
+                //console.log(mob.health);
+                //console.log(mob.maxHealth);
                 entityList.playerProjectiles.splice(projIndex, 1);
                 if (mob.health <= 0) {
                     entityList.mobList.splice(mobIndex, 1);

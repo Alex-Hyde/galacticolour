@@ -9,7 +9,7 @@ function Level(waveList, levelID) {
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         entityList.clear();
         mainplayer = new Player(100, 100, 0);
-        mainplayer.spawn();
+        entityList.player = mainplayer;
         //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
         startDate = new Date();
@@ -141,6 +141,7 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
         mobIndex = Math.floor(Math.random() * mobList.length);
         offsetX = Math.floor(Math.random()*100);
         currentMob = mobList[mobIndex];
+        console.log(entityList.mobList);
         console.log(currentMob);
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
         newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
