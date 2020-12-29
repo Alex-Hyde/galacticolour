@@ -6,7 +6,7 @@ function tracker(x,y, angle){
     this.delaytimer=0;
     
     
-    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0);//colour,this.image0);
+    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 50);//colour,this.image0);
  
 
     this.track = function(targetx,targety){
@@ -24,6 +24,7 @@ function tracker(x,y, angle){
             this.imageindex+=1;
         }
         this.track(mainplayer.x,mainplayer.y);
+        this.healthBar();
     }
 
     this.draw = function(ctx){

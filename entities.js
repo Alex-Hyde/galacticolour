@@ -75,14 +75,15 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
 
         mobIndex = 1;
         entityList.mobList.slice(1).forEach(mob => {
-            mobHit = false;
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
-                mobHit = true;
-                entityList.mobList.splice(mobIndex, 1);
+                mob.health -= 25;
                 entityList.playerProjectiles.splice(projIndex, 1);
-                levelList[currentLevel - 1].currentWave.enemiesKilled ++;
-                console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
+                if (mob.health <= 0) {
+                    entityList.mobList.splice(mobIndex, 1);
+                    levelList[currentLevel - 1].currentWave.enemiesKilled ++;
+                    console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
+                }
             } else {
                 mobIndex++;
             }
@@ -103,8 +104,10 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
 }
 
 //Enemy parent Class
-function enemy(width,height,x,y,angle,hitbox,speed, image) {//colour,image){
+function enemy(width,height,x,y,angle,hitbox,speed, image, health) {//colour,image){
     Entity.call(this,x,y,angle,hitbox);
+    this.maxHealth = health;
+    this.health = health;
     this.width = width;
     this.height = height;
     this.speed = speed;
@@ -113,15 +116,15 @@ function enemy(width,height,x,y,angle,hitbox,speed, image) {//colour,image){
     this.image=image;
 
     this.update = function() {
-        this.newPos();  
+        this.newPos();
     }
     this.draw = function(ctx){
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.translate(-this.x, -this.y);
+        //ctx.save();
+        //ctx.translate(this.x, this.y);
+        //ctx.rotate(this.angle);
+        //ctx.translate(-this.x, -this.y);
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.restore(); 
+        //ctx.restore(); 
     }
     this.newPos = function() {
         this.x += this.speed * Math.cos(this.angle-Math.PI/2);

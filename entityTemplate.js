@@ -103,6 +103,26 @@ function Entity(x, y, angle, hitbox) {
     this.spawn = function() {
         entityList.mobList.push(this);
     }
+    this.healthBar = function() {
+        length = 50;
+        color = "green";
+        if (this.health / this.maxHealth < 0.2) {
+            length = 10;
+            color = "red";
+        } else if (this.health / this.maxHealth < 0.4) {
+            length = 20;
+            color = "orange";
+        } else if (this.health / this.maxHealth < 0.6) {
+            length = 30;
+            color = "yellow";
+        } else if (this.health / this.maxHealth < 0.8) {
+            length = 40;
+            color = "#4CA832";
+        }
+        ctx = gameScreen.context;
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), length, 15);
+    }
 }
 
 // collision between two hitboxes
