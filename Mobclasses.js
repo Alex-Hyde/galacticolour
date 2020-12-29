@@ -1,41 +1,12 @@
-function tracker(colour,x,y){
+function tracker(x,y, angle){
     bodyhitbox=new rectHitbox(-25,-25,50,50);
     thehitbox=new Hitbox([bodyhitbox]);
 
     this.imageindex=0;
     this.delaytimer=0;
-    if (colour=="yellow"){
-        this.image0=document.getElementById("yellowenemy");
-        this.image1=document.getElementById("yellowenemy1");
-        this.image2=document.getElementById("yellowenemy2");
-        this.image3=document.getElementById("yellowenemy3");
-        this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image2,this.image1];
-        }
-    if(colour=="purple"){
-        this.image0=document.getElementById("purplemob");
-        this.image1=document.getElementById("purplemob1"); 
-        this.images=[this.image0,this.image0,this.image1,this.image1];
-    }
-    if (colour=="green"){
-        this.image0=document.getElementById("greenmob");
-        this.image1=document.getElementById("greenmob1");
-        this.image2=document.getElementById("greenmob");
-        this.image3=document.getElementById("greenmob3");
-        this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image2,this.image1];
-    }
-    if (colour=="red"){
-        this.image0=document.getElementById("redmob");
-        this.image1=document.getElementById("redmob1");
-        this.image2=document.getElementById("redmob2");
-        this.image3=document.getElementById("redmob3");
-        this.image4=document.getElementById("redmob4");
-        this.image5=document.getElementById("redmob5");
-        this.image6=document.getElementById("redmob6");
-        this.image7=document.getElementById("redmob7");
-        this.image8=document.getElementById("redmob8");
-        this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7,this.image8];
-    }
-    enemy.call(this,50,50,x,y,0,thehitbox,2,colour,this.image0);
+    
+    
+    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0);//colour,this.image0);
  
 
     this.track = function(targetx,targety){
@@ -46,14 +17,14 @@ function tracker(colour,x,y){
         this.x-= deltax*speedfactor
         this.y-= deltay*speedfactor
         }
-        this.update = function() {
-            this.delaytimer+=1
-            if(this.delaytimer==10){
-                this.delaytimer=1;
-                this.imageindex+=1;
-            }
-            this.track(mainplayer.x,mainplayer.y);
+    this.update = function() {
+        this.delaytimer+=1
+        if(this.delaytimer==10){
+            this.delaytimer=1;
+            this.imageindex+=1;
         }
+        this.track(mainplayer.x,mainplayer.y);
+    }
 
     this.draw = function(ctx){
             ctx.save();
@@ -66,4 +37,46 @@ function tracker(colour,x,y){
     }
 
 
+function yellowTracker(x,y, angle) {
+    tracker.call(this,x,y, angle);
+    this.colour = "yellow";
+    this.image0=document.getElementById("yellowenemy");
+    this.image1=document.getElementById("yellowenemy1");
+    this.image2=document.getElementById("yellowenemy2");
+    this.image3=document.getElementById("yellowenemy3");
+    this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image2,this.image1];
+    
+}
+function purpleTracker(x,y, angle) {
+    tracker.call(this,x,y, angle);
+    this.colour = "purple";
+    this.image0=document.getElementById("purplemob");
+    this.image1=document.getElementById("purplemob1"); 
+    this.images=[this.image0,this.image0,this.image1,this.image1];
+}
+function redTracker(x,y, angle) {
+    tracker.call(this,x,y, angle);
+    this.colour = "red";
+    this.image0=document.getElementById("redmob");
+    this.image1=document.getElementById("redmob1");
+    this.image2=document.getElementById("redmob2");
+    this.image3=document.getElementById("redmob3");
+    this.image4=document.getElementById("redmob4");
+    this.image5=document.getElementById("redmob5");
+    this.image6=document.getElementById("redmob6");
+    this.image7=document.getElementById("redmob7");
+    this.image8=document.getElementById("redmob8");
+    this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7,this.image8];
+
+}
+function greenTracker(x,y, angle) {
+    tracker.call(this,x,y, angle);
+    this.colour = "green";
+    this.image0=document.getElementById("greenmob");
+    this.image1=document.getElementById("greenmob1");
+    this.image2=document.getElementById("greenmob");
+    this.image3=document.getElementById("greenmob3");
+    this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image2,this.image1];
+
+}
 ///ADD TEXTURES FOR ALL COLOURS

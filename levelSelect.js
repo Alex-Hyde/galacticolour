@@ -149,7 +149,7 @@ function startLevelButton() {
             loadGorGor();
         } else {
             //loadGame();
-            levelList[levelIndex].loadLevel();
+            levelList[entityList.other[0].currentLevelIndex].loadLevel();
         }
     }
 }

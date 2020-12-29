@@ -1,7 +1,7 @@
 
 
 
-
+var projsFired = 0;
 var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
@@ -165,7 +165,7 @@ function getAngle(x1, y1, x2, y2) {
 function main() {
     gameScreen.clear();
     // listen for level triggers
-    levelSelect();                // uses Level.loadLevel which sets currentLevel
+    //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
     
     //console.log(currentLevel);

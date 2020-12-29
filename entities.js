@@ -51,6 +51,7 @@ function Player(x,y,angle){
         this.y -= this.speed * Math.cos(this.angle);
     }
     this.shoot= function(){
+        projsFired++;
         entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
     }
 }
@@ -58,6 +59,7 @@ function Player(x,y,angle){
 //Projectile Parent Class
 function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
     Entity.call(this,x,y,angle,hitbox)
+    this.projID=projsFired;
     this.height=height
     this.width=width
     this.speed=speed
@@ -74,7 +76,7 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
         mobIndex = 1;
         entityList.mobList.slice(1).forEach(mob => {
             mobHit = false;
-            projIndex = entityList.playerProjectiles.findIndex(p => p.moveAngle == this.moveAngle);
+            projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 mobHit = true;
                 entityList.mobList.splice(mobIndex, 1);
@@ -101,13 +103,13 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
 }
 
 //Enemy parent Class
-function enemy(width,height,x,y,angle,hitbox,speed,colour,image){
+function enemy(width,height,x,y,angle,hitbox,speed, image) {//colour,image){
     Entity.call(this,x,y,angle,hitbox);
     this.width = width;
     this.height = height;
     this.speed = speed;
     this.hitbox=hitbox;
-    this.colour=colour;
+    //this.colour=colour;
     this.image=image;
 
     this.update = function() {
