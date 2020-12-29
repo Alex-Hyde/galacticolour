@@ -8,13 +8,14 @@ function Level(waveList, levelID) {
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         entityList.clear();
-        player = new Player(100, 100, 0);
-        player.spawn();
+        mainplayer = new Player(100, 100, 0);
+        mainplayer.spawn();
         //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
+        //console.log(currentLevel);
     }
     
     this.update = function() {
@@ -138,9 +139,11 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
     
     this.spawnEnemies = function() {
         mobIndex = Math.floor(Math.random() * mobList.length);
+        offsetX = Math.floor(Math.random()*100);
         currentMob = mobList[mobIndex];
-        //console.log(currentMob);
-        newMob = new currentMob[0](gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
+        console.log(currentMob);
+        //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
+        newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
         newMob.spawn();
         currentMob[1]--;
         this.enemiesSpawned ++;

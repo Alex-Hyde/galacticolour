@@ -1,7 +1,4 @@
-
-
-
-
+var projsFired = 0;
 var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
@@ -11,10 +8,10 @@ var mainplayer= null;
 
 // function run on start
 function loadMenu() {
-    levelList = createLevelList();
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
     }
+    levelList = createLevelList();
     entityList.clear();
     entityList.other.push(new MainMenu());
     button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
@@ -66,7 +63,7 @@ var entityList = {
             e.draw(gameScreen.context);
         });
         if (this.player) {
-            this.player.draw(ctx);
+            this.player.draw(gameScreen.context);
         }
         this.staticTextures.forEach(e => {
             e.draw(gameScreen.context);
@@ -165,7 +162,7 @@ function getAngle(x1, y1, x2, y2) {
 function main() {
     gameScreen.clear();
     // listen for level triggers
-    levelSelect();                // uses Level.loadLevel which sets currentLevel
+    //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
     
     //console.log(currentLevel);

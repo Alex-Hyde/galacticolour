@@ -51,6 +51,7 @@ function Player(x,y,angle){
         this.y -= this.speed * Math.cos(this.angle);
     }
     this.shoot= function(){
+        projsFired++;
         entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
     }
 }
@@ -58,6 +59,7 @@ function Player(x,y,angle){
 //Projectile Parent Class
 function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage){
     Entity.call(this,x,y,angle,hitbox)
+    this.projID=projsFired;
     this.height=height
     this.width=width
     this.damage=damage
@@ -75,11 +77,11 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage
         mobIndex = 1;
         entityList.mobList.slice(1).forEach(mob => {
             mobHit = false;
-            projIndex = entityList.playerProjectiles.findIndex(p => p.moveAngle == this.moveAngle);
+            projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 mobHit = true;
                 mob.health-= this.damage;
-                if (mob.health==0){
+                if (mob.health>0){
                 entityList.mobList.splice(mobIndex,1);
                 }
                 entityList.playerProjectiles.splice(projIndex, 1);

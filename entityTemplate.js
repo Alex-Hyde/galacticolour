@@ -79,6 +79,9 @@ function rotatePoint(x, y, angle) {
 function Entity(x, y, angle, hitbox) {
     this.x = x;
     this.y = y;
+    this.initX = x;
+    this.initY = y;
+    this.offsetX = Math.floor(Math.random()*10000)
     this.angle = angle;
     this.hitbox = hitbox; // hitbox object
 
