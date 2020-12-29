@@ -25,3 +25,8 @@ function staticAnimation(imageList, x, y, w, h, delay = 1, cycles = 1) {
         }
     }
 }
+
+function explosionAnimation(x, y, w, h, delay = 5, cycles = 1) {
+    var imageList = [document.getElementById("explosion1"), document.getElementById("explosion2"), document.getElementById("explosion1")];
+    staticAnimation.call(this, imageList, x, y, w, h, delay, cycles);
+}

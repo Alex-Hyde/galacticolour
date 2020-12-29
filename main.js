@@ -7,10 +7,10 @@ var mainplayer= null;
 
 // function run on start
 function loadMenu() {
-    levelList = createLevelList();
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
     }
+    levelList = createLevelList();
     entityList.clear();
     entityList.other.push(new MainMenu());
     button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
@@ -62,7 +62,7 @@ var entityList = {
             e.draw(gameScreen.context);
         });
         if (this.player) {
-            this.player.draw(ctx);
+            this.player.draw(gameScreen.context);
         }
         this.staticTextures.forEach(e => {
             e.draw(gameScreen.context);

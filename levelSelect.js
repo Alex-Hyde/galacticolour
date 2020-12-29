@@ -144,12 +144,7 @@ function startLevelButton() {
     }
 
     this.onRelease = function() {
-        if (entityList.other[0].currentLevelIndex == 3) {
-            loadGorGor();
-        } else {
-            //loadGame();
-            levelList[levelIndex].loadLevel();
-        }
+        levelList[levelIndex].loadLevel();
     }
 }
 
