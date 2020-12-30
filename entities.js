@@ -21,6 +21,7 @@ function Player(x,y,angle){
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
     this.body = 0;
     this.engine = 0;
+    this.inventory = new PlayerInventory();
 
     this.update = function() {
         this.newPos();
