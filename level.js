@@ -6,6 +6,8 @@ function Level(waveList, levelID) {
     this.currentWave = this.waveList[this.waveNumber];
     this.complete = false;
     this.backgroundImg = document.getElementById("space");
+    this.bgImgX = 0;
+    this.bgImgY = 0;
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
@@ -27,11 +29,13 @@ function Level(waveList, levelID) {
     this.update = function() {
         refreshDate = new Date()
         clock = refreshDate.getTime();
+        this.bgImgX = player.x / 10;
+        this.bgImgY = player.y / 10;
         //console.log(entityList);
         //console.log(this.currentWave.waveSpawnLimit);
         //console.log(clock);
         ctx = gameScreen.context;
-        ctx.drawImage(this.backgroundImg, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.backgroundImg, this.bgImgX, this.bgImgY, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         ctx.font = "13px Courier";
         ctx.fillStyle = "white";
         ctx.fillText("Press Esc to Exit Level", 100, 20);
