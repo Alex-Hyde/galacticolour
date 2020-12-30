@@ -23,7 +23,7 @@ function tracker(x,y, angle,colour){
             this.delaytimer=1;
             this.imageindex+=1;
         }
-        this.track(mainplayer.x,mainplayer.y);
+        this.track(player.x,player.y);
         entityList.mobList.forEach(mob => {
             if (mob!=this && mob.istracker!==undefined){
                 if(this.collision(mob)){
@@ -112,7 +112,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
         }
         }
     this.update = function() {
-        this.track(mainplayer.x,mainplayer.y);
+        this.track(player.x,player.y);
         this.healthBar();
         this.shoot();
     }

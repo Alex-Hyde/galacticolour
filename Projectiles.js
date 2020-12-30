@@ -18,8 +18,8 @@ function playerProjectile(angle,colour,x,y){
     this.update=function(){
         this.newPos();
 
-        mobIndex = 1;
-        entityList.mobList.slice(1).forEach(mob => {
+        mobIndex = 0;
+        entityList.mobList.forEach(mob => {
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 if (mob.colour==this.colour){
@@ -51,7 +51,7 @@ function tankProjectile(x,y,colour,image){
     this.update = function(){
         this.newPos();
         this.draw();
-        if(this.collision(mainplayer)){
+        if(this.collision(player)){
             console.log("hit");
         //////insert player damage code here
         }

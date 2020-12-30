@@ -167,7 +167,7 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);
         }
-        console.log(this.initMobList);
+        //console.log(this.initMobList);
     }
     
 

@@ -118,7 +118,7 @@ function Entity(x, y, angle, hitbox) {
         ctx = gameScreen.context;
         ctx.fillStyle = color;
         if (this.health / this.maxHealth!=1){
-            ctx.fillRect((this.x - this.width/2)+Math.abs(this.width-50)/2, this.y - (20 + this.height/2), 50*(this.health / this.maxHealth), 5);
+            ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), this.width*(this.health / this.maxHealth), 5);
         }
         
     }

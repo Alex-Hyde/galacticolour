@@ -1,6 +1,6 @@
 function Mob1(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-10, -2, 20, 4), new rectHitbox(-2, -10, 4, 30)]);
-    sinMoveMob.call(this, 20, 20, x, y, angle, hitbox, 100);
+    sinMoveMob.call(this, 20, 20, x, y, angle, hitbox, 10);
 
     this.newPos = function() {
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
@@ -10,7 +10,7 @@ function Mob1(x, y, angle) {
 
 function Mob2(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -2, 40, 4), new rectHitbox(-2, -20, 4, 40)]);
-    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, 75);
+    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, 15);
 
     this.newPos = function() {
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
@@ -25,7 +25,7 @@ function Mob2(x, y, angle) {
 
 function Mob3(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -20, 40, 40)]);
-    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, 140);
+    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, 10);
 
     this.newPos = function() {
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
