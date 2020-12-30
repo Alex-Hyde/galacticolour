@@ -17,7 +17,7 @@ function InventoryScreen(bgCoord) {
     this.animationImage = document.getElementById("inventoryAnimation");
     this.x = bgCoord;
     this.currentColor = 0;
-    this.circleColors = ["red", "#ab11ff", "yellow", "#10ff3a"];
+    this.circleColors = ["#FF073a", "#bc13fe", "yellow", "#10ff3a"];
     this.circleData = [0, Math.PI/3, Math.PI/6, -Math.PI/3, -Math.PI*2/3];
     this.shipAngle = 0;
     this.animationIndex = 0;
@@ -82,7 +82,7 @@ function InventoryScreen(bgCoord) {
         ctx.beginPath();
         ctx.arc(275, gameScreen.canvas.height/2, 206, this.circleData[0], this.circleData[0]+Math.PI/3);
         ctx.stroke();
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(275, gameScreen.canvas.height/2, 200, this.circleData[1], this.circleData[1]+Math.PI/2);
         ctx.stroke();
@@ -90,7 +90,7 @@ function InventoryScreen(bgCoord) {
         ctx.beginPath();
         ctx.arc(275, gameScreen.canvas.height/2, 212, this.circleData[2], this.circleData[2]+Math.PI);
         ctx.stroke();
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(275, gameScreen.canvas.height/2, 218, this.circleData[3], this.circleData[3]+Math.PI/4);
         ctx.stroke();
