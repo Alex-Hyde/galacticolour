@@ -4,7 +4,6 @@ var entityList = [];
 var currentLevel = NaN;
 //var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
-var mainplayer= null;
 var player = null;
 
 // function run on start
@@ -28,8 +27,7 @@ function loadGame() {
     //var level3 = new Level([new Wave([[Mob1, 9], [Mob2, 3], [Mob3, 2]], 14, 1500), new Wave([[Mob1, 5], [Mob2, 2], [Mob3, 6]], 13, 1500)]);
     levelList = createLevelList();
     entityList.clear();
-    mainplayer= new Player(200,200, 0);
-    mainplayer.spawn();
+   
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
     // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);

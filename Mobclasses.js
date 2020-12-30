@@ -5,17 +5,38 @@ function tracker(x,y, angle,colour){
     this.imageindex=0;
     this.delaytimer=0;
     this.istracker=true;
+    var deltax= x - player.x
+    var deltay= y - player.y
+    var hypoteneuse= Math.sqrt((deltax**2)+(deltay**2));
+    var speedfactor = 2/hypoteneuse
+    this.xvel= deltax*speedfactor
+    this.yvel= deltay*speedfactor
     
     enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 50,colour);
  
 
     this.track = function(targetx,targety){
-        var deltax= this.x - targetx
-        var deltay= this.y - targety
-        var hypoteneuse= Math.sqrt((deltax**2)+(deltay**2));
-        var speedfactor = this.speed/hypoteneuse
-        this.x-= deltax*speedfactor
-        this.y-= deltay*speedfactor
+        newdeltax= this.x-targetx;
+        newdeltay= this.y-targety;
+        newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
+        newspeedfactor= this.speed/newhypoteneus
+        neededxvel= newdeltax*newspeedfactor
+        neededyvel=newdeltay*newspeedfactor
+        if(neededxvel>=this.xvel){
+            this.xvel+= Math.min(0.1,(neededxvel-this.xvel));
+        }
+        else{
+            this.xvel-=Math.min(0.1,(this.xvel-neededxvel));
+        }
+        if(neededyvel>=this.yvel){
+            this.yvel+= Math.min(0.1,(neededyvel-this.yvel));
+        }
+        else{
+            this.yvel-=Math.min(0.1,(this.yvel-neededyvel));
+        }
+        this.x-= this.xvel
+        this.y-= this.yvel
+
         }
     this.update = function() {
         this.delaytimer+=1
@@ -23,17 +44,15 @@ function tracker(x,y, angle,colour){
             this.delaytimer=1;
             this.imageindex+=1;
         }
-        this.track(mainplayer.x,mainplayer.y);
-        entityList.mobList.forEach(mob => {
-            if (mob!=this && mob.istracker!==undefined){
-                if(this.collision(mob)){
-                    mobsdeltax=this.x-mob.x
-                    mobsdeltay=this.y-mob.y
-                    //PUSH THEM APART
-                }
-            }
-            
-        });
+        this.track(player.x,player.y);
+        //entityList.mobList.forEach(mob => {
+        //    if (mob!=this && mob.istracker!==undefined){
+        //        if(this.collision(mob)){
+        //            ///////////////////insert code here
+         //       }
+         //   }
+       //     
+       // });
         this.healthBar();
     }
 
@@ -112,7 +131,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
         }
         }
     this.update = function() {
-        this.track(mainplayer.x,mainplayer.y);
+        this.track(player.x,player.y);
         this.healthBar();
         this.shoot();
     }
