@@ -5,12 +5,12 @@ this.mobs = [];
 this.update=function(){
     this.mobs.forEach(e => {
         e.update();
-        mainplayer.projectiles.forEach(p =>{
+        player.projectiles.forEach(p =>{
         if (e.collision(p)){
            mobindex = this.mobs.indexOf(e);
-           projectileindex = mainplayer.projectiles.indexOf(p);
+           projectileindex = player.projectiles.indexOf(p);
            this.mobs.splice(mobindex,1);
-           mainplayer.projectiles.splice(projectileindex,1);
+           player.projectiles.splice(projectileindex,1);
         }
         });
     });  
