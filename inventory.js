@@ -1,8 +1,9 @@
-guns = [document.getElementById("gun1")];
-gunIcons = [document.getElementById("gun1Icon")];
-bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")]];
-engines = [document.getElementById("engine1")];
-engineIcons = [document.getElementById("engine1Icon")];
+guns = [document.getElementById("gun1"),document.getElementById("gun2")];
+gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon")];
+bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
+          [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")]];
+engines = [document.getElementById("engine1"),document.getElementById("engine2")];
+engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon")];
 
 function loadInventory(bgCoord) {
     entityList.clear();
@@ -104,20 +105,21 @@ function InventoryScreen(bgCoord) {
         ctx.translate(275, gameScreen.canvas.height/2);
         ctx.rotate(this.shipAngle);
         ctx.translate(-275, -gameScreen.canvas.height/2);
-        ctx.drawImage(engines[player.engine], 275-150, gameScreen.canvas.height/2-150, 300, 300);
-        ctx.drawImage(guns[player.guns[this.currentColor]], 275-150, gameScreen.canvas.height/2-150, 300, 300);
-        ctx.drawImage(bodies[player.body][this.currentColor], 275-150, gameScreen.canvas.height/2-150, 300, 300);
+        ctx.drawImage(engines[player.inventory.engines[player.engine].type], 275-150, gameScreen.canvas.height/2-150, 300, 300);
+        ctx.drawImage(guns[player.inventory.allGuns[this.currentColor][player.guns[this.currentColor]].type], 275-150, gameScreen.canvas.height/2-150, 300, 300);
+        ctx.drawImage(bodies[player.inventory.bodies[player.body].type][this.currentColor], 275-150, gameScreen.canvas.height/2-150, 300, 300);
         ctx.restore();
     }
 }
 
 function PlayerInventory() {
-    this.redGuns = [new Gun(0, 10, 10, 10)];
-    this.purpleGuns = [new Gun(0, 10, 10, 10)];
+    this.redGuns = [new Gun(0, 10, 10, 10), new Gun(1, 10, 10, 10)];
+    this.purpleGuns = [new Gun(0, 10, 10, 10), new Gun(1, 10, 10, 10)];
     this.yellowGuns = [new Gun(0, 10, 10, 10)];
     this.greenGuns = [new Gun(0, 10, 10, 10)];
-    this.bodies = [new Body(0, 100)];
-    this.engines = [new Engine(0, 3)];
+    this.bodies = [new Body(0, 100), new Body(1, 100)];
+    this.engines = [new Engine(0, 3), new Engine(1, 3)];
+    this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
 }
 
 function Gun(type, damage, firerate, range) {
@@ -232,24 +234,32 @@ function SelectionButton(type, x, y, w, h) {
             ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
         }
         ctx.drawImage(this.borderImage, this.x, this.y, this.w, this.h);
+        ctx.fillStyle = "white";
+        ctx.font = "24px Arial";
         switch (this.type) {
             case 0:
-                ctx.drawImage(gunIcons[player.guns[0]], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(gunIcons[player.inventory.redGuns[player.guns[0]].type], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.guns[0]+1) + "/" + String(player.inventory.redGuns.length), this.x+12, this.y+this.h-15);
                 break;
             case 1:
-                ctx.drawImage(gunIcons[player.guns[1]], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(gunIcons[player.inventory.purpleGuns[player.guns[1]].type], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.guns[1]+1) + "/" + String(player.inventory.purpleGuns.length), this.x+12, this.y+this.h-15);
                 break;
             case 2:
-                ctx.drawImage(gunIcons[player.guns[2]], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(gunIcons[player.inventory.yellowGuns[player.guns[2]].type], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.guns[2]+1) + "/" + String(player.inventory.yellowGuns.length), this.x+12, this.y+this.h-15);
                 break;
             case 3:
-                ctx.drawImage(gunIcons[player.guns[3]], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(gunIcons[player.inventory.greenGuns[player.guns[3]].type], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.guns[3]+1) + "/" + String(player.inventory.greenGuns.length), this.x+12, this.y+this.h-15);
                 break;
             case 4:
-                ctx.drawImage(bodies[player.body][entityList.other[0].currentColor], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(bodies[player.inventory.bodies[player.body].type][entityList.other[0].currentColor], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.body+1) + "/" + String(player.inventory.bodies.length), this.x+12, this.y+this.h-15);
                 break;
             case 5:
-                ctx.drawImage(engineIcons[player.engine], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.drawImage(engineIcons[player.inventory.engines[player.engine].type], this.x + 15, this.y + 15, this.w - 30, this.h - 30);
+                ctx.fillText(String(player.engine+1) + "/" + String(player.inventory.engines.length), this.x+12, this.y+this.h-15);
                 break;
             default:
                 break;
@@ -270,6 +280,28 @@ function SelectionButton(type, x, y, w, h) {
 
     this.onRelease = function() {
         this.image = null;
+        switch (this.type) {
+            case 0:
+                player.guns[0] = (player.guns[0]+1)%player.inventory.redGuns.length;
+                break;
+            case 1:
+                player.guns[1] = (player.guns[1]+1)%player.inventory.purpleGuns.length;
+                break;
+            case 2:
+                player.guns[2] = (player.guns[2]+1)%player.inventory.yellowGuns.length;
+                break;
+            case 3:
+                player.guns[3] = (player.guns[3]+1)%player.inventory.greenGuns.length;
+                break;
+            case 4:
+                player.body = (player.body+1)%player.inventory.bodies.length;
+                break;
+            case 5:
+                player.engine = (player.engine+1)%player.inventory.engines.length;
+                break;
+            default:
+                break;
+        }
     }
 }
 
