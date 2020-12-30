@@ -7,35 +7,30 @@ engineIcons = [document.getElementById("engine1Icon")];
 function loadInventory(bgCoord) {
     entityList.clear();
     entityList.other.push(new InventoryScreen(bgCoord));
-    closeButton = new CloseInventoryButton();
-    closeButton.addToScreen();
-    b = new SelectionButton(0, 550, gameScreen.canvas.height/2 - 235, 150, 150);
-    b.addToScreen();
-    b = new SelectionButton(1, 710, gameScreen.canvas.height/2 - 235, 150, 150);
-    b.addToScreen();
-    b = new SelectionButton(2, 550, gameScreen.canvas.height/2 - 75, 150, 150);
-    b.addToScreen();
-    b = new SelectionButton(3, 710, gameScreen.canvas.height/2 - 75, 150, 150);
-    b.addToScreen();
-    b = new SelectionButton(4, 550, gameScreen.canvas.height/2 + 85, 150, 150);
-    b.addToScreen();
-    b = new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150);
-    b.addToScreen();
-    colorButton = new ColorButton();
-    colorButton.addToScreen();
-    new staticAnimation([document.getElementById("inventoryAnimation1"), document.getElementById("inventoryAnimation2"), document.getElementById("inventoryAnimation3"), document.getElementById("inventoryAnimation4")],
-                        0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 1);
 }
 
 function InventoryScreen(bgCoord) {
     this.background = document.getElementById("inventoryBG");
     this.menuBG = document.getElementById("menuBG");
     this.shipBG = document.getElementById("inventoryShipBG");
+    this.animationImage = document.getElementById("inventoryAnimation");
     this.x = bgCoord;
     this.currentColor = 0;
     this.circleColors = ["red", "#ab11ff", "yellow", "#10ff3a"];
     this.circleData = [0, Math.PI/3, Math.PI/6, -Math.PI/3, -Math.PI*2/3];
     this.shipAngle = 0;
+    this.animationIndex = 0;
+    this.animationLength = 10;
+    this.opening = true;
+    this.buttonList = [];
+    this.buttonList.push(new CloseInventoryButton());
+    this.buttonList.push(new SelectionButton(0, 550, gameScreen.canvas.height/2 - 235, 150, 150));
+    this.buttonList.push(new SelectionButton(1, 710, gameScreen.canvas.height/2 - 235, 150, 150));
+    this.buttonList.push(new SelectionButton(2, 550, gameScreen.canvas.height/2 - 75, 150, 150));
+    this.buttonList.push(new SelectionButton(3, 710, gameScreen.canvas.height/2 - 75, 150, 150));
+    this.buttonList.push(new SelectionButton(4, 550, gameScreen.canvas.height/2 + 85, 150, 150));
+    this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
+    this.buttonList.push(new ColorButton());
 
 
     this.draw = function(ctx) {
@@ -44,10 +39,25 @@ function InventoryScreen(bgCoord) {
             ctx.drawImage(this.menuBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 3000 - this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         }
         ctx.drawImage(this.shipBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
-        if (!entityList.staticTextures.length) {
+        if (this.animationIndex > this.animationLength && this.opening) {
             ctx.drawImage(this.background, 0, 0);
             this.drawCircle(ctx);
             this.drawShip(ctx);
+            this.buttonList.forEach(b => {
+                b.draw(ctx);
+            });
+        }
+        else {
+            ctx.drawImage(this.animationImage, 712-712/this.animationLength*this.animationIndex, 190-190/this.animationLength*this.animationIndex,
+                          184+(gameScreen.canvas.width-184)/this.animationLength*this.animationIndex, 184+(gameScreen.canvas.height-184)/this.animationLength*this.animationIndex);
+            if (this.opening) {
+                this.animationIndex++;
+            } else {
+                this.animationIndex--;
+                if (this.animationIndex < 0) {
+                    loadMenu(this.x);
+                }
+            }
         }
     }
 
@@ -60,6 +70,9 @@ function InventoryScreen(bgCoord) {
         this.circleData[3] -= 0.015;
         this.circleData[4] += 0.0125;
         this.shipAngle += 0.005;
+        this.buttonList.forEach(b => {
+            b.update();
+        });
     }
 
     this.drawCircle = function(ctx) {
@@ -162,7 +175,7 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
-        loadMenu(entityList.other[0].x);
+        entityList.other[0].opening = false;;
         this.w -= 4;
         this.h -= 4;
         this.x += 2;
