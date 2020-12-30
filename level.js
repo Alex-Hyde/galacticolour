@@ -1,17 +1,23 @@
 function Level(waveList, levelID) {
     this.levelNum = levelID;
     this.waveNumber = 0;
-    this.currentWave = waveList[this.waveNumber];
+    this.initWaveList = waveList.map(wave => wave);
+    this.waveList = waveList;
+    this.currentWave = this.waveList[this.waveNumber];
     this.complete = false;
     this.backgroundImg = document.getElementById("space");
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         entityList.clear();
-        mainplayer = new Player(100, 100, 0);
-        mainplayer.spawn();
+        player.spawn(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
+        this.waveList = this.initWaveList.map(wave=>wave);
+        this.waveNumber = 0;
         //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
         //globalMobList = []
+        this.waveList.forEach(wave => {
+            wave.resetWave();
+        })
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
@@ -74,7 +80,7 @@ function Level(waveList, levelID) {
         ctx.font = "20px Courier";
         ctx.fillStyle = "white";
         if (time - this.currentWave.doneTime >= 5000) {
-            if (this.waveNumber != waveList.length-1) {
+            if (this.waveNumber != this.waveList.length-1) {
                 this.nextWave();
             } else {
                 ctx.fillText(`Level ${currentLevel} Complete`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
@@ -85,7 +91,7 @@ function Level(waveList, levelID) {
         } else {
             //console.log("waiting");
             ctx.fillText(`Wave ${this.waveNumber + 1} Completed.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
-            if (this.waveNumber != waveList.length-1){
+            if (this.waveNumber != this.waveList.length-1){
                 if (time - this.currentWave.doneTime >= 4000) {
                     ctx.fillText("Next Wave Starting in 1", gameScreen.canvas.width/2, gameScreen.canvas.height/2 + 50);
                 } else if (time - this.currentWave.doneTime >= 3000) {
@@ -113,7 +119,7 @@ function Level(waveList, levelID) {
 
     this.nextWave = function() {
         this.waveNumber ++;
-        this.currentWave = waveList[this.waveNumber];
+        this.currentWave = this.waveList[this.waveNumber];
     //    this.startWave();
     }
 
@@ -129,6 +135,8 @@ function Level(waveList, levelID) {
 }
 
 function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association list with the type and number of spawns
+    this.initMobList = mobList.map(mob => mob);
+    this.mList = mobList;
     this.enemiesSpawned = 0;
     this.enemiesKilled = 0;
     this.waveSpawnLimit = spawnLimit;
@@ -136,8 +144,15 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
     this.waveDone = false;
     this.doneTime = 0;
     
+    this.resetWave =function() {
+        this.mList = this.initMobList.map(mob=>mob);
+        this.enemiesSpawned = 0;
+        this.enemiesKilled = 0;
+        this.waveDone = false;
+        this.doneTime = 0;
+    }
     this.spawnEnemies = function() {
-        mobIndex = Math.floor(Math.random() * mobList.length);
+        mobIndex = Math.floor(Math.random() * this.mList.length);
         offsetX = Math.floor(Math.random()*100);
         currentMob = mobList[mobIndex];
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
@@ -146,8 +161,9 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
         currentMob[1]--;
         this.enemiesSpawned ++;
         if (currentMob[1] == 0) {
-            mobList.splice(mobIndex, 1);
+            this.mList.splice(mobIndex, 1);
         }
+        console.log(this.initMobList);
     }
     
 
