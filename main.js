@@ -5,9 +5,13 @@ var currentLevel = NaN;
 //var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
 var player = null;
+const RED = 0;
+const PURPLE = 1;
+const YELLOW = 2;
+const GREEN = 3;
 
 // function run on start
-function loadMenu() {
+function loadMenu(bgCoord = 0) {
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
     }
@@ -16,9 +20,11 @@ function loadMenu() {
     }
     levelList = createLevelList();
     entityList.clear();
-    entityList.other.push(new MainMenu());
-    button = new PlayButton((gameScreen.canvas.width-400)/2, (gameScreen.canvas.height-100)/2 + 100);
+    entityList.other.push(new MainMenu(bgCoord));
+    button = new PlayButton(372, 268);
     button.addToScreen();
+    button2 = new OpenInventoryButton();
+    button2.addToScreen();
 }
 
 function loadGame() {
