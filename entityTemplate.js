@@ -104,25 +104,22 @@ function Entity(x, y, angle, hitbox) {
         entityList.mobList.push(this);
     }
     this.healthBar = function() {
-        //console.log('h');
-        length = 50;
         color = "green";
-        if (this.health / this.maxHealth < 0.2) {
-            length = 10;
+        if (this.health / this.maxHealth <= 0.2) {
             color = "red";
-        } else if (this.health / this.maxHealth < 0.4) {
-            length = 20;
+        } else if (this.health / this.maxHealth <= 0.4) {
             color = "orange";
-        } else if (this.health / this.maxHealth < 0.6) {
-            length = 30;
-            color = "#FCCF03";
-        } else if (this.health / this.maxHealth < 0.8) {
-            length = 40;
+        } else if (this.health / this.maxHealth <= 0.6) {       
+            color = "yellow";
+        } else if (this.health / this.maxHealth <= 0.8) {
             color = "#4CA832";
         }
         ctx = gameScreen.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x - 25, this.y - (20 + this.height/2), length, 5);
+        if (this.health / this.maxHealth!=1){
+            ctx.fillRect((this.x - this.width/2)+Math.abs(this.width-50)/2, this.y - (20 + this.height/2), 50*(this.health / this.maxHealth), 5);
+        }
+        
     }
 }
 
