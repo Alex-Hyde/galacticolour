@@ -1,6 +1,7 @@
-function MainMenu() {
+function MainMenu(bgCoord) {
     this.image = document.getElementById("menuBG");
-    this.x = 0
+    this.shipImage = document.getElementById("menuShipBG");
+    this.x = bgCoord;
 
     this.update = function() {
         this.x += 0.5;
@@ -11,6 +12,7 @@ function MainMenu() {
         if (this.x > 3000 -gameScreen.canvas.width) {
             ctx.drawImage(this.image, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 3000 - this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         }
+        ctx.drawImage(this.shipImage, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
     }
 
     this.reset = function() {
@@ -19,14 +21,14 @@ function MainMenu() {
 }
 
 function PlayButton(x, y) {
-    Button.call(this, x, y, 400, 100);
-    this.defaultImage = document.getElementById("playButton");
-    this.hoverImage = document.getElementById("playButtonHover");
-    this.pressedImage = document.getElementById("playButtonPressed");
+    Button.call(this, x, y, 108*2, 85);
+    this.defaultImage = document.getElementById("playButtonNew");
+    this.hoverImage = document.getElementById("playButtonHoverNew");
+    this.pressedImage = document.getElementById("playButtonPressedNew");
     this.image = this.defaultImage;
     
     this.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(this.image, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
     }
 
     this.onHover = function() {

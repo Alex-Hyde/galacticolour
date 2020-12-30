@@ -17,6 +17,11 @@ function Player(x,y,angle){
     this.spacebardown=false;
     this.shiptextures=[this.redship,this.greenship,this.purpleship,this.yellowship]; 
 
+    // indices of inventory
+    this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
+    this.body = 0;
+    this.engine = 0;
+
     this.update = function() {
         this.newPos();
         if(gameScreen.clicked){
