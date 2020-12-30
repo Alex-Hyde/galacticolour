@@ -6,11 +6,11 @@ function MainMenu(bgCoord) {
     this.zoomIndex = 0;
     this.zoomLength = 15;
     this.zoom = 0.12;
-    this.visibleWidth = gameScreen.canvas.width;
-    this.visibleHeight = gameScreen.canvas.height;
+    this.w = gameScreen.canvas.width;
+    this.h = gameScreen.canvas.height;
     this.scale = 1;
-    this.orgnX = 0;
-    this.orgnY = 0;
+    this.zx = 0;
+    this.zy = 0;
 
     gameScreen.context.save();
 
@@ -25,14 +25,14 @@ function MainMenu(bgCoord) {
     this.draw = function(ctx) {
         if (this.zoomIndex) {
             zoom = Math.exp(this.zoom);
-            ctx.translate(this.orgnX, this.orgnY);
-            this.orgnX -= 480 / (this.scale*zoom) - 480 / this.scale;
-            this.orgnY -= 310 / (this.scale*zoom) - 310 / this.scale;
+            ctx.translate(this.zx, this.zy);
+            this.zx -= 480 / (this.scale*zoom) - 480 / this.scale;
+            this.zy -= 310 / (this.scale*zoom) - 310 / this.scale;
             ctx.scale(zoom, zoom);
-            ctx.translate(-this.orgnX, -this.orgnY);
+            ctx.translate(-this.zx, -this.zy);
             this.scale *= zoom;
-            this.visibleWidth = gameScreen.canvas.width / this.scale;
-            this.visibleHeight = gameScreen.canvas.height / this.scale;
+            this.w = gameScreen.canvas.width / this.scale;
+            this.h = gameScreen.canvas.height / this.scale;
             this.zoomIndex++;
         }
         ctx.drawImage(this.image, this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
