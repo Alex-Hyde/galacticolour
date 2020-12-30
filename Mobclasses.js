@@ -4,9 +4,9 @@ function tracker(x,y, angle,colour){
 
     this.imageindex=0;
     this.delaytimer=0;
+    this.istracker=true;
     
-    
-    enemy.call(this,50,50,x,y,angle,thehitbox,2,colour,this.image0,25);
+    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 50,colour);
  
 
     this.track = function(targetx,targety){
@@ -24,6 +24,17 @@ function tracker(x,y, angle,colour){
             this.imageindex+=1;
         }
         this.track(mainplayer.x,mainplayer.y);
+        entityList.mobList.forEach(mob => {
+            if (mob!=this && mob.istracker!==undefined){
+                if(this.collision(mob)){
+                    mobsdeltax=this.x-mob.x
+                    mobsdeltay=this.y-mob.y
+                    //PUSH THEM APART
+                }
+            }
+            
+        });
+        this.healthBar();
     }
 
     this.draw = function(ctx){
@@ -75,3 +86,61 @@ function greenTracker(x,y, angle) {
     this.images=[this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image0,this.image1,this.image2,this.image3,this.image2,this.image1];
 
 }
+
+
+function Tank(x,y,angle,colour,image,projectileimage){
+    tankhitbox=new rectHitbox(-60,-32,120,80);
+    fulltankhitbox= new Hitbox([tankhitbox]);
+    this.projectileimage=projectileimage;
+    this.shotprobability=0;
+    enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
+    this.draw = function(ctx){
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.x, -this.y);
+        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.restore(); 
+    }
+    this.track = function(targetx,targety){
+        var deltay= this.y - targety
+        if (deltay > 0){
+            this.y-=Math.max(this.speed,-deltay);
+        }
+        else{
+            this.y+=Math.min(this.speed,-deltay); 
+        }
+        }
+    this.update = function() {
+        this.track(mainplayer.x,mainplayer.y);
+        this.healthBar();
+        this.shoot();
+    }
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new tankProjectile(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
+}
+
+function redTank(x,y,angle){
+    Tank.call(this,x,y,angle,"red",document.getElementById("redtank"),document.getElementById("redorb"));
+}
+
+function greenTank(x,y,angle){
+    Tank.call(this,x,y,angle,"green",document.getElementById("greentank"),document.getElementById("greenorb"));
+}
+
+function purpleTank(x,y,angle){
+    Tank.call(this,x,y,angle,"purple",document.getElementById("purpletank"),document.getElementById("purpleorb"));
+}
+
+function yellowTank(x,y,angle){
+    Tank.call(this,x,y,angle,"yellow",document.getElementById("yellowtank"),document.getElementById("yelloworb"));
+}
+

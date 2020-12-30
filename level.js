@@ -104,7 +104,6 @@ function Level(waveList, levelID) {
     this.levelClear = function() {
         this.complete = true;
         currentLevel = NaN;
-        console.log(this.complete);
         loadLevelSelect();
     }
 
@@ -141,7 +140,6 @@ function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association li
         mobIndex = Math.floor(Math.random() * mobList.length);
         offsetX = Math.floor(Math.random()*100);
         currentMob = mobList[mobIndex];
-        console.log(currentMob);
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
         newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
         newMob.spawn();
