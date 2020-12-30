@@ -13,7 +13,47 @@ function playerProjectile(angle,colour,x,y){
     if (colour=="purple"){
         this.image=document.getElementById("purplerocket")
     }
-    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image);
+    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image,5);
+
+    this.update=function(){
+        this.newPos();
+
+        mobIndex = 1;
+        entityList.mobList.slice(1).forEach(mob => {
+            projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
+            if (mob.collision(this)) {
+                if (mob.colour==this.colour){
+                    mob.health -= this.damage*3;
+                }
+                else{
+                    mob.health -= this.damage;  
+                }
+                entityList.playerProjectiles.splice(projIndex, 1);
+                if (mob.health <= 0) {
+                    entityList.mobList.splice(mobIndex, 1);
+                    levelList[currentLevel - 1].currentWave.enemiesKilled ++;
+                }
+            } else {
+                mobIndex++;
+            }
+            
+        })
+
+        this.draw();
+    }
 }
 
-//////MAKE PROJECTILES SHOOTSS
+function tankProjectile(x,y,colour,image){
+    tankprojhitbox=new rectHitbox(-32,-32,64,64);
+    fulltankprojectilehitbox= new Hitbox([tankprojhitbox]);
+    projectile.call(this,64,64,-Math.PI/2,8,colour,x,y,fulltankprojectilehitbox,image,50);
+    
+    this.update = function(){
+        this.newPos();
+        this.draw();
+        if(this.collision(mainplayer)){
+            console.log("hit");
+        //////insert player damage code here
+        }
+    }
+}

@@ -4,8 +4,8 @@ function Player(x,y,angle){
     bodyhitbox=new rectHitbox(-25,-15,50,35);
     fullhitbox=new Hitbox([headhitbox,bodyhitbox]);
     Entity.call(this,x,y,angle,fullhitbox);
-    this.width = 50;
-    this.height = 50;
+    this.width = 60;
+    this.height = 60;
     this.speed = 5;
     this.moveAngle=0;
     this.colourlist=["red","green","purple","yellow"];
@@ -69,11 +69,12 @@ function Player(x,y,angle){
 }
 
 //Projectile Parent Class
-function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
+function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage){
     Entity.call(this,x,y,angle,hitbox)
     this.projID=projsFired;
     this.height=height
     this.width=width
+    this.damage=damage
     this.speed=speed
     this.colour=colour  
     this.image=image
@@ -82,51 +83,29 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image){
         this.x += this.speed * Math.cos(this.angle-Math.PI/2);
         this.y += this.speed * Math.sin(this.angle-Math.PI/2);
     }
-    this.update=function(){
-        this.newPos();
-
-        mobIndex = 0;
-        entityList.mobList.forEach(mob => {
-            projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
-            if (mob.collision(this)) {
-                mob.health -= 25;
-                //console.log(mob.health);
-                //console.log(mob.maxHealth);
-                entityList.playerProjectiles.splice(projIndex, 1);
-                if (mob.health <= 0) {
-                    entityList.mobList.splice(mobIndex, 1);
-                    levelList[currentLevel - 1].currentWave.enemiesKilled ++;
-                    console.log(levelList[currentLevel-1].currentWave.enemiesKilled);
-                }
-            } else {
-                mobIndex++;
-            }
-            
-        })
-
-        this.draw();
-    }
     this.draw=function(){
         ctx = gameScreen.context;
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.restore();
     }
 }
 
 //Enemy parent Class
-function enemy(width,height,x,y,angle,hitbox,speed, image, health) {//colour,image){
+function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
     Entity.call(this,x,y,angle,hitbox);
     this.maxHealth = health;
     this.health = health;
     this.width = width;
     this.height = height;
     this.speed = speed;
+    this.colour = colour;
     this.hitbox=hitbox;
-    //this.colour=colour;
+    this.health=health;
+    this.totalhealth=health;
     this.image=image;
 
     this.update = function() {
