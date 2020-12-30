@@ -1,0 +1,23 @@
+-Ship Upgrades
+	-Guns(Firing type,damage,range,fire rate)
+		-Textures for each different gun projectile
+	-Body(Health,speed,invulnerability period after taking damage)
+	-Engine(Speed,dash)
+
+-Mobs
+	-More mobs
+	-Mob Textures
+
+-Level Design
+	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
+	-Make players progress through the levels in order
+
+-How to play page/Manual
+
+-Health Bar
+
+-Power ups( Healing, temporary fire rate increase, invulnerability)
+
+-Sound
+	-Shooting, taking damage, songs, explosion
+
