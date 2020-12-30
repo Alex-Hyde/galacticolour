@@ -23,16 +23,16 @@ function tracker(x,y, angle,colour){
         neededxvel= newdeltax*newspeedfactor
         neededyvel=newdeltay*newspeedfactor
         if(neededxvel>=this.xvel){
-            this.xvel+= Math.min(0.1,(neededxvel-this.xvel));
+            this.xvel+= Math.min(0.03,(neededxvel-this.xvel));
         }
         else{
-            this.xvel-=Math.min(0.1,(this.xvel-neededxvel));
+            this.xvel-=Math.min(0.03,(this.xvel-neededxvel));
         }
         if(neededyvel>=this.yvel){
-            this.yvel+= Math.min(0.1,(neededyvel-this.yvel));
+            this.yvel+= Math.min(0.03,(neededyvel-this.yvel));
         }
         else{
-            this.yvel-=Math.min(0.1,(this.yvel-neededyvel));
+            this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
         this.x-= this.xvel
         this.y-= this.yvel
@@ -161,5 +161,36 @@ function purpleTank(x,y,angle){
 
 function yellowTank(x,y,angle){
     Tank.call(this,x,y,angle,"yellow",document.getElementById("yellowtank"),document.getElementById("yelloworb"));
+}
+
+function leftTank(x,y,angle,colour,image,projectileimage){
+    Tank.call(this,x,y,angle,colour,image,projectileimage);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttankProjectile(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
+}
+
+function redLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"red",document.getElementById("redlefttank"),document.getElementById("redorb"));
+}
+
+function greenLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"green",document.getElementById("greenlefttank"),document.getElementById("greenorb"));
+}
+
+function purpleLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"purple",document.getElementById("purplelefttank"),document.getElementById("purpleorb"));
+}
+
+function yellowLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"yellow",document.getElementById("yellowlefttank"),document.getElementById("yelloworb"));
 }
 
