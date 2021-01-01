@@ -207,7 +207,7 @@ function yellowLeftTank(x,y,angle){
 function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
-    enemy.call(this,128,64,x,y,angle,fullmothershiphitbox,2,document.getElementById("mothership"),500,"none");
+    enemy.call(this,128,64,x,y,angle,fullmothershiphitbox,2,document.getElementById("mothership"),250,"none");
     console.log("testplace1")
     this.imageindex=0;
     this.spawnprobability=0;
@@ -233,7 +233,8 @@ function Mothership(x,y,angle){
     }
 
     this.spawnmob=function(){
-        entityList.mobList.push(new purpleTracker(this.x,this.y+50,0));
+        randommobslist=[new purpleTracker(this.x,this.y+50,0), new yellowTracker(this.x,this.y+50,0), new greenTracker(this.x,this.y+50,0), new redTracker(this.x,this.y+50,0)];
+        entityList.mobList.push(randommobslist[Math.floor(Math.random()*4)]);
     }
 
     this.update=function(){
