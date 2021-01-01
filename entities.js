@@ -4,6 +4,8 @@ function Player(x,y,angle){
     bodyhitbox=new rectHitbox(-25,-15,50,35);
     fullhitbox=new Hitbox([headhitbox,bodyhitbox]);
     Entity.call(this,x,y,angle,fullhitbox);
+    this.maxHealth = 100;
+    this.health = 100;
     this.width = 60;
     this.height = 60;
     this.speed = 5;
@@ -23,6 +25,7 @@ function Player(x,y,angle){
     this.engine = 0;
 
     this.update = function() {
+        this.healthBar();
         this.newPos();
         if(gameScreen.clicked){
             this.shoot();
@@ -109,8 +112,6 @@ function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
     this.speed = speed;
     this.colour = colour;
     this.hitbox=hitbox;
-    this.health=health;
-    this.totalhealth=health;
     this.image=image;
 
     this.update = function() {

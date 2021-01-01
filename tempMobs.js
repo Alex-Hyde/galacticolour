@@ -1,7 +1,6 @@
 function Mob1(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-10, -2, 20, 4), new rectHitbox(-2, -10, 4, 30)]);
-    sinMoveMob.call(this, 20, 20, x, y, angle, hitbox, 10);
-
+    sinMoveMob.call(this, 20, 30, x, y, angle, hitbox, 10);
     this.newPos = function() {
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
         this.y = this.initY + 40 * (Math.cos(this.offsetY + clock/300) + Math.cos(this.offsetY + clock/350)) + this.height/2;
@@ -45,8 +44,13 @@ function sinMoveMob(width, height, x, y, angle, hitbox, maxHealth) {
     this.height = height;
     this.maxHealth = maxHealth;
     this.health = maxHealth;
+    this.offsetX = Math.floor(Math.random()*10000);
+    this.offsetY = Math.floor(Math.random()*10000);
 
     this.update = function() {
+        if (player.collision(this) && player.health >= 0) {
+            player.health -= 0.1;
+        }
         this.newPos();
         d = new Date();
         clock = d.getTime();

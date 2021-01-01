@@ -1,5 +1,5 @@
 function playerProjectile(angle,colour,x,y){
-    mainhitbox=new rectHitbox(17.5,7.5,35,15);
+    mainhitbox=new rectHitbox(-17.5,-7.5,35,15);
     fullhitbox= new Hitbox([mainhitbox]);
     if (colour=="yellow"){
         this.image=document.getElementById("yellowrocket")

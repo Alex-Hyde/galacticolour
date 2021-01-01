@@ -5,12 +5,16 @@ function Level(waveList, levelID) {
     this.waveList = waveList;
     this.currentWave = this.waveList[this.waveNumber];
     this.complete = false;
+    this.gameOver = false;
+    this.gameOverTime = 0;
     this.backgroundImg = document.getElementById("space");
     this.bgImgX = 0;
     this.bgImgY = 0;
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
+        this.gameOver = false;
+        player.health = 100;
         entityList.clear();
         player.spawn(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
         this.waveList = this.initWaveList.map(wave=>wave);
@@ -39,12 +43,22 @@ function Level(waveList, levelID) {
         ctx.font = "13px Courier";
         ctx.fillStyle = "white";
         ctx.fillText("Press Esc to Exit Level", 100, 20);
-        if (gameScreen.keys && gameScreen.keys[27]) {
-            this.clearMobs();
-            currentLevel = NaN;
-            loadLevelSelect();
+        if ((gameScreen.keys && gameScreen.keys[27]) || player.health <= 0) {
+            if (!this.gameOver) {
+                this.gameOverTime = clock;
+                this.gameOver = true;
+            }
         }
-        if (clock - this.startTime < 3000) {
+        if (this.gameOver) {
+            if (clock - this.gameOverTime < 3000) {
+                ctx.font = "20px Courier";
+                ctx.fillText("Game Over!", gameScreen.canvas.width/2, gameScreen.canvas.height/2);
+            } else {
+                this.clearMobs();
+                currentLevel = NaN;
+                loadLevelSelect();
+            }
+        } else if (clock - this.startTime < 3000) {
             ctx.textAlign = "center";
             ctx.font = "20px Courier";
             ctx.fillStyle = "white";
@@ -65,17 +79,17 @@ function Level(waveList, levelID) {
             }
         } else if (this.currentWave.enemiesKilled == this.currentWave.enemiesSpawned) {
             if (!this.currentWave.waveDone) {
-                d = new Date();
-                t = d.getTime();
+                //d = new Date();
+                //t = d.getTime();
                 //console.log(t);
                 this.clearMobs();
-                this.currentWave.doneTime = t;
+                this.currentWave.doneTime = clock;
                 this.currentWave.waveDone = true;
             }
-            d = new Date();
-            ti = d.getTime();
+            //d = new Date();
+            //ti = d.getTime();
             //console.log(ti - this.currentWave.doneTime);
-            this.waveClear(ti);
+            this.waveClear(clock);
         }
     }
         
@@ -94,7 +108,7 @@ function Level(waveList, levelID) {
             }
         } else {
             //console.log("waiting");
-            ctx.fillText(`Wave ${this.waveNumber + 1} Completed.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
+            ctx.fillText(`Wave ${this.waveNumber + 1} Complete.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             if (this.waveNumber != this.waveList.length-1){
                 if (time - this.currentWave.doneTime >= 4000) {
                     ctx.fillText("Next Wave Starting in 1", gameScreen.canvas.width/2, gameScreen.canvas.height/2 + 50);

@@ -33,8 +33,7 @@ function tracker(x,y, angle,colour){
                 }
             }
             
-        });
-        this.healthBar();
+        })
     }
 
     this.draw = function(ctx){
@@ -113,7 +112,6 @@ function Tank(x,y,angle,colour,image,projectileimage){
         }
     this.update = function() {
         this.track(player.x,player.y);
-        this.healthBar();
         this.shoot();
     }
     this.shoot = function(){

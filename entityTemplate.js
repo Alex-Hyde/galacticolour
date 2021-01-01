@@ -81,8 +81,6 @@ function Entity(x, y, angle, hitbox) {
     this.y = y;
     this.initX = x;
     this.initY = y;
-    this.offsetX = Math.floor(Math.random()*10000);
-    this.offsetY = Math.floor(Math.random()*10000);
     this.angle = angle;
     this.hitbox = hitbox; // hitbox object
 
@@ -117,8 +115,13 @@ function Entity(x, y, angle, hitbox) {
         }
         ctx = gameScreen.context;
         ctx.fillStyle = color;
-        if (this.health / this.maxHealth!=1){
-            ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), this.width*(this.health / this.maxHealth), 5);
+        if (this != player) {
+            if (this.health / this.maxHealth!=1){
+                ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), this.width*(this.health / this.maxHealth), 5);
+            }
+        } else {
+            ctx.drawImage(document.getElementById("playerhealthbar"), 10, 45);
+            ctx.fillRect(20, 50, 300*(this.health/this.maxHealth), 10);
         }
         
     }
