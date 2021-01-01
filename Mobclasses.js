@@ -203,3 +203,60 @@ function yellowLeftTank(x,y,angle){
     leftTank.call(this,x,y,angle,"yellow",document.getElementById("yellowlefttank"),document.getElementById("yelloworb"));
 }
 
+
+function Mothership(x,y,angle){
+    mothershiphitbox=new rectHitbox(-60,-30,120,40);
+    fullmothershiphitbox= new Hitbox([mothershiphitbox]);
+    enemy.call(this,128,64,x,y,angle,fullmothershiphitbox,2,document.getElementById("mothership"),500,"none");
+    console.log("testplace1")
+    this.imageindex=0;
+    this.spawnprobability=0;
+    this.spawnactive=false;
+    this.image0=document.getElementById("mothership")
+    this.image1=document.getElementById("mothership1")
+    this.image2=document.getElementById("mothership2")
+    this.image3=document.getElementById("mothership3")
+    this.image4=document.getElementById("mothership4")
+    this.image5=document.getElementById("mothership5")
+    this.image6=document.getElementById("mothership6")
+    this.image7=document.getElementById("mothership7")
+    console.log("testplace2")
+    this.images=[this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7];
+    console.log("testplace3")
+    this.draw = function(ctx){
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.x, -this.y);
+        ctx.drawImage(this.images[this.imageindex % 8], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.restore(); 
+    }
+
+    this.spawnmob=function(){
+        entityList.mobList.push(new purpleTracker(this.x,this.y+50,0));
+    }
+
+    this.update=function(){
+        if(this.spawnactive==false){
+            this.imageindex=0;
+            spawnroll=Math.random()
+            if(spawnroll > this.spawnprobability){
+                this.spawnprobability+=0.00001
+            }
+            else{
+                this.spawnactive=true;
+            }
+        }
+        else{
+            this.imageindex+=1;
+            if (this.imageindex % 7 ==0){
+                this.spawnmob();
+                this.spawnactive=false;
+                this.spawnprobability=0;
+            }
+        }
+
+    }
+    
+
+}
