@@ -10,14 +10,16 @@ function Player(x,y,angle){
     this.height = 60;
     this.speed = 5;
     this.moveAngle=0;
-    this.colourlist=["red","green","purple","yellow"];
+    this.colourlist=["red","purple","green","yellow"];
     this.colourindex=0;
     this.greenship=document.getElementById("playergreen")
     this.purpleship=document.getElementById("playerpurple")
     this.redship=document.getElementById("playerred")
     this.yellowship=document.getElementById("playeryellow")
     this.spacebardown=false;
-    this.shiptextures=[this.redship,this.greenship,this.purpleship,this.yellowship]; 
+    this.shiptextures=[this.redship,this.purpleship,this.greenship,this.yellowship];
+    this.shootCooldown = false;
+    this.lastShotTime = 0;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -65,8 +67,19 @@ function Player(x,y,angle){
         this.y -= speedy
     }
     this.shoot= function(){
-        projsFired++;
-        entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y))   
+        d = new Date();
+        shootTime = d;
+        currentGunIndex = this.guns[this.colourindex % 4];
+        currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
+        if (shootTime - this.lastShotTime > 1000 * (60 / currentGun.firerate)) {
+            this.shootCooldown = false;
+            if (!this.shootCooldown) {
+                projsFired++;
+                entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y));
+                this.lastShotTime = shootTime;
+                this.shootCooldown = true;
+            }
+        }
     }
 
     this.spawn = function(x, y, angle) {
@@ -119,12 +132,12 @@ function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
         this.newPos();
     }
     this.draw = function(ctx){
-        //ctx.save();
-        //ctx.translate(this.x, this.y);
-        //ctx.rotate(this.angle);
-        //ctx.translate(-this.x, -this.y);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.x, -this.y);
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        //ctx.restore(); 
+        ctx.restore(); 
     }
     this.newPos = function() {
         this.x += this.speed * Math.cos(this.angle-Math.PI/2);
