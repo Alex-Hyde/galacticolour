@@ -113,10 +113,10 @@ function InventoryScreen(bgCoord) {
 }
 
 function PlayerInventory() {
-    this.redGuns = [new Gun(0, 20, 10, 25), new Gun(1, 7, 40, 13)];
-    this.purpleGuns = [new Gun(0, 20, 10, 25), new Gun(1, 10, 30, 15)];
-    this.yellowGuns = [new Gun(0, 20, 10, 25)];
-    this.greenGuns = [new Gun(0, 20, 10, 25)];
+    this.redGuns = [new Gun(0, 20, 60, 25), new Gun(1, 7, 30, 13)];
+    this.purpleGuns = [new Gun(0, 20, 60, 25), new Gun(1, 10, 30, 15)];
+    this.yellowGuns = [new Gun(0, 20, 60, 25)];
+    this.greenGuns = [new Gun(0, 20, 60, 25)];
     this.bodies = [new Body(0, 100), new Body(1, 150)];
     this.engines = [new Engine(0, 3), new Engine(1, 4)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
@@ -126,7 +126,7 @@ function PlayerInventory() {
 function Gun(type, damage, firerate, range) {
     this.type = type;
     this.damage = damage;
-    this.firerate = firerate;
+    this.firerate = firerate;            // measured in shots/min
     this.range = range;
     this.allStats = [["Damage", damage], ["Firerate", firerate], ["Range", range]];
     this.maxStats = [100, 100, 100];
