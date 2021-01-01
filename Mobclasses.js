@@ -241,7 +241,7 @@ function Mothership(x,y,angle){
             this.imageindex=0;
             spawnroll=Math.random()
             if(spawnroll > this.spawnprobability){
-                this.spawnprobability+=0.00001
+                this.spawnprobability+=0.000001
             }
             else{
                 this.spawnactive=true;
