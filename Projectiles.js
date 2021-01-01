@@ -31,7 +31,6 @@ function playerProjectile(angle,colour,x,y){
                 entityList.playerProjectiles.splice(projIndex, 1);
                 if (mob.health <= 0) {
                     entityList.mobList.splice(mobIndex, 1);
-                    levelList[currentLevel - 1].currentWave.enemiesKilled ++;
                 }
                 return
             } else {

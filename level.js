@@ -72,12 +72,12 @@ function Level(waveList, levelID) {
             } else {
                 ctx.fillText(`Level ${currentLevel} Starting in 3`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             }
-        } else if (this.currentWave.enemiesSpawned != this.currentWave.waveSpawnLimit) {
+        } else if (this.currentWave.mList.length != 0) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
                 //console.log("mobspawn");
                 this.currentWave.spawnEnemies();
             }
-        } else if (this.currentWave.enemiesKilled == this.currentWave.enemiesSpawned) {
+        } else if (this.currentWave.mList.length == 0 && entityList.mobList.length == 0) {
             if (!this.currentWave.waveDone) {
                 //d = new Date();
                 //t = d.getTime();
@@ -132,7 +132,7 @@ function Level(waveList, levelID) {
     }
 
     this.clearMobs = function() {
-        entityList.mobList.splice(2, this.currentWave.enemiesSpawned);
+        entityList.mobList = [];
     }
 
     this.nextWave = function() {
@@ -152,36 +152,32 @@ function Level(waveList, levelID) {
     }
 }
 
-function Wave(mobList, spawnLimit, spawnTime) {  // mobList is an association list with the type and number of spawns
+function Wave(mobList, spawnTime) {  // mobList is an association list with the type and number of spawns
     this.initMobList = mobList.map(mob => mob);
     this.mList = mobList;
-    this.enemiesSpawned = 0;
-    this.enemiesKilled = 0;
-    this.waveSpawnLimit = spawnLimit;
     this.spawnTime = spawnTime;
     this.waveDone = false;
     this.doneTime = 0;
     
     this.resetWave =function() {
         this.mList = this.initMobList.map(mob=>mob);
-        this.enemiesSpawned = 0;
-        this.enemiesKilled = 0;
         this.waveDone = false;
         this.doneTime = 0;
     }
     this.spawnEnemies = function() {
         mobIndex = Math.floor(Math.random() * this.mList.length);
         offsetX = Math.floor(Math.random()*100);
-        currentMob = mobList[mobIndex];
+        currentMob = this.mList[mobIndex];
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
         newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
         newMob.spawn();
         currentMob[1]--;
-        this.enemiesSpawned ++;
+        console.log(this.mList.length);
+        console.log(currentMob, currentMob[1]);
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);
         }
-        //console.log(this.initMobList);
+        console.log(this.mList);
     }
     
 

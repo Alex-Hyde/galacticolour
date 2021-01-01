@@ -132,12 +132,12 @@ function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
         this.newPos();
     }
     this.draw = function(ctx){
-        //ctx.save();
-        //ctx.translate(this.x, this.y);
-        //ctx.rotate(this.angle);
-        //ctx.translate(-this.x, -this.y);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.x, -this.y);
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        //ctx.restore(); 
+        ctx.restore(); 
     }
     this.newPos = function() {
         this.x += this.speed * Math.cos(this.angle-Math.PI/2);
