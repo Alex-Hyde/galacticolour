@@ -5,17 +5,38 @@ function tracker(x,y, angle,colour){
     this.imageindex=0;
     this.delaytimer=0;
     this.istracker=true;
+    var deltax= x - player.x
+    var deltay= y - player.y
+    var hypoteneuse= Math.sqrt((deltax**2)+(deltay**2));
+    var speedfactor = 2/hypoteneuse
+    this.xvel= deltax*speedfactor
+    this.yvel= deltay*speedfactor
     
     enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 50,colour);
  
 
     this.track = function(targetx,targety){
-        var deltax= this.x - targetx
-        var deltay= this.y - targety
-        var hypoteneuse= Math.sqrt((deltax**2)+(deltay**2));
-        var speedfactor = this.speed/hypoteneuse
-        this.x-= deltax*speedfactor
-        this.y-= deltay*speedfactor
+        newdeltax= this.x-targetx;
+        newdeltay= this.y-targety;
+        newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
+        newspeedfactor= this.speed/newhypoteneus
+        neededxvel= newdeltax*newspeedfactor
+        neededyvel=newdeltay*newspeedfactor
+        if(neededxvel>=this.xvel){
+            this.xvel+= Math.min(0.03,(neededxvel-this.xvel));
+        }
+        else{
+            this.xvel-=Math.min(0.03,(this.xvel-neededxvel));
+        }
+        if(neededyvel>=this.yvel){
+            this.yvel+= Math.min(0.03,(neededyvel-this.yvel));
+        }
+        else{
+            this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
+        }
+        this.x-= this.xvel
+        this.y-= this.yvel
+
         }
     this.update = function() {
         this.delaytimer+=1
@@ -34,6 +55,15 @@ function tracker(x,y, angle,colour){
             }
             
         })
+        //entityList.mobList.forEach(mob => {
+        //    if (mob!=this && mob.istracker!==undefined){
+        //        if(this.collision(mob)){
+        //            ///////////////////insert code here
+         //       }
+         //   }
+       //     
+       // });
+        this.healthBar();
     }
 
     this.draw = function(ctx){
@@ -140,5 +170,36 @@ function purpleTank(x,y,angle){
 
 function yellowTank(x,y,angle){
     Tank.call(this,x,y,angle,"yellow",document.getElementById("yellowtank"),document.getElementById("yelloworb"));
+}
+
+function leftTank(x,y,angle,colour,image,projectileimage){
+    Tank.call(this,x,y,angle,colour,image,projectileimage);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttankProjectile(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
+}
+
+function redLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"red",document.getElementById("redlefttank"),document.getElementById("redorb"));
+}
+
+function greenLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"green",document.getElementById("greenlefttank"),document.getElementById("greenorb"));
+}
+
+function purpleLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"purple",document.getElementById("purplelefttank"),document.getElementById("purpleorb"));
+}
+
+function yellowLeftTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"yellow",document.getElementById("yellowlefttank"),document.getElementById("yelloworb"));
 }
 

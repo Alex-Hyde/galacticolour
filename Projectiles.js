@@ -33,6 +33,7 @@ function playerProjectile(angle,colour,x,y){
                     entityList.mobList.splice(mobIndex, 1);
                     levelList[currentLevel - 1].currentWave.enemiesKilled ++;
                 }
+                return
             } else {
                 mobIndex++;
             }
@@ -47,6 +48,21 @@ function tankProjectile(x,y,colour,image){
     tankprojhitbox=new rectHitbox(-32,-32,64,64);
     fulltankprojectilehitbox= new Hitbox([tankprojhitbox]);
     projectile.call(this,64,64,-Math.PI/2,8,colour,x,y,fulltankprojectilehitbox,image,50);
+    
+    this.update = function(){
+        this.newPos();
+        this.draw();
+        if(this.collision(player)){
+            console.log("hit");
+        //////insert player damage code here
+        }
+    }
+}
+
+function lefttankProjectile(x,y,colour,image){
+    tankprojhitbox=new rectHitbox(-32,-32,64,64);
+    fulltankprojectilehitbox= new Hitbox([tankprojhitbox]);
+    projectile.call(this,64,64,-Math.PI/2,-8,colour,x,y,fulltankprojectilehitbox,image,50);
     
     this.update = function(){
         this.newPos();
