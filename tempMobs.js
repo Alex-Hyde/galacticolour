@@ -22,9 +22,24 @@ function YellowSinMob(x, y, angle) {
     }
 }
 
-function Mob3(x, y, angle) {
+function RedSinMob(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -20, 40, 40)]);
-    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("purpleorb"), 10, 'purple');
+    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("redsinmob"), 10, 'red');
+
+    this.newPos = function() {
+        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
+        this.y = this.initY + 100 * (Math.tan(Math.sin(this.offsetY + clock/2000))) + this.height/2;
+        //entityList.mobProjectiles.forEach(e => {
+        //    if (e != this) {
+        //        this.collision(e);
+        //    }
+        //})
+    }
+}
+
+function GreenSinMob(x, y, angle) {
+    hitbox = new Hitbox([new rectHitbox(-20, -20, 40, 40)]);
+    sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("greensinmob"), 10, 'green');
 
     this.newPos = function() {
         this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
@@ -36,6 +51,7 @@ function Mob3(x, y, angle) {
         //})
     }
 }
+
 function sinMoveMob(width, height, x, y, angle, hitbox, image, maxHealth, colour) {
     Entity.call(this, x + width/2, y + height/2, angle, hitbox);
     
@@ -58,12 +74,19 @@ function sinMoveMob(width, height, x, y, angle, hitbox, image, maxHealth, colour
     }
 
     this.update = function() {
-        if (player.collision(this) && player.health >= 0) {
-            player.health -= 0.1;
-        }
-        this.newPos();
         d = new Date();
         clock = d.getTime();
+        if (clock - player.lastHitTime > player.invulnTime) {
+            console.log("no invuln");
+            player.invuln = false;
+            if (!player.invuln && player.collision(this) && player.health >= 0) {
+                console.log("hit");
+                player.health -= 5;
+                player.invuln = true;
+                player.lastHitTime = clock;
+            }
+        }
+        this.newPos();
         this.angle = getAngle(this.x, this.y, player.x, player.y);
         if (this.y > gameScreen.canvas.height) {
             this.initY = 5
