@@ -77,10 +77,8 @@ function sinMoveMob(width, height, x, y, angle, hitbox, image, maxHealth, colour
         d = new Date();
         clock = d.getTime();
         if (clock - player.lastHitTime > player.invulnTime) {
-            console.log("no invuln");
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                console.log("hit");
                 player.health -= 5;
                 player.invuln = true;
                 player.lastHitTime = clock;
