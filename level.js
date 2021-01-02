@@ -169,7 +169,12 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         offsetX = Math.floor(Math.random()*100);
         currentMob = this.mList[mobIndex];
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
-        newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height, 0);
+        if (currentMob[0] == Mothership) {
+            mobSpawnY = 50;
+        } else {
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+        }
+        newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, mobSpawnY, 0);
         newMob.spawn();
         currentMob[1]--;
         console.log(this.mList.length);

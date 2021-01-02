@@ -19,6 +19,9 @@ function Player(x,y,angle){
     this.spacebardown=false;
     this.shiptextures=[this.redship,this.purpleship,this.greenship,this.yellowship];
     this.shootCooldown = 0;
+    this.invuln = false;
+    this.lastHitTime = 0;
+    this.invulnTime = 1000;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
