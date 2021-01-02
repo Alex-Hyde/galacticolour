@@ -4,6 +4,7 @@ bodies = [[document.getElementById("body1Red"), document.getElementById("body1Pu
           [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")]];
 engines = [document.getElementById("engine1"),document.getElementById("engine2")];
 engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon")];
+glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
 
 function loadInventory(bgCoord) {
     entityList.clear();
@@ -113,10 +114,10 @@ function InventoryScreen(bgCoord) {
 }
 
 function PlayerInventory() {
-    this.redGuns = [new Gun(0, 20, 180, 25), new Gun(1, 7, 30, 13)];
-    this.purpleGuns = [new Gun(0, 20, 180, 25), new Gun(1, 10, 30, 15)];
-    this.yellowGuns = [new Gun(0, 20, 180, 25)];
-    this.greenGuns = [new Gun(0, 20, 180, 25)];
+    this.redGuns = [new Gun(0, 20, 120, 25), new Gun(1, 7, 600, 13)];
+    this.purpleGuns = [new Gun(0, 20, 120, 25), new Gun(1, 10, 360, 15)];
+    this.yellowGuns = [new Gun(0, 20, 120, 25)];
+    this.greenGuns = [new Gun(0, 20, 120, 25)];
     this.bodies = [new Body(0, 100), new Body(1, 150)];
     this.engines = [new Engine(0, 3), new Engine(1, 4)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
@@ -129,7 +130,7 @@ function Gun(type, damage, firerate, range) {
     this.firerate = firerate;            // measured in shots/min
     this.range = range;
     this.allStats = [["Damage", damage], ["Firerate", firerate], ["Range", range]];
-    this.maxStats = [100, 100, 100];
+    this.maxStats = [100, 600, 100];
 }
 
 function Body(type, health) {
@@ -244,6 +245,7 @@ function SelectionButton(type, x, y, w, h) {
             for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
                 ctx.fillStyle = "white";
                 ctx.font = "20px Arial";
+                ctx.textAlign = "left";
                 ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
                 ctx.fillStyle = "black";
                 ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
