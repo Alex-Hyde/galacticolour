@@ -233,7 +233,8 @@ function Mothership(x,y,angle){
     }
 
     this.spawnmob=function(){
-        entityList.mobList.push(new purpleTracker(this.x,this.y+50,0));
+        randommobslist=[new purpleTracker(this.x,this.y+50,0), new yellowTracker(this.x,this.y+50,0), new greenTracker(this.x,this.y+50,0), new redTracker(this.x,this.y+50,0)];
+        entityList.mobList.push(randommobslist[Math.floor(Math.random()*4)]);
     }
 
     this.newPos = function() {
@@ -246,7 +247,7 @@ function Mothership(x,y,angle){
             this.imageindex=0;
             spawnroll=Math.random()
             if(spawnroll > this.spawnprobability){
-                this.spawnprobability+=0.00001
+                this.spawnprobability+=0.000001
             }
             else{
                 this.spawnactive=true;
