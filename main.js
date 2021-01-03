@@ -25,6 +25,8 @@ function loadMenu(bgCoord = 0) {
     button.addToScreen();
     button2 = new OpenInventoryButton();
     button2.addToScreen();
+    button3 = new OpenInstructionsButton();
+    button3.addToScreen();
 }
 
 function loadGame() {
