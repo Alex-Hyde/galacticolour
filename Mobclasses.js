@@ -4,6 +4,7 @@ function tracker(x,y, angle,colour){
 
     this.imageindex=0;
     this.delaytimer=0;
+    this.healable=true;
     this.istracker=true;
     var deltax= x - player.x
     var deltay= y - player.y
@@ -122,6 +123,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
     fulltankhitbox= new Hitbox([tankhitbox]);
     this.projectileimage=projectileimage;
     this.shotprobability=0;
+    this.healable=true;
     enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
     this.draw = function(ctx){
         ctx.save();
@@ -210,6 +212,7 @@ function Mothership(x,y,angle){
     sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),50,"none");
     console.log("testplace1")
     this.imageindex=0;
+    this.healable=true;
     this.spawnprobability=0;
     this.spawnactive=false;
     this.image0=document.getElementById("mothership")
@@ -228,7 +231,7 @@ function Mothership(x,y,angle){
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
-        ctx.drawImage(this.images[this.imageindex % 8], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(this.images[Math.floor(this.imageindex) % 8], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.restore(); 
     }
 
@@ -254,7 +257,7 @@ function Mothership(x,y,angle){
             }
         }
         else{
-            this.imageindex+=1;
+            this.imageindex+=0.5;
             if (this.imageindex % 7 ==0){
                 this.spawnmob();
                 this.spawnactive=false;
@@ -265,4 +268,83 @@ function Mothership(x,y,angle){
     }
     
 
+}
+
+function Medic(x,y,angle,colour,image){
+    medicshiphitbox= new rectHitbox(-54,-20,108,40);
+    fullmedicshiphitbox= new Hitbox([medicshiphitbox]);
+    healingrect= new rectHitbox(-154,-120,308,240)
+    this.Healinghitbox=new Hitbox([healingrect]);
+    this.ismedicship=true;
+    this.xvel=0
+    this.yvel=0;
+    enemy.call(this,108,40,x,y,angle,fullmedicshiphitbox,1,image,700,colour);
+
+    this.draw = function(ctx){
+        ctx.save();
+        console.log("here")
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.x, -this.y);
+        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.restore(); 
+    }
+
+    this.update = function(){
+        let weakestmob=entityList.mobList[0];
+        entityList.mobList.forEach(mob=>{
+            if(mob.healable!=undefined && this.Healinghitbox.collision(mob.hitbox,this,mob)==true && mob.health < mob.maxHealth){
+                mob.health+= Math.min(0.1,mob.maxHealth-mob.health);
+            }
+        })
+        entityList.mobList.forEach(mob=>{
+        if(mob.healable!=undefined && weakestmob.health/weakestmob.maxHealth > mob.health/mob.maxHealth){
+            weakestmob=mob;
+        }
+    })
+        this.track(weakestmob.x,weakestmob.y);
+    }
+
+    this.track = function(targetx,targety){
+        console.log(this.x,this.y,targetx,targety)
+        newdeltax= this.x-targetx;
+        newdeltay= this.y-targety;
+        newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
+        if(newhypoteneus==0){newhypoteneus=1;}
+        newspeedfactor= this.speed/newhypoteneus
+        console.log(newhypoteneus);
+        neededxvel= newdeltax*newspeedfactor
+        neededyvel=newdeltay*newspeedfactor
+        if(neededxvel>=this.xvel){
+            this.xvel+= Math.min(0.03,(neededxvel-this.xvel));
+        }
+        else{
+            this.xvel-=Math.min(0.03,(this.xvel-neededxvel));
+        }
+        if(neededyvel>=this.yvel){
+            this.yvel+= Math.min(0.03,(neededyvel-this.yvel));
+        }
+        else{
+            this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
+        }
+        this.x-= this.xvel
+        this.y-= this.yvel
+
+        }
+}
+
+function redMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'red',document.getElementById("redMedic"));
+}
+
+function yellowMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'yellow',document.getElementById("yellowMedic"));
+}
+
+function greenMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'green',document.getElementById("greenMedic"));
+}
+
+function purpleMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'purple',document.getElementById("purpleMedic"));
 }
