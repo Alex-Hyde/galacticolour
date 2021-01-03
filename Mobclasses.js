@@ -209,7 +209,7 @@ function yellowLeftTank(x,y,angle){
 function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
-    enemy.call(this,128,64,x,y,angle,fullmothershiphitbox,2,document.getElementById("mothership"),250,"none");
+    sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),50,"none");
     console.log("testplace1")
     this.imageindex=0;
     this.healable=true;
@@ -240,7 +240,12 @@ function Mothership(x,y,angle){
         entityList.mobList.push(randommobslist[Math.floor(Math.random()*4)]);
     }
 
+    this.newPos = function() {
+        this.x = this.initX + 200 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
+    }
+
     this.update=function(){
+        this.newPos();
         if(this.spawnactive==false){
             this.imageindex=0;
             spawnroll=Math.random()

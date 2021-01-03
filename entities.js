@@ -10,7 +10,7 @@ function Player(x,y,angle){
     this.height = 60;
     this.speed = 5;
     this.moveAngle=0;
-    this.colourlist=["red","purple","green","yellow"];
+    this.colourlist=["red","purple","yellow", "green"];
     this.colourindex=0;
     this.greenship=document.getElementById("playergreen")
     this.purpleship=document.getElementById("playerpurple")
@@ -18,8 +18,10 @@ function Player(x,y,angle){
     this.yellowship=document.getElementById("playeryellow")
     this.spacebardown=false;
     this.shiptextures=[this.redship,this.purpleship,this.greenship,this.yellowship];
-    this.shootCooldown = false;
-    this.lastShotTime = 0;
+    this.shootCooldown = 0;
+    this.invuln = false;
+    this.lastHitTime = 0;
+    this.invulnTime = 1000;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -30,7 +32,7 @@ function Player(x,y,angle){
     this.update = function() {
         this.healthBar();
         this.newPos();
-        if(gameScreen.clicked){
+        if(gameScreen.pressed){
             this.shoot();
         }
         if (gameScreen.keys && !gameScreen.keys[32] && this.spacebardown){
@@ -47,7 +49,10 @@ function Player(x,y,angle){
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
-        ctx.drawImage(this.shiptextures[this.colourindex % 4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(glowBG[this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(engines[player.inventory.engines[player.engine].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(guns[player.inventory.allGuns[this.colourindex%4][player.guns[this.colourindex%4]].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(bodies[player.inventory.bodies[player.body].type][this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.restore();  
     }
     this.newPos = function() {
@@ -67,17 +72,17 @@ function Player(x,y,angle){
         this.y -= speedy
     }
     this.shoot= function(){
-        d = new Date();
-        shootTime = d;
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
-        if (shootTime - this.lastShotTime > 1000 * (60 / currentGun.firerate)) {
-            this.shootCooldown = false;
-            if (!this.shootCooldown) {
-                projsFired++;
-                entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y));
-                this.lastShotTime = shootTime;
-                this.shootCooldown = true;
+        
+        if (!this.shootCooldown) {
+            projsFired++;
+            entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y));
+            this.shootCooldown = 1;
+        } else {
+            this.shootCooldown++;
+            if (this.shootCooldown > (60/(currentGun.firerate/60))) {
+                this.shootCooldown = 0;
             }
         }
     }
