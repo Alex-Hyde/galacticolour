@@ -1,6 +1,10 @@
-function playerProjectile(angle,colour,x,y){
+function playerProjectile(angle,colour,x,y,damage,range,type){
     mainhitbox=new rectHitbox(-17.5,-7.5,35,15);
     fullhitbox= new Hitbox([mainhitbox]);
+    this.initX = x;
+    this.initY = y;
+    this.range = range;
+    this.type = type;
     if (colour=="yellow"){
         this.image=document.getElementById("yellowrocket")
     }
@@ -13,7 +17,7 @@ function playerProjectile(angle,colour,x,y){
     if (colour=="purple"){
         this.image=document.getElementById("purplerocket")
     }
-    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image,5);
+    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image,damage);
 
     this.update=function(){
         this.newPos();
@@ -22,16 +26,37 @@ function playerProjectile(angle,colour,x,y){
         entityList.mobList.forEach(mob => {
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
-                if (mob.colour==this.colour){
-                    mob.health -= this.damage*3;
-                }
-                else{
-                    mob.health -= this.damage;  
+                if (this.type == 2) {
+                    explosionAnimation(this.x-60, this.y-60, 120, 120);
+                    mIndex = 0;
+                    this.hitbox = new Hitbox([new rectHitbox(-60, -60, 120, 120)]);
+                    entityList.mobList.forEach(m => {
+                        if (m.collision(this)) {
+                            if (m.colour==this.colour){
+                                m.health -= this.damage*3 * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
+                            }
+                            else{
+                                m.health -= this.damage * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
+                            }
+                            if (m.health <= 0) {
+                                entityList.mobList.splice(mIndex, 1);
+                            }
+                        } else {
+                            mIndex++;
+                        }
+                    });
+                } else {
+                    if (mob.colour==this.colour){
+                        mob.health -= this.damage*3 * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
+                    }
+                    else{
+                        mob.health -= this.damage * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
+                    }
+                    if (mob.health <= 0) {
+                        entityList.mobList.splice(mobIndex, 1);
+                    }
                 }
                 entityList.playerProjectiles.splice(projIndex, 1);
-                if (mob.health <= 0) {
-                    entityList.mobList.splice(mobIndex, 1);
-                }
                 return
             } else {
                 mobIndex++;
