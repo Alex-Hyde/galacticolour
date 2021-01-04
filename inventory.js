@@ -1,9 +1,11 @@
-guns = [document.getElementById("gun1"),document.getElementById("gun2")];
-gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon")];
+guns = [document.getElementById("gun1"),document.getElementById("gun2"),document.getElementById("gun3"),document.getElementById("gun4")];
+gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon"),document.getElementById("gun3Icon"),document.getElementById("gun4Icon")];
 bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
-          [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")]];
-engines = [document.getElementById("engine1"),document.getElementById("engine2")];
-engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon")];
+          [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")],
+          [document.getElementById("body3Red"), document.getElementById("body3Purple"), document.getElementById("body3Yellow"), document.getElementById("body3Green")],
+          [document.getElementById("body4Red"), document.getElementById("body4Purple"), document.getElementById("body4Yellow"), document.getElementById("body4Green")]];
+engines = [document.getElementById("engine1"),document.getElementById("engine2"),document.getElementById("engine3"),document.getElementById("engine4")];
+engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
 glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
 
 function loadInventory(bgCoord) {
@@ -114,12 +116,12 @@ function InventoryScreen(bgCoord) {
 }
 
 function PlayerInventory() {
-    this.redGuns = [new Gun(0, 20, 120, 25), new Gun(1, 7, 600, 13)];
-    this.purpleGuns = [new Gun(0, 20, 120, 25), new Gun(1, 10, 360, 15)];
-    this.yellowGuns = [new Gun(0, 20, 120, 25)];
-    this.greenGuns = [new Gun(0, 20, 120, 25)];
-    this.bodies = [new Body(0, 100), new Body(1, 150)];
-    this.engines = [new Engine(0, 3), new Engine(1, 4)];
+    this.redGuns = [new Gun(0, 20, 120, 400), new Gun(1, 7, 600, 200), new Gun(3, 8, 60, 200)];
+    this.purpleGuns = [new Gun(0, 20, 120, 400), new Gun(1, 10, 360, 200)];
+    this.yellowGuns = [new Gun(0, 20, 120, 400), new Gun(2, 60, 60, 600), new Gun(3, 8, 60, 200)];
+    this.greenGuns = [new Gun(0, 20, 120, 400), new Gun(2, 10, 60, 600)];
+    this.bodies = [new Body(0, 100), new Body(1, 150), new Body(2, 125), new Body(3, 125)];
+    this.engines = [new Engine(0, 3), new Engine(1, 4), new Engine(2, 3.5), new Engine(3, 3.5)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
     this.allItems = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns, this.bodies, this.engines];
 }
@@ -130,7 +132,7 @@ function Gun(type, damage, firerate, range) {
     this.firerate = firerate;            // measured in shots/min
     this.range = range;
     this.allStats = [["Damage", damage], ["Firerate", firerate], ["Range", range]];
-    this.maxStats = [100, 600, 100];
+    this.maxStats = [100, 600, 1000];
 }
 
 function Body(type, health) {

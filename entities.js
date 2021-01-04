@@ -32,9 +32,7 @@ function Player(x,y,angle){
     this.update = function() {
         this.healthBar();
         this.newPos();
-        if(gameScreen.pressed){
-            this.shoot();
-        }
+        this.shoot();
         if (gameScreen.keys && !gameScreen.keys[32] && this.spacebardown){
          this.spacebardown=false;
         }
@@ -75,11 +73,17 @@ function Player(x,y,angle){
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
         
-        if (!this.shootCooldown) {
+        if (!this.shootCooldown && gameScreen.pressed) {
             projsFired++;
-            entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y));
+            if (currentGun.type == 3) {
+                for (i = -2; i < 3; i++) {
+                    entityList.playerProjectiles.push(new playerProjectile(this.angle + Math.PI/10 * i,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+                }
+            } else {
+                entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+            }
             this.shootCooldown = 1;
-        } else {
+        } else if (this.shootCooldown) {
             this.shootCooldown++;
             if (this.shootCooldown > (60/(currentGun.firerate/60))) {
                 this.shootCooldown = 0;
