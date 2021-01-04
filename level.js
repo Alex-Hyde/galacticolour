@@ -47,6 +47,7 @@ function Level(waveList, levelID) {
             if (!this.gameOver) {
                 this.gameOverTime = clock;
                 this.gameOver = true;
+                console.log(this.currentWave.initMobList);
             }
         }
         if (this.gameOver) {
@@ -153,14 +154,14 @@ function Level(waveList, levelID) {
 }
 
 function Wave(mobList, spawnTime) {  // mobList is an association list with the type and number of spawns
-    this.initMobList = mobList.map(mob => mob);
+    this.initMobList = mobList.map(mob => mob.map(i => i));
     this.mList = mobList;
     this.spawnTime = spawnTime;
     this.waveDone = false;
     this.doneTime = 0;
     
     this.resetWave =function() {
-        this.mList = this.initMobList.map(mob=>mob);
+        this.mList = this.initMobList.map(mob=>mob.map(i => i));
         this.waveDone = false;
         this.doneTime = 0;
     }
@@ -183,6 +184,7 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
             this.mList.splice(mobIndex, 1);
         }
         console.log(this.mList);
+        console.log(this.initMobList);
     }
     
 
