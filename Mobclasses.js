@@ -209,7 +209,7 @@ function yellowLeftTank(x,y,angle){
 function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
-    sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),50,"none");
+    sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),500,"none");
     console.log("testplace1")
     this.imageindex=0;
     this.healable=true;
