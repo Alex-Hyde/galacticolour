@@ -77,8 +77,13 @@ function tankProjectile(x,y,colour,image){
         this.newPos();
         this.draw();
         if(this.collision(player)){
-            console.log("hit");
-        //////insert player damage code here
+            player.health-=10;
+            projectileindex=entityList.mobProjectiles.indexOf(this);
+            entityList.mobProjectiles.splice(projectileindex,1);
+        }
+        if(this.x < -50 || this.x >1000 || this.y < -50 || this.y > 600){
+            projectileindex=entityList.mobProjectiles.indexOf(this);
+            entityList.mobProjectiles.splice(projectileindex,1);
         }
     }
 }
@@ -92,8 +97,13 @@ function lefttankProjectile(x,y,colour,image){
         this.newPos();
         this.draw();
         if(this.collision(player)){
-            console.log("hit");
-        //////insert player damage code here
+            player.health-=10;
+            projectileindex=entityList.mobProjectiles.indexOf(this);
+            entityList.mobProjectiles.splice(projectileindex,1);
+        }
+        if(this.x < -50 || this.x >1000 || this.y < -50 || this.y > 600){
+            projectileindex=entityList.mobProjectiles.indexOf(this);
+            entityList.mobProjectiles.splice(projectileindex,1);
         }
     }
 }

@@ -119,7 +119,6 @@ function Tank(x,y,angle,colour,image,projectileimage){
     enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
     this.draw = function(ctx){
         ctx.save();
-        this.hitbox.draw(ctx,this)
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
@@ -213,7 +212,6 @@ function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
     sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),500,"none");
-    console.log("testplace1")
     this.imageindex=0;
     this.healable=true;
     this.spawnprobability=0;
@@ -226,9 +224,7 @@ function Mothership(x,y,angle){
     this.image5=document.getElementById("mothership5")
     this.image6=document.getElementById("mothership6")
     this.image7=document.getElementById("mothership7")
-    console.log("testplace2")
     this.images=[this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7];
-    console.log("testplace3")
     this.draw = function(ctx){
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -296,7 +292,6 @@ function Medic(x,y,angle,colour,image){
 
     this.draw = function(ctx){
         ctx.save();
-        console.log("here")
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);

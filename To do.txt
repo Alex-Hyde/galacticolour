@@ -10,7 +10,6 @@
 	-Animate  robomothership
 	-delete tank projectiles once they leave the screen
 	-make tank projectiles do damage
-	-resize tank Textures
 	-Look into negative health bar glitch
 	-If healers heal their own type, double healing effect
 
