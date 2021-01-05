@@ -33,6 +33,7 @@ function InstructionsScreen(bgCoord) {
     this.exampleUpperBoundX = 735;
     this.exampleLowerBoundY = 155;
     this.exampleUpperBoundY = 285;
+    this.nextButtonX = 790;
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -170,7 +171,8 @@ function CloseInstructionsButton() {
 }
 
 function NextPageButton(next) {
-    Button.call(this, 790, 200, 50, 125);
+    this.changingX = entityList.other[0].nextButtonX + 12 * entityList.other[0].pageIndex;
+    Button.call(this, this.changingX, 200, 50, 125);
     this.defaultImage = document.getElementById("manualnextbutton");
     this.hoverImage = document.getElementById("manualnextbuttonhovered");
     this.pressedImage = document.getElementById("manualnextbuttonpressed");
