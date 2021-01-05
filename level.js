@@ -10,6 +10,10 @@ function Level(waveList, levelID) {
     this.backgroundImg = document.getElementById("space");
     this.bgImgX = 0;
     this.bgImgY = 0;
+    this.unlocked = false;
+    if (this.levelNum == 1) {
+        this.unlocked = true;
+    }
     //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
@@ -130,6 +134,7 @@ function Level(waveList, levelID) {
     this.levelClear = function() {
         this.complete = true;
         currentLevel = NaN;
+        levelList[this.levelNum].unlocked = true;
         loadLevelSelect(this.levelNum - 1);
     }
 

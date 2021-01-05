@@ -187,10 +187,18 @@ function NextPageButton(next) {
     }
 
     this.onHover = function() {
+        this.w += 4;
+        this.h += 4;
+        this.x -= 2;
+        this.y -= 2;
         this.image = this.hoverImage;
     }
 
     this.onUnHover = function() {
+        this.w -= 4;
+        this.h -= 4;
+        this.x += 2;
+        this.y += 2;
         this.image = this.defaultImage;
     }
 }
@@ -217,14 +225,26 @@ function PreviousPageButton(previous) {
     }
 
     this.onClick = function() {
+        this.w -= 4;
+        this.h -= 4;
+        this.x += 2;
+        this.y += 2;
         this.image = this.pressedImage;
     }
 
     this.onHover = function() {
+        this.w += 4;
+        this.h += 4;
+        this.x -= 2;
+        this.y -= 2;
         this.image = this.hoverImage;
     }
 
     this.onUnHover = function() {
+        this.w -= 4;
+        this.h -= 4;
+        this.x += 2;
+        this.y += 2;
         this.image = this.defaultImage;
     }
 }

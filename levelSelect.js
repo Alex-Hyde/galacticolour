@@ -33,7 +33,7 @@ function LevelSelect(levelInd) {
         // move right
         if (((gameScreen.keys && gameScreen.keys[68]) || (gameScreen.pressed && gameScreen.x > this.x - this.bgX && 
                     gameScreen.y > 100 && gameScreen.y < gameScreen.canvas.height - 100)) && !this.animation) {
-            if (this.currentLevelIndex + 1 < levelCoordinates.length) {
+            if (this.currentLevelIndex + 1 < levelCoordinates.length && levelList[this.currentLevelIndex + 1].unlocked) {
                 this.currentLevelIndex++;
                 this.updateAngle(this.currentLevelIndex);
                 this.animation = true;
@@ -102,7 +102,11 @@ function LevelSelect(levelInd) {
         for (i = 0; i < levelCoordinates.length; i++) {
             if (i + 1 < levelCoordinates.length) {
                 ctx.beginPath();
-                ctx.strokeStyle = "red";
+                if (levelList[this.currentLevelIndex + 1].unlocked) {
+                    ctx.strokeStyle = "red";
+                } else {
+                    ctx.strokeStyle = "grey";
+                }
                 ctx.moveTo(levelCoordinates[i][0] - this.bgX, levelCoordinates[i][1]);
                 ctx.lineTo(levelCoordinates[i+1][0] - this.bgX, levelCoordinates[i+1][1]);
                 ctx.stroke();
