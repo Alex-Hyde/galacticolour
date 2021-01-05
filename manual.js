@@ -8,7 +8,7 @@ function InstructionsScreen(bgCoord) {
     [document.getElementById("manualpage2-1"), document.getElementById("manualpage2-3"), document.getElementById("manualpage2-2"), document.getElementById("manualpage2-3"), 
     document.getElementById("manualpage2-4"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-5"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-7"), document.getElementById("manualpage2-9"),
     document.getElementById("manualpage2-8"), document.getElementById("manualpage2-9"), document.getElementById("manualpage2-10"), document.getElementById("manualpage2-12"), document.getElementById("manualpage2-11"),
-    document.getElementById("manualpage2-12")]];
+    document.getElementById("manualpage2-12")], [document.getElementById("manualpage3")], [document.getElementById("manualpage4")], [document.getElementById("manualpage5")]];
     this.pageIndex = 0;
     this.currentPage = this.pages[this.pageIndex];
     this.lastRefresh = 0;
@@ -19,6 +19,7 @@ function InstructionsScreen(bgCoord) {
     this.buttonList = [];
     this.nextLastButtonList = [];
     this.buttonList.push(new CloseInstructionsButton());
+    this.playerExampleSpawned = false;
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -39,7 +40,15 @@ function InstructionsScreen(bgCoord) {
         this.nextLastButtonList.forEach(b => {
             b.draw(ctx);
         });
+        if (this.pageIndex == 0) {
+            if (!this.playerExampleSpawned) {
+                entityList.player = new Player(635, 220, 0);
+                this.playerExampleSpawned = true;
+            }
+            ctx.drawImage(document.getElementById("space"), 500, 120, 270, 200);
+            entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 755 && i.x >515 && i.y > 135 && i.y < 305); 
 
+        }
     }
     this.update = function() {
         this.currentPage = this.pages[this.pageIndex];
@@ -110,10 +119,7 @@ function CloseInstructionsButton() {
 
     this.onRelease = function() {
         loadMenu();
-        this.w -= 4;
-        this.h -= 4;
-        this.x += 2;
-        this.y += 2;
+        entityList.player = null;
     }
 
     this.onClick = function() {
@@ -145,8 +151,13 @@ function NextPageButton(next) {
     }
 
     this.onRelease = function() {
+        if (entityList.other[0].pageIndex == 0) {
+            entityList.player = null;
+            entityList.other[0].playerExampleSpawned = false;
+        }
         entityList.other[0].pageIndex = this.next;
         entityList.other[0].nextLastButtonList = [];
+        entityList.playerProjectiles = [];
     }
 
     this.onClick = function() {
