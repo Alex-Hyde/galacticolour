@@ -45,25 +45,17 @@ function tracker(x,y, angle,colour){
             this.delaytimer=1;
             this.imageindex+=1;
         }
-        this.track(player.x,player.y);
-        entityList.mobList.forEach(mob => {
-            if (mob!=this && mob.istracker!==undefined){
-                if(this.collision(mob)){
-                    mobsdeltax=this.x-mob.x
-                    mobsdeltay=this.y-mob.y
-                    //PUSH THEM APART
-                }
+        d = new Date();
+        clock = d.getTime();
+        if (clock - player.lastHitTime > player.invulnTime) {
+            player.invuln = false;
+            if (!player.invuln && player.collision(this) && player.health >= 0) {
+                player.health -= 5;
+                player.invuln = true;
+                player.lastHitTime = clock;
             }
-            
-        })
-        //entityList.mobList.forEach(mob => {
-        //    if (mob!=this && mob.istracker!==undefined){
-        //        if(this.collision(mob)){
-        //            ///////////////////insert code here
-         //       }
-         //   }
-       //     
-       // });
+        }
+        this.track(player.x,player.y);
         this.healthBar();
     }
 
@@ -127,6 +119,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
     enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
     this.draw = function(ctx){
         ctx.save();
+        this.hitbox.draw(ctx,this)
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
@@ -143,6 +136,16 @@ function Tank(x,y,angle,colour,image,projectileimage){
         }
         }
     this.update = function() {
+        d = new Date();
+        clock = d.getTime();
+        if (clock - player.lastHitTime > player.invulnTime) {
+            player.invuln = false;
+            if (!player.invuln && player.collision(this) && player.health >= 0) {
+                player.health -= 5;
+                player.invuln = true;
+                player.lastHitTime = clock;
+            }
+        }
         this.track(player.x,player.y);
         this.shoot();
     }
@@ -246,6 +249,16 @@ function Mothership(x,y,angle){
 
     this.update=function(){
         this.newPos();
+        d = new Date();
+        clock = d.getTime();
+        if (clock - player.lastHitTime > player.invulnTime) {
+            player.invuln = false;
+            if (!player.invuln && player.collision(this) && player.health >= 0) {
+                player.health -= 5;
+                player.invuln = true;
+                player.lastHitTime = clock;
+            }
+        }
         if(this.spawnactive==false){
             this.imageindex=0;
             spawnroll=Math.random()
@@ -276,9 +289,10 @@ function Medic(x,y,angle,colour,image){
     healingrect= new rectHitbox(-154,-120,308,240)
     this.Healinghitbox=new Hitbox([healingrect]);
     this.ismedicship=true;
+    this.healing=undefined;
     this.xvel=0
     this.yvel=0;
-    enemy.call(this,108,40,x,y,angle,fullmedicshiphitbox,1,image,700,colour);
+    enemy.call(this,108,40,x,y,angle,fullmedicshiphitbox,2,image,700,colour);
 
     this.draw = function(ctx){
         ctx.save();
@@ -297,12 +311,27 @@ function Medic(x,y,angle,colour,image){
                 mob.health+= Math.min(0.1,mob.maxHealth-mob.health);
             }
         })
-        entityList.mobList.forEach(mob=>{
-        if(mob.healable!=undefined && weakestmob.health/weakestmob.maxHealth > mob.health/mob.maxHealth){
-            weakestmob=mob;
+        if(this.healing!=undefined){
+            if(this.healing.health/this.healing.maxHealth==1){
+                this.healing=undefined;
+            }
         }
-    })
-        this.track(weakestmob.x,weakestmob.y);
+       if(this.healing==undefined){
+        entityList.mobList.forEach(mob=>{
+            if(mob.healable!=undefined && weakestmob.health/weakestmob.maxHealth > mob.health/mob.maxHealth){
+                weakestmob=mob;
+            }
+            else if(weakestmob.healable==undefined){
+                weakestmob=mob;
+            }
+        })
+       }
+       if(weakestmob.healable!=undefined){
+           this.healing=weakestmob;
+       }
+       if (this.healing!=undefined){
+        this.track(this.healing.x,this.healing.y);
+       }
     }
 
     this.track = function(targetx,targety){
@@ -347,4 +376,74 @@ function greenMedic(x,y,angle){
 
 function purpleMedic(x,y,angle){
     Medic.call(this,x,y,angle,'purple',document.getElementById("purpleMedic"));
+}
+
+function yellowRobotMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'yellow',document.getElementById("yellowRobotMedic"));
+}
+
+function redRobotMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'red',document.getElementById("redRobotMedic"));
+}
+function greenRobotMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'green',document.getElementById("greenRobotMedic"));
+}
+function purpleRobotMedic(x,y,angle){
+    Medic.call(this,x,y,angle,'purple',document.getElementById("purpleRobotMedic"));
+}
+
+function leftredRobotTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"red",document.getElementById("leftredRobotTank"),document.getElementById("redorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+}
+
+function leftyellowRobotTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"yellow",document.getElementById("leftyellowRobotTank"),document.getElementById("yelloworb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+}
+
+function leftgreenRobotTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"green",document.getElementById("leftgreenRobotTank"),document.getElementById("greenorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+}
+
+function leftpurpleRobotTank(x,y,angle){
+    leftTank.call(this,x,y,angle,"purple",document.getElementById("leftpurpleRobotTank"),document.getElementById("purpleorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+}
+
+function purpleRobotTank(x,y,angle){
+    Tank.call(this,x,y,angle,"purple",document.getElementById("rightpurpleRobotTank"),document.getElementById("purpleorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+}
+
+function redRobotTank(x,y,angle){
+    Tank.call(this,x,y,angle,"red",document.getElementById("rightredRobotTank"),document.getElementById("redorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+}
+
+function yellowRobotTank(x,y,angle){
+    Tank.call(this,x,y,angle,"yellow",document.getElementById("rightyellowRobotTank"),document.getElementById("yelloworb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+}
+
+function greenRobotTank(x,y,angle){
+    Tank.call(this,x,y,angle,"green",document.getElementById("rightgreenRobotTank"),document.getElementById("greenorb"));
+    this.width=170;
+    this.height=56;
+    this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
 }
