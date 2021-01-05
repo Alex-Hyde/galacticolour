@@ -57,7 +57,8 @@ function Level(waveList, levelID) {
             } else {
                 this.clearMobs();
                 currentLevel = NaN;
-                loadLevelSelect();
+                loadLevelSelect(this.levelNum - 1);
+            //    entityList.other[0].currentLevelIndex = this.levelNum - 1;
             }
         } else if (clock - this.startTime < 3000) {
             ctx.textAlign = "center";
@@ -129,7 +130,7 @@ function Level(waveList, levelID) {
     this.levelClear = function() {
         this.complete = true;
         currentLevel = NaN;
-        loadLevelSelect();
+        loadLevelSelect(this.levelNum - 1);
     }
 
     this.clearMobs = function() {

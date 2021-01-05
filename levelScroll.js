@@ -4,7 +4,7 @@ function levelScroll(blockList, levelID, background, speed, endCoord) {
     this.background = background;
     this.bgX = 0;
     this.blockList = blockList; // hitboxes
-    this.levelID = levelID;
+    this.levelNum = levelID;
     this.speed = speed;
     this.invulnerable = 0;
     this.endCoord = endCoord;
@@ -81,7 +81,7 @@ function levelScroll(blockList, levelID, background, speed, endCoord) {
 
     this.levelClear = function() {
         this.complete = true;
-        loadLevelSelect();
+        loadLevelSelect(this.levelNum - 1);
     }
 }
 

@@ -4,26 +4,27 @@ levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [
 levelImages = [document.getElementById("planet"), document.getElementById("planet2"), document.getElementById("planet3"), document.getElementById("planet4"), document.getElementById("planet5")];
 
 // loads the level select screen to display it
-function loadLevelSelect() {
+function loadLevelSelect(levelInd) {
     entityList.clear();
-    entityList.other.push(new LevelSelect());
+    console.log(levelInd);
+    entityList.other.push(new LevelSelect(levelInd));
     entityList.buttons.push(new startLevelButton());
     entityList.buttons.push(new BackButton());
 
 }
 
-function LevelSelect() {
-    this.x = levelCoordinates[0][0];
-    this.y = levelCoordinates[0][1];
+function LevelSelect(levelInd) {
     this.w = 50;
     this.h = 50;
     this.bgX = 0;
     this.angle = Math.PI/2;
     this.image = document.getElementById("playergreen");
     this.bgImage = document.getElementById("levelSelectBG");
-    this.currentLevelIndex = 0;
+    this.currentLevelIndex = levelInd;
+    this.x = levelCoordinates[this.currentLevelIndex][0];
+    this.y = levelCoordinates[this.currentLevelIndex][1];
     this.animation = false;
-    this.animationIndex = 0;
+    this.animationIndex = this.currentLevelIndex;
     this.animationStart = null;
     this.animationEnd = null;
     this.animationLength = 30; // constant
@@ -55,7 +56,6 @@ function LevelSelect() {
             this.animationIndex++;
             this.x = this.animationStart[0] + this.animationIndex / this.animationLength * (this.animationEnd[0] - this.animationStart[0]);
             this.y = this.animationStart[1] + this.animationIndex / this.animationLength * (this.animationEnd[1] - this.animationStart[1]);
-            this.updateBGX();
             if (this.animationIndex == this.animationLength) {
                 this.animation = false;
                 this.animationIndex = 0;
@@ -64,6 +64,7 @@ function LevelSelect() {
             this.updateAngle(this.currentLevelIndex+1);
         }
         levelIndex = this.currentLevelIndex;
+        this.updateBGX();
     }
 
     // points ship at the given level (by index)
@@ -76,7 +77,7 @@ function LevelSelect() {
     }
     
     // start by pointing ship at level 2 (since ship is at level 1)
-    this.updateAngle(1);
+    this.updateAngle(this.currentLevelIndex + 1);
 
     // slide background with ship movement
     this.updateBGX = function() {
@@ -92,6 +93,12 @@ function LevelSelect() {
     this.draw = function(ctx) {
         ctx.drawImage(this.bgImage, this.bgX, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
 
+        for (i = 0; i < levelList.length; i++) {
+            if (levelList[i].complete) {
+                ctx.drawImage(document.getElementById("shipGlowGreen"), levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
+            }
+        }
+        
         for (i = 0; i < levelCoordinates.length; i++) {
             if (i + 1 < levelCoordinates.length) {
                 ctx.beginPath();

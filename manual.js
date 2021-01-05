@@ -29,10 +29,6 @@ function InstructionsScreen(bgCoord) {
     this.exampleHeight = 200
     this.exampleBGX = 500;
     this.exampleBGY = 120;
-    this.exampleLowerBoundX = 535;
-    this.exampleUpperBoundX = 735;
-    this.exampleLowerBoundY = 155;
-    this.exampleUpperBoundY = 285;
     this.nextButtonX = 790;
     
     this.draw = function(ctx) {
@@ -59,29 +55,13 @@ function InstructionsScreen(bgCoord) {
                 entityList.player = new Player(635, 220, 0);
                 this.playerExampleSpawned = true;
             }
-            if (entityList.player.x > this.exampleUpperBoundX && entityList.player.y > this.exampleUpperBoundY) {
-                entityList.player.x = this.exampleUpperBoundX;
-                entityList.player.y = this.exampleUpperBoundY;
-            } else if (entityList.player.x > this.exampleUpperBoundX && entityList.player.y < this.exampleLowerBoundY) {
-                entityList.player.x = this.exampleUpperBoundX;
-                entityList.player.y = this.exampleLowerBoundY;
-            } else if (entityList.player.x < this.exampleLowerBoundX && entityList.player.y > this.exampleUpperBoundY) {
-                entityList.player.x = this.exampleLowerBoundX;
-                entityList.player.y = this.exampleUpperBoundY;
-            } else if (entityList.player.x < this.exampleLowerBoundX && entityList.player.y < this.exampleLowerBoundY) {
-                entityList.player.x = this.exampleLowerBoundX;
-                entityList.player.y = this.exampleLowerBoundY;
-            }else if (entityList.player.x > this.exampleUpperBoundX) {
-                entityList.player.x = this.exampleUpperBoundX;
-            } else if (entityList.player.x < this.exampleLowerBoundX) {
-                entityList.player.x = this.exampleLowerBoundX;
-            } else if (entityList.player.y > this.exampleUpperBoundY) {
-                entityList.player.y = this.exampleUpperBoundY;
-            } else if (entityList.player.y < this.exampleLowerBoundY) {
-                entityList.player.y = this.exampleLowerBoundY;
-            }
+            entityList.player.lowerBoundX = 535;
+            entityList.player.upperBoundX = 735;
+            entityList.player.lowerBoundY = 155;
+            entityList.player.upperBoundY = 285;
+            
             ctx.drawImage(document.getElementById("space"), 500, 120, 270, 200);
-            entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < this.exampleUpperBoundX && i.x >this.exampleLowerBoundX && i.y > this.exampleLowerBoundY && i.y < this.exampleUpperBoundY); 
+            entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < entityList.player.upperBoundX && i.x >entityList.player.lowerBoundX && i.y > entityList.player.lowerBoundY && i.y < entityList.player.upperBoundY); 
 
         }
     }
@@ -89,6 +69,16 @@ function InstructionsScreen(bgCoord) {
         this.currentPage = this.pages[this.pageIndex];
         this.x += 0.5;
         this.x = this.x % 3000;
+        
+        this.buttonList.forEach(b => {
+            b.update();
+        });
+        this.nextLastButtonList.forEach(b => {
+            b.update();
+        });
+    }
+    
+    this.updatePage = function() {
         if (this.pageIndex == 0) {
             this.nextLastButtonList.push(new NextPageButton(1));
         } else if (this.pageIndex == 1) {
@@ -103,12 +93,6 @@ function InstructionsScreen(bgCoord) {
         } else if (this.pageIndex == 4) {
             this.nextLastButtonList.push(new PreviousPageButton(3));
         }
-        this.buttonList.forEach(b => {
-            b.update();
-        });
-        this.nextLastButtonList.forEach(b => {
-            b.update();
-        });
     }
 }
 
@@ -138,6 +122,7 @@ function OpenInstructionsButton() {
 
     this.onRelease = function() {
         loadInstructions(entityList.other[0].x);
+        entityList.other[0].updatePage();
     }
 }
 
@@ -194,6 +179,7 @@ function NextPageButton(next) {
         entityList.other[0].pageIndex = this.next;
         entityList.other[0].nextLastButtonList = [];
         entityList.playerProjectiles = [];
+        entityList.other[0].updatePage();
     }
 
     this.onClick = function() {
@@ -227,6 +213,7 @@ function PreviousPageButton(previous) {
     this.onRelease = function() {
         entityList.other[0].pageIndex = this.previous;
         entityList.other[0].nextLastButtonList = [];
+        entityList.other[0].updatePage();
     }
 
     this.onClick = function() {

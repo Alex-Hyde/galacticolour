@@ -22,6 +22,10 @@ function Player(x,y,angle){
     this.invuln = false;
     this.lastHitTime = 0;
     this.invulnTime = 1000;
+    this.lowerBoundX = gameScreen.x + 35;
+    this.upperBoundX = gameScreen.canvas.width - 35;
+    this.lowerBoundY = gameScreen.y + 35;
+    this.upperBoundY = gameScreen.canvas.height - 35;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -68,6 +72,28 @@ function Player(x,y,angle){
         this.angle = getAngle(this.x, this.y, gameScreen.x, gameScreen.y) + Math.PI/2;
         this.x += speedx
         this.y -= speedy
+
+        if (this.x > this.upperBoundX && this.y > this.upperBoundY) {
+            this.x = this.upperBoundX;
+            this.y = this.upperBoundY;
+        } else if (this.x > this.upperBoundX && this.y < this.lowerBoundY) {
+            this.x = this.upperBoundX;
+            this.y = this.lowerBoundY;
+        } else if (this.x < this.lowerBoundX && this.y > this.upperBoundY) {
+            this.x = this.lowerBoundX;
+            this.y = this.upperBoundY;
+        } else if (this.x < this.lowerBoundX && this.y < this.lowerBoundY) {
+            this.x = this.lowerBoundX;
+            this.y = this.lowerBoundY;
+        }else if (this.x > this.upperBoundX) {
+            this.x = this.upperBoundX;
+        } else if (this.x < this.lowerBoundX) {
+            this.x = this.lowerBoundX;
+        } else if (this.y > this.upperBoundY) {
+            this.y = this.upperBoundY;
+        } else if (this.y < this.lowerBoundY) {
+            this.y = this.lowerBoundY;
+        }
     }
     this.shoot= function(){
         currentGunIndex = this.guns[this.colourindex % 4];

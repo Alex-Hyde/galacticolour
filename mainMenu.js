@@ -18,7 +18,7 @@ function MainMenu(bgCoord) {
         this.x += 0.5;
         this.x = this.x % 3000;
         if (this.zoomIndex > this.zoomLength) {
-            loadLevelSelect();
+            loadLevelSelect(0);
             gameScreen.context.restore();
         }
     }
