@@ -8,7 +8,12 @@ function InstructionsScreen(bgCoord) {
     [document.getElementById("manualpage2-1"), document.getElementById("manualpage2-3"), document.getElementById("manualpage2-2"), document.getElementById("manualpage2-3"), 
     document.getElementById("manualpage2-4"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-5"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-7"), document.getElementById("manualpage2-9"),
     document.getElementById("manualpage2-8"), document.getElementById("manualpage2-9"), document.getElementById("manualpage2-10"), document.getElementById("manualpage2-12"), document.getElementById("manualpage2-11"),
-    document.getElementById("manualpage2-12")], [document.getElementById("manualpage3")], [document.getElementById("manualpage4")], [document.getElementById("manualpage5")]];
+    document.getElementById("manualpage2-12")], [document.getElementById("manualpage3-1"), document.getElementById("manualpage3-2")], [document.getElementById("manualpage4-1"), 
+    document.getElementById("manualpage4-2"), document.getElementById("manualpage4-3"), document.getElementById("manualpage4-4"), document.getElementById("manualpage4-5"),
+    document.getElementById("manualpage4-6"), document.getElementById("manualpage4-7"), document.getElementById("manualpage4-8"), document.getElementById("manualpage4-9")],
+    [document.getElementById("manualpage5-1"), document.getElementById("manualpage5-2"), document.getElementById("manualpage5-3"), document.getElementById("manualpage5-4"),
+    document.getElementById("manualpage5-5"), document.getElementById("manualpage5-6"), document.getElementById("manualpage5-7"), document.getElementById("manualpage5-8"),
+    document.getElementById("manualpage5-9"), document.getElementById("manualpage5-10")]];
     this.pageIndex = 0;
     this.currentPage = this.pages[this.pageIndex];
     this.lastRefresh = 0;
@@ -20,6 +25,14 @@ function InstructionsScreen(bgCoord) {
     this.nextLastButtonList = [];
     this.buttonList.push(new CloseInstructionsButton());
     this.playerExampleSpawned = false;
+    this.exampleWidth = 270;
+    this.exampleHeight = 200
+    this.exampleBGX = 500;
+    this.exampleBGY = 120;
+    this.exampleLowerBoundX = 535;
+    this.exampleUpperBoundX = 735;
+    this.exampleLowerBoundY = 155;
+    this.exampleUpperBoundY = 285;
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -29,7 +42,7 @@ function InstructionsScreen(bgCoord) {
         }
         ctx.drawImage(this.shipBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         refresh = new Date().getTime();
-        if (refresh - this.lastRefresh > 600) {
+        if (refresh - this.lastRefresh > 400) {
             this.lastRefresh = refresh
             this.animationIndex++;
         }
@@ -45,8 +58,29 @@ function InstructionsScreen(bgCoord) {
                 entityList.player = new Player(635, 220, 0);
                 this.playerExampleSpawned = true;
             }
+            if (entityList.player.x > this.exampleUpperBoundX && entityList.player.y > this.exampleUpperBoundY) {
+                entityList.player.x = this.exampleUpperBoundX;
+                entityList.player.y = this.exampleUpperBoundY;
+            } else if (entityList.player.x > this.exampleUpperBoundX && entityList.player.y < this.exampleLowerBoundY) {
+                entityList.player.x = this.exampleUpperBoundX;
+                entityList.player.y = this.exampleLowerBoundY;
+            } else if (entityList.player.x < this.exampleLowerBoundX && entityList.player.y > this.exampleUpperBoundY) {
+                entityList.player.x = this.exampleLowerBoundX;
+                entityList.player.y = this.exampleUpperBoundY;
+            } else if (entityList.player.x < this.exampleLowerBoundX && entityList.player.y < this.exampleLowerBoundY) {
+                entityList.player.x = this.exampleLowerBoundX;
+                entityList.player.y = this.exampleLowerBoundY;
+            }else if (entityList.player.x > this.exampleUpperBoundX) {
+                entityList.player.x = this.exampleUpperBoundX;
+            } else if (entityList.player.x < this.exampleLowerBoundX) {
+                entityList.player.x = this.exampleLowerBoundX;
+            } else if (entityList.player.y > this.exampleUpperBoundY) {
+                entityList.player.y = this.exampleUpperBoundY;
+            } else if (entityList.player.y < this.exampleLowerBoundY) {
+                entityList.player.y = this.exampleLowerBoundY;
+            }
             ctx.drawImage(document.getElementById("space"), 500, 120, 270, 200);
-            entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 755 && i.x >515 && i.y > 135 && i.y < 305); 
+            entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < this.exampleUpperBoundX && i.x >this.exampleLowerBoundX && i.y > this.exampleLowerBoundY && i.y < this.exampleUpperBoundY); 
 
         }
     }
@@ -107,7 +141,7 @@ function OpenInstructionsButton() {
 }
 
 function CloseInstructionsButton() {
-    Button.call(this, 770, 30, 20, 20);
+    Button.call(this, 790, 30, 20, 20);
     this.defaultImage = document.getElementById("manualexitbutton");
     this.hoverImage = document.getElementById("manualexitbuttonhovered");
     this.pressedImage = document.getElementById("manualexitbuttonpressed");
