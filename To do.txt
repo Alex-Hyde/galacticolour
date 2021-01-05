@@ -5,8 +5,14 @@
 	-Engine(Speed,dash)
 
 -Mobs
-	-More mobs
-	-Mob Textures
+	-Robosin mobs
+	-RoboTank Projectiles
+	-Animate  robomothership
+	-delete tank projectiles once they leave the screen
+	-make tank projectiles do damage
+	-resize tank Textures
+	-Look into negative health bar glitch
+	-If healers heal their own type, double healing effect
 
 -Level Design
 	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
@@ -23,6 +29,10 @@
 
 -Website Background
 
--hEALERS
-	-Add "Heal to full" feature
+
+-screens
+	-Death screens
+	-Winning screens
+	-End of level screens
+
 
