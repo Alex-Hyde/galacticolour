@@ -104,6 +104,7 @@ var entityList = {
         this.buttons.forEach(e => {
             e.update();
         });
+        levelSelect();
     }
 }
 
@@ -120,6 +121,8 @@ var gameScreen = {
         this.y = -1;
         this.pressed = false;
         this.clicked = false;
+        this.audio = new Audio('songs/menuscreen_3.mp3');
+        this.playing = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {

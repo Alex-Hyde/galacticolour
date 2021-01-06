@@ -11,6 +11,7 @@ function Level(waveList, levelID) {
     this.bgImgX = 0;
     this.bgImgY = 0;
     this.unlocked = false;
+    this.audio = '';
     if (this.levelNum == 1) {
         this.unlocked = true;
     }
@@ -31,6 +32,8 @@ function Level(waveList, levelID) {
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
+        this.audio = new Audio('songs/battle_4.mp3');
+        this.audio.play();
         //console.log(currentLevel);
     }
     
@@ -61,6 +64,8 @@ function Level(waveList, levelID) {
             } else {
                 this.clearMobs();
                 currentLevel = NaN;
+                this.audio.pause();
+                this.audio.currentTime = 0;
                 loadLevelSelect(this.levelNum - 1);
             //    entityList.other[0].currentLevelIndex = this.levelNum - 1;
             }
@@ -132,6 +137,8 @@ function Level(waveList, levelID) {
     }
 
     this.levelClear = function() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
         this.complete = true;
         currentLevel = NaN;
         levelList[this.levelNum].unlocked = true;
@@ -182,6 +189,9 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
             mobSpawnY = 50;
             mobSpawnX = gameScreen.canvas.width/2;
             console.log('spawn')
+        } else if (currentMob[0].tank) {
+            console.log('here');
+            mobSpawnX = gameScreen.canvas.width - 100;
         } else {
             mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
             mobSpawnX = offsetX + gameScreen.canvas.width/2

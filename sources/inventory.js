@@ -35,6 +35,8 @@ function InventoryScreen(bgCoord) {
     this.buttonList.push(new SelectionButton(4, 550, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new ColorButton());
+    this.gunEffectsList = ['sounds/equip gun1.mp3', 'sounds/equip gun2.mp3', 'sounds/equip gun3.mp3', 'sounds/equip gun4.mp3', 'sounds/equip gun5.mp3', 'sounds/equip gun6.mp3', 'sounds/equip gun7.mp3', 'sounds/equip gun8.mp3'];
+
 
 
     this.draw = function(ctx) {
@@ -173,6 +175,7 @@ function OpenInventoryButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/openinventory.mp3').play();
         loadInventory(entityList.other[0].x);
     }
 }
@@ -187,6 +190,7 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/closeinventory.mp3').play();
         entityList.other[0].opening = false;;
         this.w -= 4;
         this.h -= 4;
@@ -312,28 +316,36 @@ function SelectionButton(type, x, y, w, h) {
 
     this.onRelease = function() {
         this.image = null;
+        gunAudio = entityList.other[0].gunEffectsList[Math.floor(Math.random() * entityList.other[0].gunEffectsList.length)];
         switch (this.type) {
             case 0:
                 player.guns[0] = (player.guns[0]+1)%player.inventory.redGuns.length;
+                this.audio = gunAudio;
                 break;
             case 1:
                 player.guns[1] = (player.guns[1]+1)%player.inventory.purpleGuns.length;
+                this.audio = gunAudio;
                 break;
             case 2:
                 player.guns[2] = (player.guns[2]+1)%player.inventory.yellowGuns.length;
+                this.audio = gunAudio;
                 break;
             case 3:
                 player.guns[3] = (player.guns[3]+1)%player.inventory.greenGuns.length;
+                this.audio = gunAudio;
                 break;
             case 4:
                 player.body = (player.body+1)%player.inventory.bodies.length;
+                this.audio = "sounds/equip body.mp3";
                 break;
             case 5:
                 player.engine = (player.engine+1)%player.inventory.engines.length;
+                this.audio = "sounds/equip engine.mp3";
                 break;
             default:
                 break;
         }
+    new Audio(this.audio).play();
     }
 }
 
@@ -366,6 +378,7 @@ function ColorButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/changecolor.mp3').play();
         entityList.other[0].currentColor = (entityList.other[0].currentColor + 1) % 4;
         this.angle = this.angle-Math.PI/2
         this.w -= 4;

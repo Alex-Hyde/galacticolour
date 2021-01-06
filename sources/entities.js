@@ -26,6 +26,7 @@ function Player(x,y,angle){
     this.upperBoundX = gameScreen.canvas.width - 35;
     this.lowerBoundY = gameScreen.y + 35;
     this.upperBoundY = gameScreen.canvas.height - 35;
+    this.example = false;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -98,21 +99,25 @@ function Player(x,y,angle){
     this.shoot= function(){
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
-        
-        if (!this.shootCooldown && gameScreen.pressed) {
-            projsFired++;
-            if (currentGun.type == 3) {
-                for (i = -2; i < 3; i++) {
-                    entityList.playerProjectiles.push(new playerProjectile(this.angle + Math.PI/10 * i,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+        console.log(gameScreen.x, gameScreen.y);
+        if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
+            if (!this.shootCooldown && gameScreen.pressed) {
+                var shootAudio = new Audio('sounds/blast.mp3');
+                shootAudio.play();
+                projsFired++;
+                if (currentGun.type == 3) {
+                    for (i = -2; i < 3; i++) {
+                        entityList.playerProjectiles.push(new playerProjectile(this.angle + Math.PI/10 * i,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+                    }
+                } else {
+                    entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
                 }
-            } else {
-                entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
-            }
-            this.shootCooldown = 1;
-        } else if (this.shootCooldown) {
-            this.shootCooldown++;
-            if (this.shootCooldown > (60/(currentGun.firerate/60))) {
-                this.shootCooldown = 0;
+                this.shootCooldown = 1;
+            } else if (this.shootCooldown) {
+                this.shootCooldown++;
+                if (this.shootCooldown > (60/(currentGun.firerate/60))) {
+                    this.shootCooldown = 0;
+                }
             }
         }
     }

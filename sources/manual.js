@@ -53,6 +53,7 @@ function InstructionsScreen(bgCoord) {
         if (this.pageIndex == 0) {
             if (!this.playerExampleSpawned) {
                 entityList.player = new Player(635, 220, 0);
+                entityList.player.example = true;
                 this.playerExampleSpawned = true;
             }
             entityList.player.lowerBoundX = 535;
@@ -121,6 +122,7 @@ function OpenInstructionsButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn2.mp3').play();
         loadInstructions(entityList.other[0].x);
         entityList.other[0].updatePage();
     }
@@ -138,6 +140,7 @@ function CloseInstructionsButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/manual close.mp3').play();
         loadMenu();
         entityList.player = null;
     }
@@ -172,6 +175,7 @@ function NextPageButton(next) {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn1.mp3').play()
         if (entityList.other[0].pageIndex == 0) {
             entityList.player = null;
             entityList.other[0].playerExampleSpawned = false;
@@ -219,6 +223,7 @@ function PreviousPageButton(previous) {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn1.mp3').play()
         entityList.other[0].pageIndex = this.previous;
         entityList.other[0].nextLastButtonList = [];
         entityList.other[0].updatePage();

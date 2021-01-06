@@ -116,6 +116,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
     this.projectileimage=projectileimage;
     this.shotprobability=0;
     this.healable=true;
+    this.tank=true;
     enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
     this.draw = function(ctx){
         ctx.save();

@@ -28,8 +28,10 @@ function LevelSelect(levelInd) {
     this.animationStart = null;
     this.animationEnd = null;
     this.animationLength = 30; // constant
+    this.audio = new Audio('songs/ambient.mp3');
 
     this.update = function() {
+        this.audio.play();
         // move right
         if (((gameScreen.keys && gameScreen.keys[68]) || (gameScreen.pressed && gameScreen.x > this.x - this.bgX && 
                     gameScreen.y > 100 && gameScreen.y < gameScreen.canvas.height - 100)) && !this.animation) {
@@ -102,7 +104,6 @@ function LevelSelect(levelInd) {
         for (i = 0; i < levelCoordinates.length; i++) {
             if (i + 1 < levelCoordinates.length) {
                 ctx.beginPath();
-                console.log(i);
                 if (levelList[i+1] && levelList[i+1].unlocked) {
                     ctx.strokeStyle = "red";
                 } else {
@@ -152,6 +153,8 @@ function startLevelButton() {
     }
 
     this.onRelease = function() {
+        entityList.other[0].audio.pause();
+        entityList.other[0].audio.currentTime = 0;
         levelList[levelIndex].loadLevel();
     }
 }
@@ -180,6 +183,9 @@ function BackButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/back.mp3').play();
+        entityList.other[0].audio.pause();
+        entityList.other[0].audio.currentTime = 0;
         loadMenu();
     }
 }
