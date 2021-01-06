@@ -5,19 +5,19 @@
 	-Engine(Speed,dash)
 
 -Mobs
-	-Robosin mobs
-	-RoboTank Projectiles
-	-Animate  robomothership
-	-delete tank projectiles once they leave the screen
-	-make tank projectiles do damage
 	-Look into negative health bar glitch
-	-If healers heal their own type, double healing effect
+	-portal animation
+
 
 -Level Design
 	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
 	-Make players progress through the levels in order
+	-Make ship appear in level selection
 
 -How to play page/Manual
+	-change manual (can heal more than one, cant heal healers)
+	-Motherships have no type
+	-Add new mob images
 
 -Health Bar
 

@@ -1,5 +1,5 @@
 function playerProjectile(angle,colour,x,y,damage,range,type){
-    mainhitbox=new rectHitbox(-17.5,-7.5,35,15);
+    mainhitbox=new rectHitbox(-7.5,-17.5,15,35);
     fullhitbox= new Hitbox([mainhitbox]);
     this.initX = x;
     this.initY = y;
@@ -106,4 +106,18 @@ function lefttankProjectile(x,y,colour,image){
             entityList.mobProjectiles.splice(projectileindex,1);
         }
     }
+}
+
+function tanknuke(x,y,colour,image){
+    tankProjectile.call(this,x,y,colour,image);
+    this.hitbox= new Hitbox([new rectHitbox(-15,-26.25,30,52.5)]);
+    this.width=30;
+    this.height=52.5;
+}
+
+function lefttanknuke(x,y,colour,image){
+    lefttankProjectile.call(this,x,y,colour,image);
+    this.hitbox= new Hitbox([new rectHitbox(-15,-26.25,30,52.5)]);
+    this.width=30;
+    this.height=52.5;
 }

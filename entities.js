@@ -117,6 +117,7 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage
     this.draw=function(){
         ctx = gameScreen.context;
         ctx.save();
+        
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);

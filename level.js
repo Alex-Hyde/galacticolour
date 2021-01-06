@@ -170,12 +170,23 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         offsetX = Math.floor(Math.random()*100);
         currentMob = this.mList[mobIndex];
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
-        if (currentMob[0] == Mothership) {
+        if (currentMob[0] == Mothership || currentMob[0] == RoboMothership){
             mobSpawnY = 50;
-        } else {
+            mobspawnX= gameScreen.canvas.width/2
+        } 
+        else if(currentMob[0]==leftgreenRobotTank ||currentMob[0]==leftredRobotTank ||currentMob[0]==leftyellowRobotTank ||currentMob[0]==leftpurpleRobotTank|| currentMob[0]==greenLeftTank || currentMob[0]==redLeftTank || currentMob[0]==yellowLeftTank || currentMob[0]==purpleLeftTank){
             mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            mobspawnX = 200
         }
-        newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, mobSpawnY, 0);
+        else if(currentMob[0]==greenRobotTank || currentMob[0]==redRobotTank || currentMob[0]==yellowRobotTank || currentMob[0]==purpleRobotTank || currentMob[0]==greenTank || currentMob[0]==purpleTank || currentMob[0]==yellowTank || currentMob[0]==redTank ){
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            mobspawnX = 980
+        }
+        else {
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            mobspawnX = offsetX + gameScreen.canvas.width/2
+        }
+        newMob = new currentMob[0](mobspawnX-100, mobSpawnY, 0);
         newMob.spawn();
         currentMob[1]--;
         console.log(this.mList.length);
