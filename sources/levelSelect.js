@@ -102,7 +102,8 @@ function LevelSelect(levelInd) {
         for (i = 0; i < levelCoordinates.length; i++) {
             if (i + 1 < levelCoordinates.length) {
                 ctx.beginPath();
-                if (levelList[this.currentLevelIndex + 1].unlocked) {
+                console.log(i);
+                if (levelList[i+1] && levelList[i+1].unlocked) {
                     ctx.strokeStyle = "red";
                 } else {
                     ctx.strokeStyle = "grey";
@@ -115,15 +116,11 @@ function LevelSelect(levelInd) {
             ctx.drawImage(levelImages[i%5], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
         };
 
-        ctx.save();
+        player.x = this.x - this.bgX;
+        player.y = this.y;
+        player.angle = this.angle;
 
-        ctx.translate(this.x - this.bgX, this.y);
-        ctx.rotate(this.angle);
-        ctx.translate(-this.x + this.bgX, -this.y);
-
-        ctx.drawImage(this.image, this.x - this.w/2 - this.bgX, this.y - this.h/2, this.w, this.h);
-
-        ctx.restore();
+        player.draw(ctx);
     }
 
     this.reset = function() {
