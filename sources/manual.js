@@ -98,7 +98,7 @@ function InstructionsScreen(bgCoord) {
 
 
 function OpenInstructionsButton() {
-    Button.call(this, 90, 320, 89, 70);
+    Button.call(this, 85, 312, 120, 90);
     this.defaultImage = document.getElementById("manualopenbutton");
     this.hoverImage = document.getElementById("manualopenbuttonhovered");
     this.pressedImage = document.getElementById("manualopenbuttonpressed");
