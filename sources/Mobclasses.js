@@ -213,7 +213,7 @@ function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
     sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),500,"none");
-    console.log("testplace1")
+    //console.log("testplace1")
     this.imageindex=0;
     this.healable=true;
     this.spawnprobability=0;
@@ -226,9 +226,9 @@ function Mothership(x,y,angle){
     this.image5=document.getElementById("mothership5")
     this.image6=document.getElementById("mothership6")
     this.image7=document.getElementById("mothership7")
-    console.log("testplace2")
+    //console.log("testplace2")
     this.images=[this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7];
-    console.log("testplace3")
+    //console.log("testplace3")
     this.draw = function(ctx){
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -244,7 +244,7 @@ function Mothership(x,y,angle){
     }
 
     this.newPos = function() {
-        this.x = this.initX + 200 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
+        this.x = this.initX + 200 * Math.tan(Math.sin(clock/2000)) - this.width/2;
     }
 
     this.update=function(){
@@ -296,7 +296,7 @@ function Medic(x,y,angle,colour,image){
 
     this.draw = function(ctx){
         ctx.save();
-        console.log("here")
+        //console.log("here")
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
@@ -335,13 +335,13 @@ function Medic(x,y,angle,colour,image){
     }
 
     this.track = function(targetx,targety){
-        console.log(this.x,this.y,targetx,targety)
+        //console.log(this.x,this.y,targetx,targety)
         newdeltax= this.x-targetx;
         newdeltay= this.y-targety;
         newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
         if(newhypoteneus==0){newhypoteneus=1;}
         newspeedfactor= this.speed/newhypoteneus
-        console.log(newhypoteneus);
+        //console.log(newhypoteneus);
         neededxvel= newdeltax*newspeedfactor
         neededyvel=newdeltay*newspeedfactor
         if(neededxvel>=this.xvel){

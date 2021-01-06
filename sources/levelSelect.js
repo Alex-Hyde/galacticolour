@@ -112,7 +112,7 @@ function LevelSelect(levelInd) {
                 ctx.stroke();
             }
             ctx.fillStyle = "blue";
-            ctx.drawImage(levelImages[i%5], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
+            ctx.drawImage(levelImages[i%levelImages.length], levelCoordinates[i][0] - this.bgX-50, levelCoordinates[i][1]-50, 100, 100);
         };
 
         ctx.save();

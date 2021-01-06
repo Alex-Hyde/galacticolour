@@ -14,11 +14,11 @@ const GREEN = 3;
 function loadMenu(bgCoord = 0) {
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
+        levelList = createLevelList();
     }
     if (!player) {
         player = new Player(100, 100, 0);
     }
-    levelList = createLevelList();
     entityList.clear();
     entityList.other.push(new MainMenu(bgCoord));
     button = new PlayButton(372, 268);
