@@ -29,6 +29,7 @@ function LevelSelect(levelInd) {
     this.animationEnd = null;
     this.animationLength = 30; // constant
     this.audio = new Audio('songs/ambient.mp3');
+    this.audio.volume = 0.3;
 
     this.update = function() {
         this.audio.play();

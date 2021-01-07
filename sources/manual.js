@@ -99,14 +99,16 @@ function InstructionsScreen(bgCoord) {
 
 
 function OpenInstructionsButton() {
-    Button.call(this, 85, 312, 120, 90);
-    this.defaultImage = document.getElementById("manualopenbutton");
-    this.hoverImage = document.getElementById("manualopenbuttonhovered");
-    this.pressedImage = document.getElementById("manualopenbuttonpressed");
+    Button.call(this, 100, 312, 105, 90);
+    this.frontImage = document.getElementById("openManual");
+    this.defaultImage = document.getElementById("openManualDefault");
+    this.hoverImage = document.getElementById("openManualHover");
+    this.pressedImage = document.getElementById("openManualPressed");
     this.image = this.defaultImage;
     
     this.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(this.image, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.frontImage, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
     }
 
     this.onHover = function() {

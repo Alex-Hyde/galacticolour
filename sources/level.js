@@ -33,6 +33,7 @@ function Level(waveList, levelID) {
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
         this.audio = new Audio('songs/battle_4.mp3');
+        this.audio.volume = 0.3;
         this.audio.play();
         //console.log(currentLevel);
     }

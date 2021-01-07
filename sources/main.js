@@ -122,6 +122,7 @@ var gameScreen = {
         this.pressed = false;
         this.clicked = false;
         this.audio = new Audio('songs/menuscreen_3.mp3');
+        this.audio.volume = 0.2;
         this.playing = false;
 
         // Event listeners

@@ -27,6 +27,7 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 var explosionAudio = new Audio('sounds/explosion.mp3');
+                explosionAudio.volume = 0.3;
                 explosionAudio.play();
                 if (this.type == 2) {
                     explosionAnimation(this.x-60, this.y-60, 120, 120);
