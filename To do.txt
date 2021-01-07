@@ -2,17 +2,17 @@
 	-Guns(Firing type,damage,range,fire rate)
 		-Textures for each different gun projectile
 	-Body(Health,speed,invulnerability period after taking damage)
+		-Add descriptions for attributes
 	-Engine(Speed,dash)
 
 -Mobs
 	-Look into negative health bar glitch
 	-portal animation
+	-give each mob its own collision damage value
 
 
 -Level Design
 	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
-	-Make players progress through the levels in order
-	-Make ship appear in level selection
 
 -How to play page/Manual
 	-change manual (can heal more than one, cant heal healers)
