@@ -199,6 +199,8 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         }
         newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, mobSpawnY, 0);
         newMob.spawn();
+        newMob.update();
+        portalAnimation(newMob.x-100, newMob.y-100, 200, 200, 7);
         currentMob[1]--;
         console.log(this.mList.length);
         console.log(currentMob, currentMob[1]);

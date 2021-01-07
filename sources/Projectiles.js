@@ -43,6 +43,8 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                             }
                             if (m.health <= 0) {
                                 entityList.mobList.splice(mIndex, 1);
+                            } else {
+                                mIndex++;
                             }
                         } else {
                             mIndex++;
@@ -57,6 +59,8 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                     }
                     if (mob.health <= 0) {
                         entityList.mobList.splice(mobIndex, 1);
+                    } else {
+                        mobIndex++;
                     }
                 }
                 entityList.playerProjectiles.splice(projIndex, 1);

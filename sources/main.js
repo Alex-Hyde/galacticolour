@@ -57,12 +57,16 @@ var entityList = {
         this.mobList = [];
         this.mobProjectiles = [];
         this.playerProjectiles = [];
+        this.staticTexturesBack = [];
         this.staticTextures = [];
         this.buttons = [];
     },
     draw : function() {
         // drawn in predetermined order: (mobs, player, static textures, mob bullets, player bullets, buttons)
         this.other.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.staticTexturesBack.forEach(e => {
             e.draw(gameScreen.context);
         });
         this.mobList.forEach(e => {
