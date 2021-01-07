@@ -17,6 +17,7 @@ function InventoryScreen(bgCoord) {
     this.background = document.getElementById("inventoryBG");
     this.menuBG = document.getElementById("menuBG");
     this.shipBG = document.getElementById("inventoryShipBG");
+    this.shipBGManual = document.getElementById("openManual");
     this.animationImage = document.getElementById("inventoryAnimation");
     this.x = bgCoord;
     this.currentColor = 0;
@@ -45,6 +46,7 @@ function InventoryScreen(bgCoord) {
             ctx.drawImage(this.menuBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 3000 - this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         }
         ctx.drawImage(this.shipBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.shipBGManual, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         if (this.animationIndex > this.animationLength && this.opening) {
             ctx.drawImage(this.background, 0, 0);
             this.drawCircle(ctx);
