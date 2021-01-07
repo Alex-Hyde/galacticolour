@@ -2,38 +2,30 @@ function PurpleSinMob(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -2, 40, 4), new rectHitbox(-2, -20, 4, 45)]);
     sinMoveMob.call(this, 40, 45, x, y, angle, hitbox, document.getElementById("purplesinmob"), 25, 'purple');
     this.newPos = function() {
-        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
-        this.y = this.initY + 40 * (Math.cos(this.offsetY + clock/300) + Math.cos(this.offsetY + clock/350)) + this.height/2;
+        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + gameclock/500)) + this.width/2;
+        this.y = this.initY + 40 * (Math.cos(this.offsetY + gameclock/100) + Math.cos(this.offsetY + gameclock/1000)) + this.height/2;
     }
 }
 
 function YellowSinMob(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -2, 40, 4), new rectHitbox(-2, -20, 4, 40)]);
     sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("yellowsinmob"), 25, 'yellow');
-
+    
     this.newPos = function() {
-        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
-        this.y = this.initY + 90 * (Math.cos(4 * Math.sin(this.offsetY + clock/800))) + this.height/2;
-        //entityList.mobProjectiles.forEach(e => {
-        //    if (e != this) {
-        //        this.collision(e);
-        //    }
-        //})
+        this.x = this.initX + 500  * Math.tan(Math.sin(this.offsetX + gameclock/500)) + this.width/2;
+        this.y = this.initY + 90  * (Math.cos(4 * Math.sin(this.offsetY + gameclock/300))) + this.height/2;
     }
 }
+
 
 function RedSinMob(x, y, angle) {
     hitbox = new Hitbox([new rectHitbox(-20, -20, 40, 40)]);
     sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("redsinmob"), 25, 'red');
 
     this.newPos = function() {
-        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
-        this.y = this.initY + 100 * (Math.tan(Math.sin(this.offsetY + clock/2000))) + this.height/2;
-        //entityList.mobProjectiles.forEach(e => {
-        //    if (e != this) {
-        //        this.collision(e);
-        //    }
-        //})
+        this.x = this.initX + 500  * Math.tan(Math.sin(this.offsetX + gameclock/500)) + this.width/2;
+        this.y = this.initY + 100  * (Math.tan(Math.sin(this.offsetY + gameclock/500))) + this.height/2;
+    
     }
 }
 
@@ -42,13 +34,8 @@ function GreenSinMob(x, y, angle) {
     sinMoveMob.call(this, 40, 40, x, y, angle, hitbox, document.getElementById("greensinmob"), 25, 'green');
 
     this.newPos = function() {
-        this.x = this.initX + 500 * Math.tan(Math.sin(this.offsetX + clock/2000)) + this.width/2;
-        this.y = this.initY + 500 * (Math.tan(Math.sin(this.offsetY + clock/2000))) + this.height/2;
-        //entityList.mobProjectiles.forEach(e => {
-        //    if (e != this) {
-        //        this.collision(e);
-        //    }
-        //})
+        this.x = this.initX + 500  * Math.tan(Math.sin(this.offsetX + gameclock/500)) + this.width/2;
+        this.y = this.initY + 90  * (Math.cos(4 * Math.sin(this.offsetY + gameclock/300))) + this.height/2;
     }
 }
 

@@ -17,6 +17,7 @@ function InventoryScreen(bgCoord) {
     this.background = document.getElementById("inventoryBG");
     this.menuBG = document.getElementById("menuBG");
     this.shipBG = document.getElementById("inventoryShipBG");
+    this.shipBGManual = document.getElementById("openManual");
     this.animationImage = document.getElementById("inventoryAnimation");
     this.x = bgCoord;
     this.currentColor = 0;
@@ -35,6 +36,8 @@ function InventoryScreen(bgCoord) {
     this.buttonList.push(new SelectionButton(4, 550, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new ColorButton());
+    this.gunEffectsList = ['sounds/equip gun1.mp3', 'sounds/equip gun2.mp3', 'sounds/equip gun3.mp3', 'sounds/equip gun4.mp3', 'sounds/equip gun5.mp3', 'sounds/equip gun6.mp3', 'sounds/equip gun7.mp3', 'sounds/equip gun8.mp3'];
+
 
 
     this.draw = function(ctx) {
@@ -43,6 +46,7 @@ function InventoryScreen(bgCoord) {
             ctx.drawImage(this.menuBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 3000 - this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         }
         ctx.drawImage(this.shipBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.shipBGManual, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         if (this.animationIndex > this.animationLength && this.opening) {
             ctx.drawImage(this.background, 0, 0);
             this.drawCircle(ctx);
@@ -121,7 +125,7 @@ function PlayerInventory() {
     this.yellowGuns = [new Gun(0, 20, 120, 400), new Gun(2, 60, 60, 600), new Gun(3, 8, 60, 200)];
     this.greenGuns = [new Gun(0, 20, 120, 400), new Gun(2, 10, 60, 600)];
     this.bodies = [new Body(0, 100), new Body(1, 125), new Body(2, 200), new Body(3, 75)];
-    this.engines = [new Engine(0, 3), new Engine(1, 5), new Engine(2, 7), new Engine(3, 10)];
+    this.engines = [new Engine(0, 4.5), new Engine(1, 6.5), new Engine(2, 7), new Engine(3, 10)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
     this.allItems = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns, this.bodies, this.engines];
 }
@@ -173,6 +177,7 @@ function OpenInventoryButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/openinventory.mp3').play();
         loadInventory(entityList.other[0].x);
     }
 }
@@ -187,6 +192,7 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/closeinventory.mp3').play();
         entityList.other[0].opening = false;;
         this.w -= 4;
         this.h -= 4;
@@ -312,28 +318,36 @@ function SelectionButton(type, x, y, w, h) {
 
     this.onRelease = function() {
         this.image = null;
+        gunAudio = entityList.other[0].gunEffectsList[Math.floor(Math.random() * entityList.other[0].gunEffectsList.length)];
         switch (this.type) {
             case 0:
                 player.guns[0] = (player.guns[0]+1)%player.inventory.redGuns.length;
+                this.audio = gunAudio;
                 break;
             case 1:
                 player.guns[1] = (player.guns[1]+1)%player.inventory.purpleGuns.length;
+                this.audio = gunAudio;
                 break;
             case 2:
                 player.guns[2] = (player.guns[2]+1)%player.inventory.yellowGuns.length;
+                this.audio = gunAudio;
                 break;
             case 3:
                 player.guns[3] = (player.guns[3]+1)%player.inventory.greenGuns.length;
+                this.audio = gunAudio;
                 break;
             case 4:
                 player.body = (player.body+1)%player.inventory.bodies.length;
+                this.audio = "sounds/equip body.mp3";
                 break;
             case 5:
                 player.engine = (player.engine+1)%player.inventory.engines.length;
+                this.audio = "sounds/equip engine.mp3";
                 break;
             default:
                 break;
         }
+    new Audio(this.audio).play();
     }
 }
 
@@ -366,6 +380,7 @@ function ColorButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/changecolor.mp3').play();
         entityList.other[0].currentColor = (entityList.other[0].currentColor + 1) % 4;
         this.angle = this.angle-Math.PI/2
         this.w -= 4;

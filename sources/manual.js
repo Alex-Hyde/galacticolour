@@ -53,6 +53,7 @@ function InstructionsScreen(bgCoord) {
         if (this.pageIndex == 0) {
             if (!this.playerExampleSpawned) {
                 entityList.player = new Player(635, 220, 0);
+                entityList.player.example = true;
                 this.playerExampleSpawned = true;
             }
             entityList.player.lowerBoundX = 535;
@@ -98,14 +99,16 @@ function InstructionsScreen(bgCoord) {
 
 
 function OpenInstructionsButton() {
-    Button.call(this, 85, 312, 120, 90);
-    this.defaultImage = document.getElementById("manualopenbutton");
-    this.hoverImage = document.getElementById("manualopenbuttonhovered");
-    this.pressedImage = document.getElementById("manualopenbuttonpressed");
+    Button.call(this, 100, 312, 105, 90);
+    this.frontImage = document.getElementById("openManual");
+    this.defaultImage = document.getElementById("openManualDefault");
+    this.hoverImage = document.getElementById("openManualHover");
+    this.pressedImage = document.getElementById("openManualPressed");
     this.image = this.defaultImage;
     
     this.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(this.image, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.frontImage, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
     }
 
     this.onHover = function() {
@@ -121,6 +124,7 @@ function OpenInstructionsButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn2.mp3').play();
         loadInstructions(entityList.other[0].x);
         entityList.other[0].updatePage();
     }
@@ -138,6 +142,7 @@ function CloseInstructionsButton() {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/manual close.mp3').play();
         loadMenu();
         entityList.player = null;
     }
@@ -172,6 +177,7 @@ function NextPageButton(next) {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn1.mp3').play()
         if (entityList.other[0].pageIndex == 0) {
             entityList.player = null;
             entityList.other[0].playerExampleSpawned = false;
@@ -219,6 +225,7 @@ function PreviousPageButton(previous) {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/page turn1.mp3').play()
         entityList.other[0].pageIndex = this.previous;
         entityList.other[0].nextLastButtonList = [];
         entityList.other[0].updatePage();

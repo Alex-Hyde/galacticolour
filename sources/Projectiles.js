@@ -1,23 +1,83 @@
 function playerProjectile(angle,colour,x,y,damage,range,type){
-    mainhitbox=new rectHitbox(-7.5,-17.5,15,35);
-    fullhitbox= new Hitbox([mainhitbox]);
     this.initX = x;
     this.initY = y;
     this.range = range;
     this.type = type;
-    if (colour=="yellow"){
-        this.image=document.getElementById("yellowrocket")
+    if(type==0){
+        if (colour=="yellow"){
+            this.image=document.getElementById("yellowrocket")
+        }
+        if (colour=="red"){
+            this.image=document.getElementById("redrocket")
+        }
+        if (colour=="green"){
+            this.image=document.getElementById("greenrocket")
+        }
+        if (colour=="purple"){
+            this.image=document.getElementById("purplerocket")
+        }
+        width=15
+        height=35
+        mainhitbox=new rectHitbox(-7.5,-17.5,15,35);
+        fullhitbox= new Hitbox([mainhitbox]);
     }
-    if (colour=="red"){
-        this.image=document.getElementById("redrocket")
+    if(type==1){
+        if (colour=="yellow"){
+            this.image=document.getElementById("yellowlaser")
+        }
+        if (colour=="red"){
+            this.image=document.getElementById("redlaser")
+        }
+        if (colour=="green"){
+            this.image=document.getElementById("greenlaser")
+        }
+        if (colour=="purple"){
+            this.image=document.getElementById("purplelaser")
+        }
+        width=10
+        height=20
+        mainhitbox=new rectHitbox(-5,-10,10,20);
+        fullhitbox= new Hitbox([mainhitbox]);
     }
-    if (colour=="green"){
-        this.image=document.getElementById("greenrocket")
+
+    if(type==2){
+        if (colour=="yellow"){
+            this.image=document.getElementById("yellowrocket1")
+        }
+        if (colour=="red"){
+            this.image=document.getElementById("redrocket1")
+        }
+        if (colour=="green"){
+            this.image=document.getElementById("greenrocket1")
+        }
+        if (colour=="purple"){
+            this.image=document.getElementById("purplerocket1")
+        }
+        width=20
+        height=80
+        mainhitbox=new rectHitbox(-8,-35,16,70);
+        fullhitbox= new Hitbox([mainhitbox]);
     }
-    if (colour=="purple"){
-        this.image=document.getElementById("purplerocket")
+
+    if(type==3){
+        if (colour=="yellow"){
+            this.image=document.getElementById("yellowshell")
+        }
+        if (colour=="red"){
+            this.image=document.getElementById("redshell")
+        }
+        if (colour=="green"){
+            this.image=document.getElementById("greenshell")
+        }
+        if (colour=="purple"){
+            this.image=document.getElementById("purpleshell")
+        }
+        width=10
+        height=20
+        mainhitbox=new rectHitbox(-5,-10,10,20);
+        fullhitbox= new Hitbox([mainhitbox]);
     }
-    projectile.call(this,35,15,angle,8,colour,x,y,fullhitbox,this.image,damage);
+    projectile.call(this,height,width,angle,8,colour,x,y,fullhitbox,this.image,damage);
 
     this.update=function(){
         this.newPos();
@@ -26,6 +86,9 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
         entityList.mobList.forEach(mob => {
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
+                var explosionAudio = new Audio('sounds/explosion.mp3');
+                explosionAudio.volume = 0.3;
+                explosionAudio.play();
                 if (this.type == 2) {
                     explosionAnimation(this.x-60, this.y-60, 120, 120);
                     mIndex = 0;
@@ -92,6 +155,10 @@ function tankProjectile(x,y,colour,image){
             entityList.mobProjectiles.splice(projectileindex,1);
         }
     }
+    this.newPos = function() {
+        this.x += this.speed *player.playertime * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed *player.playertime  *  Math.sin(this.angle-Math.PI/2);
+    }
 }
 
 function lefttankProjectile(x,y,colour,image){
@@ -111,6 +178,10 @@ function lefttankProjectile(x,y,colour,image){
             projectileindex=entityList.mobProjectiles.indexOf(this);
             entityList.mobProjectiles.splice(projectileindex,1);
         }
+    }
+    this.newPos = function() {
+        this.x += this.speed *player.playertime * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed *player.playertime  *  Math.sin(this.angle-Math.PI/2);
     }
 }
 

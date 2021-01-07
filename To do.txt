@@ -1,18 +1,22 @@
 -Ship Upgrades
-	-Guns(Firing type,damage,range,fire rate)
-		-Textures for each different gun projectile
 	-Body(Health,speed,invulnerability period after taking damage)
 		-Add descriptions for attributes
 	-Engine(Speed,dash)
+		-Portal animations for dash
+
+	-Taking Damage animation
+	-Bullet time bar
 
 -Mobs
 	-Look into negative health bar glitch
-	-portal animation
-	-give each mob its own collision damage value
+	-make mobs spawn far away from you
+	-check random deletion of mobs 
+	-Make sure mobs dont spawn during bullet time
 
 
 -Level Design
 	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
+	-On restart, reset to first wave
 
 -How to play page/Manual
 	-change manual (can heal more than one, cant heal healers)
@@ -21,10 +25,8 @@
 
 -Health Bar
 
--Power ups( Healing, temporary fire rate increase, invulnerability)
-
 -Sound
-	-Shooting, taking damage, songs, explosion
+	-Tweak volumes
 
 -Website Background
 

@@ -35,8 +35,8 @@ function tracker(x,y, angle,colour){
         else{
             this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
-        this.x-= this.xvel
-        this.y-= this.yvel
+        this.x-= this.xvel *player.playertime
+        this.y-= this.yvel *player.playertime
 
         }
     this.update = function() {
@@ -155,7 +155,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
         else{
             this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
-        this.y-= this.yvel
+        this.y-= this.yvel *player.playertime
 
         }
     this.update = function() {
@@ -270,7 +270,7 @@ function Mothership(x,y,angle){
     }
 
     this.newPos = function() {
-        this.x = this.initX + 200 * Math.tan(Math.sin(clock/2000)) - this.width/2;
+        this.x = this.initX + 200 *player.playertime * Math.tan(Math.sin(clock/2000)) - this.width/2;
     }
 
     this.update=function(){
@@ -389,8 +389,8 @@ function Medic(x,y,angle,colour,image){
         else{
             this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
-        this.x-= this.xvel
-        this.y-= this.yvel
+        this.x-= this.xvel *player.playertime
+        this.y-= this.yvel *player.playertime
 
         }
 }

@@ -20,7 +20,9 @@ function Player(x,y,angle){
     this.invuln = false;
     this.damagemultiplyer=1;
     this.playertime=1;
-    /////USE THIS TO SLOW GAME WHEN YOU PRESS SHIFTSSS
+    this.bullettime=undefined;
+    this.bullettimer=0;
+    /////USE THIS TO SLOW GAME WHEN YOU PRESS SHIFT
     this.lastHitTime = 0;
     this.invulnTime = 1000;
     this.lowerBoundX = gameScreen.x + 35;
@@ -29,6 +31,7 @@ function Player(x,y,angle){
     this.upperBoundY = gameScreen.canvas.height - 35;
     this.regen=false
     this.killregen=false
+    this.example = false;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -39,6 +42,21 @@ function Player(x,y,angle){
     this.update = function() {
         if(this.regen && this.health < this.maxHealth){
             this.health+= Math.min(0.01,this.maxHealth-this.health)
+        }
+        if (gameScreen.keys && gameScreen.keys[16] & this.bullettime==undefined){
+            if(this.inventory.bodies[this.body].type==1){
+                this.bullettime=true
+                this.damagemultiplyer=5
+                this.playertime=0.1
+            }
+        }
+        if(this.bullettime){
+            this.bullettimer+=1
+        }
+        if(this.bullettimer==400){
+            this.bullettime=false
+            this.damagemultiplyer=1
+            this.playertime=1
         }
         this.healthBar();
         this.newPos();
@@ -104,21 +122,24 @@ function Player(x,y,angle){
     this.shoot= function(){
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
-        
-        if (!this.shootCooldown && gameScreen.pressed) {
-            projsFired++;
-            if (currentGun.type == 3) {
-                for (i = -2; i < 3; i++) {
-                    entityList.playerProjectiles.push(new playerProjectile(this.angle + Math.PI/10 * i,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+        if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
+            if (!this.shootCooldown && gameScreen.pressed) {
+                var shootAudio = new Audio('sounds/blast.mp3');
+                shootAudio.play();
+                projsFired++;
+                if (currentGun.type == 3) {
+                    for (i = -2; i < 3; i++) {
+                        entityList.playerProjectiles.push(new playerProjectile(this.angle + Math.PI/10 * i,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
+                    }
+                } else {
+                    entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
                 }
-            } else {
-                entityList.playerProjectiles.push(new playerProjectile(this.angle,this.colourlist[this.colourindex % 4],this.x,this.y,currentGun.damage,currentGun.range,currentGun.type));
-            }
-            this.shootCooldown = 1;
-        } else if (this.shootCooldown) {
-            this.shootCooldown++;
-            if (this.shootCooldown > (60/(currentGun.firerate/60))) {
-                this.shootCooldown = 0;
+                this.shootCooldown = 1;
+            } else if (this.shootCooldown) {
+                this.shootCooldown++;
+                if (this.shootCooldown > (60/(currentGun.firerate/60))) {
+                    this.shootCooldown = 0;
+                }
             }
         }
     }
@@ -131,6 +152,11 @@ function Player(x,y,angle){
         if(bodytype==0){
             this.regen=true;
         }
+        if(bodytype==1){
+            this.bullettime=undefined;
+            this.bullettimer=0;
+        }
+        
         if(bodytype==2){
             this.damagemultiplyer=0.75;
         }
@@ -157,8 +183,8 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage
     this.image=image
 
     this.newPos = function() {
-        this.x += this.speed * Math.cos(this.angle-Math.PI/2);
-        this.y += this.speed * Math.sin(this.angle-Math.PI/2);
+        this.x += this.speed  * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed  *  Math.sin(this.angle-Math.PI/2);
     }
     this.draw=function(){
         ctx = gameScreen.context;
@@ -195,7 +221,7 @@ function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
         ctx.restore(); 
     }
     this.newPos = function() {
-        this.x += this.speed * Math.cos(this.angle-Math.PI/2);
-        this.y += this.speed * Math.sin(this.angle-Math.PI/2);
+        this.x += this.speed *player.playertime * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed *player.playertime * Math.sin(this.angle-Math.PI/2);
     }
 }

@@ -2,6 +2,7 @@ var projsFired = 0;
 var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
+var gameclock=0;
 //var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
 var player = null;
@@ -104,6 +105,7 @@ var entityList = {
         this.buttons.forEach(e => {
             e.update();
         });
+        levelSelect();
     }
 }
 
@@ -120,6 +122,9 @@ var gameScreen = {
         this.y = -1;
         this.pressed = false;
         this.clicked = false;
+        this.audio = new Audio('songs/menuscreen_3.mp3');
+        this.audio.volume = 0.1;
+        this.playing = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {
@@ -171,11 +176,11 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
+    gameclock+= (5 * player.playertime);
     // listen for level triggers
     //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
     
-    //console.log(currentLevel);
     if (currentLevel) {
         levelList[currentLevel-1].update();
     }

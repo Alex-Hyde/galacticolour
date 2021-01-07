@@ -11,10 +11,17 @@ function MainMenu(bgCoord) {
     this.scale = 1;
     this.zx = 0;
     this.zy = 0;
-
+    if (gameScreen.audio.currentTime == 0) {
+        gameScreen.playing = false;
+    }
+    if (!gameScreen.playing) {
+        gameScreen.audio.play();
+        gameScreen.playing = true;
+    }
     gameScreen.context.save();
 
     this.update = function() {
+        
         this.x += 0.5;
         this.x = this.x % 3000;
         if (this.zoomIndex > this.zoomLength) {
@@ -71,8 +78,11 @@ function PlayButton(x, y) {
     }
 
     this.onRelease = function() {
+        new Audio('sounds/play.mp3').play();
         this.image = this.defaultImage;
         // loadLevelSelect();
         entityList.other[0].zoomIndex = 1;
+        gameScreen.audio.pause();
+        gameScreen.audio.currentTime = 0;
     }
 }

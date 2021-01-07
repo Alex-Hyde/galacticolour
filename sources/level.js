@@ -11,6 +11,7 @@ function Level(waveList, levelID) {
     this.bgImgX = 0;
     this.bgImgY = 0;
     this.unlocked = false;
+    this.audio = '';
     if (this.levelNum == 1) {
         this.unlocked = true;
     }
@@ -30,7 +31,9 @@ function Level(waveList, levelID) {
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
-        //console.log(currentLevel);
+        this.audio = new Audio('songs/battle_4.mp3');
+        this.audio.volume = 0.3;
+        this.audio.play();
     }
     
     this.update = function() {
@@ -38,9 +41,6 @@ function Level(waveList, levelID) {
         clock = refreshDate.getTime();
         this.bgImgX = player.x / 10;
         this.bgImgY = player.y / 10;
-        //console.log(entityList);
-        //console.log(this.currentWave.waveSpawnLimit);
-        //console.log(clock);
         ctx = gameScreen.context;
         ctx.drawImage(this.backgroundImg, this.bgImgX, this.bgImgY, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         ctx.font = "13px Courier";
@@ -50,7 +50,6 @@ function Level(waveList, levelID) {
             if (!this.gameOver) {
                 this.gameOverTime = clock;
                 this.gameOver = true;
-                console.log(this.currentWave.initMobList);
             }
         }
         if (this.gameOver) {
@@ -60,6 +59,8 @@ function Level(waveList, levelID) {
             } else {
                 this.clearMobs();
                 currentLevel = NaN;
+                this.audio.pause();
+                this.audio.currentTime = 0;
                 loadLevelSelect(this.levelNum - 1);
             //    entityList.other[0].currentLevelIndex = this.levelNum - 1;
             }
@@ -79,21 +80,18 @@ function Level(waveList, levelID) {
             }
         } else if (this.currentWave.mList.length != 0) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
-                //console.log("mobspawn");
                 this.currentWave.spawnEnemies();
             }
         } else if (this.currentWave.mList.length == 0 && entityList.mobList.length == 0) {
             if (!this.currentWave.waveDone) {
                 //d = new Date();
                 //t = d.getTime();
-                //console.log(t);
                 this.clearMobs();
                 this.currentWave.doneTime = clock;
                 this.currentWave.waveDone = true;
             }
             //d = new Date();
             //ti = d.getTime();
-            //console.log(ti - this.currentWave.doneTime);
             this.waveClear(clock);
         }
     }
@@ -112,7 +110,6 @@ function Level(waveList, levelID) {
                 }
             }
         } else {
-            //console.log("waiting");
             ctx.fillText(`Wave ${this.waveNumber + 1} Complete.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             if (this.waveNumber != this.waveList.length-1){
                 if (time - this.currentWave.doneTime >= 4000) {
@@ -131,6 +128,8 @@ function Level(waveList, levelID) {
     }
 
     this.levelClear = function() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
         this.complete = true;
         currentLevel = NaN;
         levelList[this.levelNum].unlocked = true;
@@ -196,13 +195,9 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         newMob = new currentMob[0](mobspawnX-100, mobSpawnY, 0);
         newMob.spawn();
         currentMob[1]--;
-        console.log(this.mList.length);
-        console.log(currentMob, currentMob[1]);
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);
         }
-        console.log(this.mList);
-        console.log(this.initMobList);
     }
     
 
