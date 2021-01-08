@@ -18,6 +18,7 @@ function Player(x,y,angle){
     this.shiptextures=[this.redship,this.purpleship,this.greenship,this.yellowship];
     this.shootCooldown = 0;
     this.invuln = false;
+    this.hit=false;
     this.dashCooldown = 0;
     this.dashing = false;
     this.dashX = null;
@@ -44,6 +45,13 @@ function Player(x,y,angle){
     this.inventory = new PlayerInventory();
 
     this.update = function() {
+        if(this.hit==true){
+            new damageAnimation(player.x-player.width/2-80,player.y-player.height/2-80,200,200)
+            var damageaudio = new Audio('sounds/takingdamage.mp3')
+            damageaudio.volume =0.1;
+            damageaudio.play();
+            this.hit=false;
+        }
         if(this.regen && this.health < this.maxHealth){
             this.health+= Math.min(0.01,this.maxHealth-this.health)
         }
@@ -155,6 +163,7 @@ function Player(x,y,angle){
         if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
             if (!this.shootCooldown && gameScreen.pressed && !this.dashing) {
                 var shootAudio = new Audio('sounds/blast.mp3');
+                shootAudio.volume=0.1;
                 shootAudio.play();
                 projsFired++;
                 if (currentGun.type == 3) {

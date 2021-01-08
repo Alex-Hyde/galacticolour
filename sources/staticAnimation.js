@@ -48,3 +48,12 @@ function portalAnimation(x, y, w, h, delay = 5, cycles = 1) {
                      document.getElementById("portal2"), document.getElementById("portal1")];
     staticAnimation.call(this, imageList, x, y, w, h, delay, cycles, true);
 }
+
+function damageAnimation(x, y, w, h, delay = 1, cycles = 1){
+    var imageList=[document.getElementById("damage_explosion"),document.getElementById("damage_explosion1"),
+                    document.getElementById("damage_explosion2"),document.getElementById("damage_explosion3"),
+                    document.getElementById("damage_explosion4"),document.getElementById("damage_explosion5"),
+                    document.getElementById("damage_explosion6"),document.getElementById("damage_explosion7"),
+                    document.getElementById("damage_explosion8"),document.getElementById("damage_explosion9")];
+    staticAnimation.call(this,imageList,x,y,w,h,delay,cycles);
+}

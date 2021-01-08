@@ -152,7 +152,7 @@ function Engine(type, speed, cooldown) {
     this.type = type;
     this.speed = speed;
     this.cooldown = cooldown;
-    this.allStats = [["Speed", speed],["Cooldown", cooldown]];
+    this.allStats = [["Speed", speed],["Cooldown Speed", cooldown]];
     this.maxStats = [10, 240];
 }
 
@@ -257,10 +257,17 @@ function SelectionButton(type, x, y, w, h) {
             ctx.drawImage(this.statsImage, this.x - 291, this.y+2, 300, this.h-4);
             if (this.type != 4) {
                 for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
-                    ctx.fillStyle = "white";
+                    ctx.fillStyle = "white"; 
                     ctx.font = "20px Arial";
                     ctx.textAlign = "left";
-                    ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                    if(player.inventory.allItems[this.type][this.index].allStats[i][0]== "Cooldown Speed"){
+                        ctx.font = "20px Arial";
+                        ctx.fillText("Warp", this.x - 270, this.y-12 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                        ctx.fillText("Regen", this.x - 270, this.y+7 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);  
+                    }
+                    else{
+                        ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                    }
                     ctx.fillStyle = "black";
                     ctx.fillRect(this.x - 170, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
                     ctx.fillStyle = "white";

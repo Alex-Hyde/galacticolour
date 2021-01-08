@@ -179,7 +179,7 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
-    gameclock+= (5 * player.playertime);
+    gameclock+= (4 * player.playertime);
     // listen for level triggers
     //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
