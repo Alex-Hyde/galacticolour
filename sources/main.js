@@ -63,6 +63,7 @@ var entityList = {
         this.staticTexturesBack = [];
         this.staticTextures = [];
         this.buttons = [];
+        player.clear();
     },
     draw : function() {
         // drawn in predetermined order: (mobs, player, static textures, mob bullets, player bullets, buttons)
@@ -184,7 +185,7 @@ function main() {
     //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
     
-    if (currentLevel) {
+    if (currentLevel && levelList[currentLevel-1].bgX == undefined) {
         levelList[currentLevel-1].update();
     }
     // update all the entities (movement, collision, etc.)
