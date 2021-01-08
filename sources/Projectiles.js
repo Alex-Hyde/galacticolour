@@ -99,7 +99,7 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                     entityList.mobList.forEach(m => {
                         if (m.collision(this)) {
                             if (m.colour==this.colour){
-                                m.health -= this.damage* 3 * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
+                                m.health -= this.damage* 5 * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
                             }
                             else{
                                 m.health -= this.damage * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
@@ -118,7 +118,7 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                     });
                 } else {
                     if (mob.colour==this.colour){
-                        mob.health -= this.damage* 3 * player.damagemultiplyer  * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
+                        mob.health -= this.damage* 5 * player.damagemultiplyer  * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));
                     }
                     else{
                         mob.health -= this.damage * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
@@ -151,7 +151,8 @@ function tankProjectile(x,y,colour,image){
         this.newPos();
         this.draw();
         if(this.collision(player)){
-            player.health-=10;
+            player.health-=20;
+            player.hit=true;
             projectileindex=entityList.mobProjectiles.indexOf(this);
             entityList.mobProjectiles.splice(projectileindex,1);
         }
@@ -175,7 +176,8 @@ function lefttankProjectile(x,y,colour,image){
         this.newPos();
         this.draw();
         if(this.collision(player)){
-            player.health-=10;
+            player.health-=20;
+            player.hit=true;
             projectileindex=entityList.mobProjectiles.indexOf(this);
             entityList.mobProjectiles.splice(projectileindex,1);
         }

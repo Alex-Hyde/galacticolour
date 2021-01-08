@@ -13,7 +13,7 @@ function tracker(x,y, angle,colour){
     this.xvel= deltax*speedfactor
     this.yvel= deltay*speedfactor
     
-    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 50,colour);
+    enemy.call(this,50,50,x,y,angle,thehitbox,2,this.image0, 150,colour);
  
 
     this.track = function(targetx,targety){
@@ -50,9 +50,10 @@ function tracker(x,y, angle,colour){
         if (clock - player.lastHitTime > player.invulnTime) {
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                player.health -= 5;
+                player.health -= 15;
+                player.hit=true;
                 if(player.damagemultiplyer < 1){
-                    this.health-=10;
+                    this.health-=30;
                     if(this.health <= 0){
                         mobindex=entityList.mobList.indexOf(this);
                         entityList.mobList.splice(mobindex, 1);
@@ -125,7 +126,7 @@ function Tank(x,y,angle,colour,image,projectileimage){
     this.xvel=0
     this.yvel=0
     this.healable=true;
-    enemy.call(this,128,128,x,y,angle,fulltankhitbox,8,image,500,colour);
+    enemy.call(this,128,128,x,y,angle,fulltankhitbox,8,image,700,colour);
     this.draw = function(ctx){
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -164,9 +165,10 @@ function Tank(x,y,angle,colour,image,projectileimage){
         if (clock - player.lastHitTime > player.invulnTime) {
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                player.health -= 20;
+                player.health -= 30;
+                player.hit=true;
                 if(player.damagemultiplyer < 1){
-                    this.health-=40;
+                    this.health-=60;
                     if(this.health <= 0){
                         mobindex=entityList.mobList.indexOf(this);
                         entityList.mobList.splice(mobindex, 1);
@@ -241,7 +243,7 @@ function yellowLeftTank(x,y,angle){
 function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
-    sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),500,"none");
+    sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),1000,"none");
     this.imageindex=0;
     this.healable=true;
     this.spawnprobability=0;
@@ -280,9 +282,10 @@ function Mothership(x,y,angle){
         if (clock - player.lastHitTime > player.invulnTime) {
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                player.health -= 10;
+                player.health -= 40;
+                player.hit=true;
                 if(player.damagemultiplyer < 1){
-                    this.health-=20;
+                    this.health-=80;
                     if(this.health <= 0){
                         mobindex=entityList.mobList.indexOf(this);
                         entityList.mobList.splice(mobindex, 1);

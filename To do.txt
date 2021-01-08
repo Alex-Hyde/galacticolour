@@ -2,8 +2,8 @@
 
 
 
-
 -Level Design
+-Design the actual levels
 	-Take Damage in asteroid levels 
 	-Unlock past asteroid level
 
@@ -13,15 +13,11 @@
 	-Add new mob images
 
 
--Sound
-	-Tweak volumes
-
-
 -screens
+	-All the planets
 	-Death screens
 	-Winning screens
 	-End of level screens
-	-center on screens
 	-Title
 
 
