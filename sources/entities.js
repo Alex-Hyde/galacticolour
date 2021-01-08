@@ -21,7 +21,7 @@ function Player(x,y,angle){
     this.damagemultiplyer=1;
     this.playertime=1;
     this.bullettime=undefined;
-    this.bullettimer=0;
+    this.bullettimer=400;
     /////USE THIS TO SLOW GAME WHEN YOU PRESS SHIFT
     this.lastHitTime = 0;
     this.invulnTime = 1000;
@@ -51,9 +51,10 @@ function Player(x,y,angle){
             }
         }
         if(this.bullettime){
-            this.bullettimer+=1
+            this.bullettimer-=1
+            this.bulletTimerBar(this.bullettimer)
         }
-        if(this.bullettimer==400){
+        if(this.bullettimer==0){
             this.bullettime=false
             this.damagemultiplyer=1
             this.playertime=1
@@ -154,7 +155,7 @@ function Player(x,y,angle){
         }
         if(bodytype==1){
             this.bullettime=undefined;
-            this.bullettimer=0;
+            this.bullettimer=400;
         }
         
         if(bodytype==2){
@@ -168,6 +169,12 @@ function Player(x,y,angle){
         this.y = y;
         this.angle = angle;
         entityList.player = this;
+    }
+    this.bulletTimerBar = function(timer){
+        ctx = gameScreen.context;
+        ctx.fillStyle = "#17F5F0";
+        ctx.drawImage(document.getElementById("BulletTimer"), 15, 50);
+        ctx.fillRect(146,55,timer/2,10);
     }
 }
 

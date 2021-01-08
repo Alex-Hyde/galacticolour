@@ -78,7 +78,9 @@ function Level(waveList, levelID) {
             } else {
                 ctx.fillText(`Level ${currentLevel} Starting in 3`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             }
-        } else if (this.currentWave.mList.length != 0) {
+        } 
+        //ASK KEVIN IF THIS IS OKAY
+        else if (this.currentWave.mList.length != 0 && player.bullettime!=true) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
                 this.currentWave.spawnEnemies();
             }
@@ -189,11 +191,18 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
             mobspawnX = 980
         }
         else {
-            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
             mobspawnX = offsetX + gameScreen.canvas.width/2
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            if(Math.abs(player.x-mobspawnX) < 100){
+            while(Math.abs(player.y-mobSpawnY) < 100){
+                mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25   
+            }
         }
+    }
         newMob = new currentMob[0](mobspawnX-100, mobSpawnY, 0);
         newMob.spawn();
+        newMob.update();
+        portalAnimation(newMob.x-100, newMob.y-100, 200, 200, 7);
         currentMob[1]--;
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);

@@ -5,13 +5,13 @@
 		-Portal animations for dash
 
 	-Taking Damage animation
-	-Bullet time bar
+	-Bullet time bar (done)
 
 -Mobs
 	-Look into negative health bar glitch
-	-make mobs spawn far away from you
+	-make mobs spawn far away from you (DONE)
 	-check random deletion of mobs 
-	-Make sure mobs dont spawn during bullet time
+	-Make sure mobs dont spawn during bullet time (done)
 
 
 -Level Design
