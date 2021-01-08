@@ -4,10 +4,10 @@ function staticAnimation(imageList, x, y, w, h, delay = 1, cycles = 1, back = fa
     this.delay = delay;
     this.index = 0;
     this.cycles = cycles;
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+    this.x1 = x;
+    this.y1 = y;
+    this.w1 = w;
+    this.h1 = h;
     this.back = back;
     if (back) {
         entityList.staticTexturesBack.push(this);
@@ -17,7 +17,7 @@ function staticAnimation(imageList, x, y, w, h, delay = 1, cycles = 1, back = fa
 
     this.draw = function(ctx) {
         if (this.index/this.delay < this.imageList.length) {
-            ctx.drawImage(this.imageList[Math.floor(this.index/this.delay)], x, y, w, h);
+            ctx.drawImage(this.imageList[Math.floor(this.index/this.delay)], this.x1, this.y1, this.w1, this.h1);
             this.index++;
         } else if(this.cycles != 1) {
             this.cycles--;

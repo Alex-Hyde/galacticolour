@@ -1,9 +1,5 @@
--Ship Upgrades
-		-Add descriptions for attributes
-	-Engine(Speed,dash)
-		-Portal animations for dash
 
-	-Taking Damage animation
+
 
 
 
@@ -25,5 +21,7 @@
 	-Death screens
 	-Winning screens
 	-End of level screens
+	-center on screens
+	-Title
 
 

@@ -203,7 +203,7 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         newMob = new currentMob[0](mobspawnX-100, mobSpawnY, 0);
         newMob.spawn();
         newMob.update();
-        portalAnimation(newMob.x-100, newMob.y-100, 200, 200, 7);
+        portalAnimation(newMob.x-100, newMob.y-100, 200, 200);
         currentMob[1]--;
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);

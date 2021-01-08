@@ -19,6 +19,10 @@ function Player(x,y,angle){
     this.shootCooldown = 0;
     this.invuln = false;
     this.hit=false;
+    this.dashCooldown = 0;
+    this.dashing = false;
+    this.dashX = null;
+    this.dashY = null;
     this.damagemultiplyer=1;
     this.playertime=1;
     this.bullettime=undefined;
@@ -51,16 +55,26 @@ function Player(x,y,angle){
         if(this.regen && this.health < this.maxHealth){
             this.health+= Math.min(0.01,this.maxHealth-this.health)
         }
-        if (gameScreen.keys && gameScreen.keys[16] & this.bullettime==undefined){
+        if (gameScreen.keys && gameScreen.keys[69] & this.bullettime==undefined){
             if(this.inventory.bodies[this.body].type==1){
                 this.bullettime=true
                 this.damagemultiplyer=5
                 this.playertime=0.1
             }
         }
-        if(this.bullettime){
-            this.bullettimer-=1
-            this.bulletTimerBar(this.bullettimer)
+        if (gameScreen.keys && gameScreen.keys[16] & !this.dashCooldown){
+            this.dashCooldown = 300 - this.inventory.engines[this.engine].cooldown;
+            new portalAnimation(this.x - 100, this.y - 100, 200, 200);
+            this.dashX = this.x + 250 * Math.sin(this.angle);
+            this.dashY = this.y - 250 * Math.cos(this.angle);
+            this.dashing = true;
+        }
+        if (this.dashCooldown) {
+            this.dashCooldown--;
+            if (300 - this.inventory.engines[this.engine].cooldown - this.dashCooldown > 30 && this.dashing) {
+                this.x = this.dashX;
+                this.y = this.dashY;
+            }
         }
         if(this.bullettimer==0){
             this.bullettime=false
@@ -70,6 +84,12 @@ function Player(x,y,angle){
         this.healthBar();
         this.newPos();
         this.shoot();
+        if (this.dashCooldown) {
+            if (300 - this.inventory.engines[this.engine].cooldown - this.dashCooldown > 30 && this.dashing) {
+                new portalAnimation(this.x - 100, this.y - 100, 200, 200);
+                this.dashing = false;
+            }
+        }
         if (gameScreen.keys && !gameScreen.keys[32] && this.spacebardown){
          this.spacebardown=false;
         }
@@ -80,15 +100,24 @@ function Player(x,y,angle){
        entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540);  
     }  
     this.draw =function(ctx){
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.translate(-this.x, -this.y);
-        ctx.drawImage(glowBG[this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.drawImage(engines[player.inventory.engines[player.engine].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.drawImage(guns[player.inventory.allGuns[this.colourindex%4][player.guns[this.colourindex%4]].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.drawImage(bodies[player.inventory.bodies[player.body].type][this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.restore();  
+        if(this.bullettime){
+            this.bullettimer-=1
+            this.bulletTimerBar(this.bullettimer)
+        }
+        if(this.dashCooldown){
+            this.warpBar();
+        }
+        if (!this.dashing) {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle);
+            ctx.translate(-this.x, -this.y);
+            ctx.drawImage(glowBG[this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+            ctx.drawImage(engines[player.inventory.engines[player.engine].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+            ctx.drawImage(guns[player.inventory.allGuns[this.colourindex%4][player.guns[this.colourindex%4]].type], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+            ctx.drawImage(bodies[player.inventory.bodies[player.body].type][this.colourindex%4], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+            ctx.restore();  
+        }
     }
     this.newPos = function() {
         this.moveAngle = 0;
@@ -132,7 +161,7 @@ function Player(x,y,angle){
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
         if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
-            if (!this.shootCooldown && gameScreen.pressed) {
+            if (!this.shootCooldown && gameScreen.pressed && !this.dashing) {
                 var shootAudio = new Audio('sounds/blast.mp3');
                 shootAudio.volume=0.1;
                 shootAudio.play();
@@ -184,6 +213,12 @@ function Player(x,y,angle){
         ctx.fillStyle = "#17F5F0";
         ctx.drawImage(document.getElementById("BulletTimer"), 15, 50);
         ctx.fillRect(146,55,timer/2,10);
+    }
+    this.warpBar = function(){
+        ctx = gameScreen.context;
+        ctx.fillStyle = "#00ff50";
+        ctx.drawImage(document.getElementById("warpCooldown"), 15, 80);
+        ctx.fillRect(170,85,this.dashCooldown/(300-this.inventory.engines[this.engine].cooldown)*120,10);
     }
 }
 
