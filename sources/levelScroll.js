@@ -146,6 +146,7 @@ function levelScroll1(levelID) {
 
 function Asteroid(x, y, w, h, angle, ind, spin, speedx, speedy) {
     this.health = 80;
+    this.maxHealth=80;
     this.image = asteroidTextures[ind];
     Entity.call(this, x, y, angle, new Hitbox([new rectHitbox(-w/2, -h/2, w, h)]));
     this.w = w;

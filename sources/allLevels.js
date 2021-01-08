@@ -3,7 +3,8 @@ function createLevelList() {
     level2 = new Level([new Wave([[yellowTracker, 4], [redTracker, 4]], 1500), new Wave([[purpleTracker, 5], [yellowTracker, 3]], 1500)], 2);
     level3 = new Level([new Wave([[yellowTracker, 3], [redTracker, 5], [YellowSinMob, 5], [RedSinMob, 5]], 1500), new Wave([[PurpleSinMob, 5], [YellowSinMob, 2], [greenTracker, 6]], 1500)], 3);
     level4 = new levelScroll1(4);
-    level5 = new Level([new Wave([[redRobotTank, 1], [leftgreenRobotTank, 1], [purpleRoboSinMob, 5]], 1500)], 5);
+    level5 = new Level([new Wave([[redRobotTank, 1]], 1500),new Wave([[leftgreenRobotTank, 1], [yellowRoboTracker, 4],[redRoboTracker,3]], 1500),new Wave([[yellowRobotTank, 1], [purpleRoboTracker, 5],[redRoboSinMob,5]], 1500)], 5);
+    //level6 = new Level([new Wave(),new Wave(),new Wave(), new Wave()],6)
     return [level1, level2, level3, level4, level5];
 }
 function levelSelect() {
