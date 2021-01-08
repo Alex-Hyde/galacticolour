@@ -37,6 +37,7 @@ function Player(x,y,angle){
     this.regen=false
     this.killregen=false
     this.example = false;
+    this.drawHealthbar = false;
 
     // indices of inventory
     this.guns = [0, 0, 0, 0]; // red, purple, yellow, green
@@ -45,6 +46,7 @@ function Player(x,y,angle){
     this.inventory = new PlayerInventory();
 
     this.update = function() {
+        this.drawHealthbar = true;
         if(this.hit==true){
             new damageAnimation(player.x-player.width/2-80,player.y-player.height/2-80,200,200)
             var damageaudio = new Audio('sounds/takingdamage.mp3')
@@ -81,7 +83,6 @@ function Player(x,y,angle){
             this.damagemultiplyer=1
             this.playertime=1
         }
-        this.healthBar();
         this.newPos();
         this.shoot();
         if (this.dashCooldown) {
@@ -99,7 +100,20 @@ function Player(x,y,angle){
        }
        entityList.playerProjectiles=entityList.playerProjectiles.filter(i=> i.x < 960 && i.x >0 && i.y > 0 && i.y < 540);  
     }  
+
+    this.clear = function() {
+        this.dashCooldown = 0;
+        this.dashing = false;
+        this.bullettime = false;
+        this.damagemultiplyer = 1;
+        this.playertime=1;
+    }
+
     this.draw =function(ctx){
+        if (this.drawHealthbar) {
+            this.healthBar();
+            this.drawHealthbar = false;
+        }
         if(this.bullettime){
             this.bullettimer-=1
             this.bulletTimerBar(this.bullettimer)
