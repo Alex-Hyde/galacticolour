@@ -92,8 +92,13 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                     explosionAudio.volume = 0.06; 
                 }
                 explosionAudio.play();
+                if(this.hit==true){
+                    new damageAnimation(player.x-player.width/2-80,player.y-player.height/2-80,200,200)
+                    new Audio('sounds/takingdamage.mp3').play();
+                    this.hit=false;
+                }
                 if (this.type == 2) {
-                    explosionAnimation(this.x-60, this.y-60, 120, 120);
+                    new explosionAnimation(this.x-60, this.y-60, 120, 120);
                     mIndex = 0;
                     this.hitbox = new Hitbox([new rectHitbox(-60, -60, 120, 120)]);
                     entityList.mobList.forEach(m => {

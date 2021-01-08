@@ -5,13 +5,11 @@
 
 	-Taking Damage animation
 
--Mobs
-	-check random deletion of mobs 
 
 
 -Level Design
-	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
-	-On restart, reset to first wave
+	-Take Damage in asteroid levels 
+	-Unlock past asteroid level
 
 -How to play page/Manual
 	-change manual (can heal more than one, cant heal healers)
