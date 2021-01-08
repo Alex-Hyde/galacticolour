@@ -29,11 +29,13 @@ function Level(waveList, levelID) {
         this.waveList.forEach(wave => {
             wave.resetWave();
         })
+        this.currentWave = this.waveList[this.waveNumber];
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
         this.audio = new Audio('songs/battle_4.mp3');
         this.audio.play();
+        //console.log(this.initWaveList);
         //console.log(currentLevel);
     }
     
@@ -54,7 +56,7 @@ function Level(waveList, levelID) {
             if (!this.gameOver) {
                 this.gameOverTime = clock;
                 this.gameOver = true;
-                console.log(this.currentWave.initMobList);
+                //console.log(this.currentWave.initMobList);
             }
         }
         if (this.gameOver) {
@@ -188,9 +190,9 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         if (currentMob[0] == Mothership) {
             mobSpawnY = 50;
             mobSpawnX = gameScreen.canvas.width/2;
-            console.log('spawn')
+            //console.log('spawn')
         } else if (currentMob[0].tank) {
-            console.log('here');
+            //console.log('here');
             mobSpawnX = gameScreen.canvas.width - 100;
         } else {
             mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
@@ -199,13 +201,13 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, mobSpawnY, 0);
         newMob.spawn();
         currentMob[1]--;
-        console.log(this.mList.length);
-        console.log(currentMob, currentMob[1]);
+        //console.log(this.mList.length);
+        //console.log(currentMob, currentMob[1]);
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);
         }
-        console.log(this.mList);
-        console.log(this.initMobList);
+        //console.log(this.mList);
+        //console.log(this.initMobList);
     }
     
 

@@ -8,7 +8,7 @@ engines = [document.getElementById("engine1"),document.getElementById("engine2")
 engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
 glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
 
-function loadInventory(bgCoord) {
+function loadInventory(bgCoord, audioTime) {
     entityList.clear();
     entityList.other.push(new InventoryScreen(bgCoord));
 }
@@ -36,7 +36,7 @@ function InventoryScreen(bgCoord) {
     this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new ColorButton());
     this.gunEffectsList = ['sounds/equip gun1.mp3', 'sounds/equip gun2.mp3', 'sounds/equip gun3.mp3', 'sounds/equip gun4.mp3', 'sounds/equip gun5.mp3', 'sounds/equip gun6.mp3', 'sounds/equip gun7.mp3', 'sounds/equip gun8.mp3'];
-
+    this.audio = new Audio('songs/menuscreen_3.mp3');
 
 
     this.draw = function(ctx) {
@@ -61,7 +61,7 @@ function InventoryScreen(bgCoord) {
             } else {
                 this.animationIndex--;
                 if (this.animationIndex < 0) {
-                    loadMenu(this.x);
+                    loadMenu(this.x, entityList.other[0].audio.currentTime);
                 }
             }
         }
@@ -175,8 +175,9 @@ function OpenInventoryButton() {
     }
 
     this.onRelease = function() {
+        entityList.other[0].audio.pause();
         new Audio('sounds/openinventory.mp3').play();
-        loadInventory(entityList.other[0].x);
+        loadInventory(entityList.other[0].x, entityList.other[0].audio.currentTime);
     }
 }
 
@@ -190,6 +191,7 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
+        entityList.other[0].audio.pause();
         new Audio('sounds/closeinventory.mp3').play();
         entityList.other[0].opening = false;;
         this.w -= 4;

@@ -11,7 +11,7 @@ const YELLOW = 2;
 const GREEN = 3;
 
 // function run on start
-function loadMenu(bgCoord = 0) {
+function loadMenu(bgCoord = 0, audioTime) {
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
         levelList = createLevelList();
@@ -29,26 +29,19 @@ function loadMenu(bgCoord = 0) {
     button3.addToScreen();
 }
 
+/*     ******** NOT IN USE ANYMORE ********
 function loadGame() {
-    //var level1 = new Level([new Wave([[Mob1, 5], [Mob2, 7], [Mob3, 10]], 22, 1500), new Wave([[Mob1, 3], [Mob2, 3], [Mob3, 6]], 12, 1500)]);
-    //var level2 = new Level([new Wave([[Mob2, 7], [Mob3, 10]], 17, 1500), new Wave([[Mob1, 3], [Mob2, 3]], 6, 1500)]);
-    //var level3 = new Level([new Wave([[Mob1, 9], [Mob2, 3], [Mob3, 2]], 14, 1500), new Wave([[Mob1, 5], [Mob2, 2], [Mob3, 6]], 13, 1500)]);
     levelList = createLevelList();
     entityList.clear();
    
     player1 = new Player1(300, 100, 0);
     player2 = new Player2(100, 300, 0);
-    // mob1 = new Mob1(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
-    // mob2 = new Mob2(gameScreen.canvas.width/2, gameScreen.canvas.height/2+80, 0);
-    // mob3 = new Mob3(gameScreen.canvas.width/2, gameScreen.canvas.height/2+160, 0);
     player1.spawn();
     player2.spawn();
-    // mob1.spawn();
-    // mob2.spawn();
-    // mob3.spawn();
     tracker1= new tracker("red",100,100)
     tracker1.spawn();
 }
+*/
 
 var entityList = {
     clear : function() {
@@ -121,8 +114,6 @@ var gameScreen = {
         this.y = -1;
         this.pressed = false;
         this.clicked = false;
-        this.audio = new Audio('songs/menuscreen_3.mp3');
-        this.playing = false;
 
         // Event listeners
         window.addEventListener('keydown', function (e) {

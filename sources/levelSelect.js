@@ -6,7 +6,7 @@ levelImages = [document.getElementById("planet"), document.getElementById("plane
 // loads the level select screen to display it
 function loadLevelSelect(levelInd) {
     entityList.clear();
-    console.log(levelInd);
+    //console.log(levelInd);
     entityList.other.push(new LevelSelect(levelInd));
     entityList.buttons.push(new startLevelButton());
     entityList.buttons.push(new BackButton());
@@ -156,6 +156,7 @@ function startLevelButton() {
         entityList.other[0].audio.pause();
         entityList.other[0].audio.currentTime = 0;
         levelList[levelIndex].loadLevel();
+        clearInterval(playInterval);
     }
 }
 
@@ -184,8 +185,11 @@ function BackButton() {
 
     this.onRelease = function() {
         new Audio('sounds/back.mp3').play();
+        //console.log(entityList.other[0].audio);
         entityList.other[0].audio.pause();
-        entityList.other[0].audio.currentTime = 0;
-        loadMenu();
+        loadMenu(0, entityList.other[0].audio.currentTime);
+        menuscreenAudio.play();
+        playInterval = setInterval(playAudio, menuscreenAudio.duration*1000, menuscreenAudio);
+        
     }
 }

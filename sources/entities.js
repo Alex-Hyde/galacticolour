@@ -99,7 +99,6 @@ function Player(x,y,angle){
     this.shoot= function(){
         currentGunIndex = this.guns[this.colourindex % 4];
         currentGun = this.inventory.allGuns[this.colourindex % 4][currentGunIndex];
-        console.log(gameScreen.x, gameScreen.y);
         if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
             if (!this.shootCooldown && gameScreen.pressed) {
                 var shootAudio = new Audio('sounds/blast.mp3');
