@@ -47,7 +47,15 @@ function Level(waveList, levelID) {
         ctx.font = "13px Courier";
         ctx.fillStyle = "white";
         ctx.fillText("Press Esc to Exit Level", 100, 20);
-        if ((gameScreen.keys && gameScreen.keys[27]) || player.health <= 0) {
+        if(gameScreen.keys && gameScreen.keys[27]){
+            loadLevelSelect(this.levelNum - 1);
+            this.clearMobs();
+            currentLevel = NaN;
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            loadLevelSelect(this.levelNum - 1);
+        }
+        if (player.health <= 0) {
             if (!this.gameOver) {
                 this.gameOverTime = clock;
                 this.gameOver = true;
@@ -190,6 +198,19 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         else if(currentMob[0]==greenRobotTank || currentMob[0]==redRobotTank || currentMob[0]==yellowRobotTank || currentMob[0]==purpleRobotTank || currentMob[0]==greenTank || currentMob[0]==purpleTank || currentMob[0]==yellowTank || currentMob[0]==redTank ){
             mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
             mobspawnX = 980
+        }
+        else if(currentMob[0]==PurpleSinMob || currentMob[0]==RedSinMob || currentMob[0]==GreenSinMob || currentMob[0]== YellowSinMob || currentMob[0]== yellowRoboSinMob || currentMob[0]==greenRoboSinMob || currentMob[0]==redRoboSinMob || currentMob[0]==purpleRoboSinMob){
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-150)
+            mobspawnX = offsetX + gameScreen.canvas.width/2
+            if(Math.abs(player.x-mobspawnX) < 100){
+                while(Math.abs(player.y-mobSpawnY) < 150){
+                    mobSpawnY = Math.random()*(gameScreen.canvas.height-150) 
+                }
+            }
+            if(mobSpawnY < 120){
+                mobSpawnY+=100;
+            }
+            
         }
         else {
             mobspawnX = offsetX + gameScreen.canvas.width/2
