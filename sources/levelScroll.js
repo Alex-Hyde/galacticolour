@@ -57,7 +57,7 @@ function levelScroll(levelID, background, speed, endCoord) {
             currentLevel = NaN;
             this.audio.pause();
             this.audio.currentTime = 0;
-            loadLevelSelect(this.levelNum - 1);
+            loadDeathScreen(this.levelNum - 1);
         }
 
         if (this.invulnerable) {
