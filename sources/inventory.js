@@ -1,12 +1,16 @@
-guns = [document.getElementById("gun1"),document.getElementById("gun2"),document.getElementById("gun3"),document.getElementById("gun4")];
-gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon"),document.getElementById("gun3Icon"),document.getElementById("gun4Icon")];
-bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
+var guns = [document.getElementById("gun1"),document.getElementById("gun2"),document.getElementById("gun3"),document.getElementById("gun4")];
+var gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon"),document.getElementById("gun3Icon"),document.getElementById("gun4Icon")];
+var bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
           [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")],
           [document.getElementById("body3Red"), document.getElementById("body3Purple"), document.getElementById("body3Yellow"), document.getElementById("body3Green")],
           [document.getElementById("body4Red"), document.getElementById("body4Purple"), document.getElementById("body4Yellow"), document.getElementById("body4Green")]];
-engines = [document.getElementById("engine1"),document.getElementById("engine2"),document.getElementById("engine3"),document.getElementById("engine4")];
-engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
-glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
+var engines = [document.getElementById("engine1"),document.getElementById("engine2"),document.getElementById("engine3"),document.getElementById("engine4")];
+var engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
+var glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
+var specialPowers = [["Regeneration", "Bullet Time", "Body Damage", "Health on Kill"],
+                     ["1", "2", "3", "4"]];
+var specialPowerIcons = [[document.getElementById("regenIcon"),document.getElementById("bulletTimeIcon"),document.getElementById("shieldIcon"),document.getElementById("healthKillIcon")],
+                         [document.getElementById("regenIcon"),document.getElementById("regenIcon"),document.getElementById("regenIcon"),document.getElementById("regenIcon")]];
 
 function loadInventory(bgCoord, audioTime) {
     entityList.clear();
@@ -252,17 +256,33 @@ function SelectionButton(type, x, y, w, h) {
     this.draw = function(ctx) {
         if (this.hovered) {
             ctx.drawImage(this.statsImage, this.x - 291, this.y+2, 300, this.h-4);
-            for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
+            if (this.type < 4) {
+                for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
+                    ctx.fillStyle = "white";
+                    ctx.font = "20px Arial";
+                    ctx.textAlign = "left";
+                    ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 
+                                 150*player.inventory.allItems[this.type][this.index].allStats[i][1]/player.inventory.allItems[this.type][this.index].maxStats[i], 20);
+                }
+            } else {
                 ctx.fillStyle = "white";
                 ctx.font = "20px Arial";
                 ctx.textAlign = "left";
-                ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[0][0], this.x - 270, this.y+60);
                 ctx.fillStyle = "black";
-                ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
+                ctx.fillRect(this.x - 180, this.y+40, 150, 20);
                 ctx.fillStyle = "white";
-                ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 
-                             150*player.inventory.allItems[this.type][this.index].allStats[i][1]/player.inventory.allItems[this.type][this.index].maxStats[i], 20);
+                ctx.fillRect(this.x - 180, this.y+40, 
+                                150*player.inventory.allItems[this.type][this.index].allStats[0][1]/player.inventory.allItems[this.type][this.index].maxStats[0], 20);
+                                
+                ctx.drawImage(specialPowerIcons[this.type-4][player.inventory.allItems[this.type][this.index].type], this.x - 230, this.y + 85, 30, 30);
+                ctx.fillText(specialPowers[this.type-4][player.inventory.allItems[this.type][this.index].type], this.x - 190, this.y+110);
             }
+            
         }
         if (this.image) {
             ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
