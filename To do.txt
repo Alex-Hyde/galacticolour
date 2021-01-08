@@ -1,31 +1,32 @@
 -Ship Upgrades
-	-Guns(Firing type,damage,range,fire rate)
-		-Textures for each different gun projectile
 	-Body(Health,speed,invulnerability period after taking damage)
+		-Add descriptions for attributes
 	-Engine(Speed,dash)
+		-Portal animations for dash
+
+	-Taking Damage animation
+	-Bullet time bar (done)
 
 -Mobs
-	-Robosin mobs
-	-RoboTank Projectiles
-	-Animate  robomothership
-	-delete tank projectiles once they leave the screen
-	-make tank projectiles do damage
-	-resize tank Textures
 	-Look into negative health bar glitch
-	-If healers heal their own type, double healing effect
+	-make mobs spawn far away from you (DONE)
+	-check random deletion of mobs 
+	-Make sure mobs dont spawn during bullet time (done)
+
 
 -Level Design
 	-Different types of Levels (Side scrolling, Waves, Boss Battles, Open Concept)
-	-Make players progress through the levels in order
+	-On restart, reset to first wave
 
 -How to play page/Manual
+	-change manual (can heal more than one, cant heal healers)
+	-Motherships have no type
+	-Add new mob images
 
 -Health Bar
 
--Power ups( Healing, temporary fire rate increase, invulnerability)
-
 -Sound
-	-Shooting, taking damage, songs, explosion
+	-Tweak volumes
 
 -Website Background
 
@@ -34,4 +35,5 @@
 	-Death screens
 	-Winning screens
 	-End of level screens
+
 

@@ -120,8 +120,8 @@ function Entity(x, y, angle, hitbox) {
                 ctx.fillRect(this.x - this.width/2, this.y - (20 + this.height/2), this.width*(this.health / this.maxHealth), 5);
             }
         } else {
-            ctx.drawImage(document.getElementById("playerhealthbar"), 10, 45);
-            ctx.fillRect(20, 50, 300*(this.health/this.maxHealth), 10);
+            ctx.drawImage(document.getElementById("playerhealthbar"), 10, 30);
+            ctx.fillRect(20, 35, 300*(this.health/this.maxHealth), 10);
         }
         
     }

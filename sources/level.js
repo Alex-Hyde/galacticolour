@@ -19,7 +19,6 @@ function Level(waveList, levelID) {
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         this.gameOver = false;
-        player.health = 100;
         entityList.clear();
         player.spawn(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
         this.waveList = this.initWaveList.map(wave=>wave);
@@ -34,9 +33,8 @@ function Level(waveList, levelID) {
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
         this.audio = new Audio('songs/battle_4.mp3');
+        this.audio.volume = 0.3;
         this.audio.play();
-        //console.log(this.initWaveList);
-        //console.log(currentLevel);
     }
     
     this.update = function() {
@@ -44,9 +42,6 @@ function Level(waveList, levelID) {
         clock = refreshDate.getTime();
         this.bgImgX = player.x / 10;
         this.bgImgY = player.y / 10;
-        //console.log(entityList);
-        //console.log(this.currentWave.waveSpawnLimit);
-        //console.log(clock);
         ctx = gameScreen.context;
         ctx.drawImage(this.backgroundImg, this.bgImgX, this.bgImgY, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         ctx.font = "13px Courier";
@@ -56,7 +51,6 @@ function Level(waveList, levelID) {
             if (!this.gameOver) {
                 this.gameOverTime = clock;
                 this.gameOver = true;
-                //console.log(this.currentWave.initMobList);
             }
         }
         if (this.gameOver) {
@@ -85,23 +79,22 @@ function Level(waveList, levelID) {
             } else {
                 ctx.fillText(`Level ${currentLevel} Starting in 3`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             }
-        } else if (this.currentWave.mList.length != 0) {
+        } 
+        //ASK KEVIN IF THIS IS OKAY
+        else if (this.currentWave.mList.length != 0 && player.bullettime!=true) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
-                //console.log("mobspawn");
                 this.currentWave.spawnEnemies();
             }
         } else if (this.currentWave.mList.length == 0 && entityList.mobList.length == 0) {
             if (!this.currentWave.waveDone) {
                 //d = new Date();
                 //t = d.getTime();
-                //console.log(t);
                 this.clearMobs();
                 this.currentWave.doneTime = clock;
                 this.currentWave.waveDone = true;
             }
             //d = new Date();
             //ti = d.getTime();
-            //console.log(ti - this.currentWave.doneTime);
             this.waveClear(clock);
         }
     }
@@ -120,7 +113,6 @@ function Level(waveList, levelID) {
                 }
             }
         } else {
-            //console.log("waiting");
             ctx.fillText(`Wave ${this.waveNumber + 1} Complete.`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             if (this.waveNumber != this.waveList.length-1){
                 if (time - this.currentWave.doneTime >= 4000) {
@@ -187,27 +179,35 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         //let mobSpawnY = 0;
         //let mobSpawnX = 0;
         //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
-        if (currentMob[0] == Mothership) {
+        if (currentMob[0] == Mothership || currentMob[0] == RoboMothership){
             mobSpawnY = 50;
-            mobSpawnX = gameScreen.canvas.width/2;
-            //console.log('spawn')
-        } else if (currentMob[0].tank) {
-            //console.log('here');
-            mobSpawnX = gameScreen.canvas.width - 100;
-        } else {
+            mobspawnX= gameScreen.canvas.width/2
+        } 
+        else if(currentMob[0]==leftgreenRobotTank ||currentMob[0]==leftredRobotTank ||currentMob[0]==leftyellowRobotTank ||currentMob[0]==leftpurpleRobotTank|| currentMob[0]==greenLeftTank || currentMob[0]==redLeftTank || currentMob[0]==yellowLeftTank || currentMob[0]==purpleLeftTank){
             mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
-            mobSpawnX = offsetX + gameScreen.canvas.width/2
+            mobspawnX = 200
         }
-        newMob = new currentMob[0](offsetX + gameScreen.canvas.width/2, mobSpawnY, 0);
+        else if(currentMob[0]==greenRobotTank || currentMob[0]==redRobotTank || currentMob[0]==yellowRobotTank || currentMob[0]==purpleRobotTank || currentMob[0]==greenTank || currentMob[0]==purpleTank || currentMob[0]==yellowTank || currentMob[0]==redTank ){
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            mobspawnX = 980
+        }
+        else {
+            mobspawnX = offsetX + gameScreen.canvas.width/2
+            mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25
+            if(Math.abs(player.x-mobspawnX) < 100){
+            while(Math.abs(player.y-mobSpawnY) < 100){
+                mobSpawnY = Math.random()*(gameScreen.canvas.height-50) + 25   
+            }
+        }
+    }
+        newMob = new currentMob[0](mobspawnX-100, mobSpawnY, 0);
         newMob.spawn();
+        newMob.update();
+        portalAnimation(newMob.x-100, newMob.y-100, 200, 200, 7);
         currentMob[1]--;
-        //console.log(this.mList.length);
-        //console.log(currentMob, currentMob[1]);
         if (currentMob[1] == 0) {
             this.mList.splice(mobIndex, 1);
         }
-        //console.log(this.mList);
-        //console.log(this.initMobList);
     }
     
 

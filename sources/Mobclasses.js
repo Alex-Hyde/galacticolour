@@ -35,8 +35,8 @@ function tracker(x,y, angle,colour){
         else{
             this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
-        this.x-= this.xvel
-        this.y-= this.yvel
+        this.x-= this.xvel *player.playertime
+        this.y-= this.yvel *player.playertime
 
         }
     this.update = function() {
@@ -51,6 +51,13 @@ function tracker(x,y, angle,colour){
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
                 player.health -= 5;
+                if(player.damagemultiplyer < 1){
+                    this.health-=10;
+                    if(this.health <= 0){
+                        mobindex=entityList.mobList.indexOf(this);
+                        entityList.mobList.splice(mobindex, 1);
+                    }
+                }
                 player.invuln = true;
                 player.lastHitTime = clock;
             }
@@ -115,12 +122,12 @@ function Tank(x,y,angle,colour,image,projectileimage){
     fulltankhitbox= new Hitbox([tankhitbox]);
     this.projectileimage=projectileimage;
     this.shotprobability=0;
+    this.xvel=0
+    this.yvel=0
     this.healable=true;
-    this.tank=true;
-    enemy.call(this,128,128,x,y,angle,fulltankhitbox,2,image,500,colour);
+    enemy.call(this,128,128,x,y,angle,fulltankhitbox,8,image,500,colour);
     this.draw = function(ctx){
         ctx.save();
-        this.hitbox.draw(ctx,this)
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
@@ -128,13 +135,28 @@ function Tank(x,y,angle,colour,image,projectileimage){
         ctx.restore(); 
     }
     this.track = function(targetx,targety){
-        var deltay= this.y - targety
-        if (deltay > 0){
-            this.y-=Math.max(this.speed,-deltay);
+        newdeltax= this.x-targetx;
+        newdeltay= this.y-targety;
+        newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
+        if(newhypoteneus==0){newhypoteneus=1;}
+        if(-50< this.x - targetx && this.x - targetx < 50){this.speed=3}
+        newspeedfactor= this.speed/newhypoteneus
+        neededxvel= newdeltax*newspeedfactor
+        neededyvel=newdeltay*newspeedfactor
+        if(neededxvel>=this.xvel){
+            this.xvel+= Math.min(0.03,(neededxvel-this.xvel));
         }
         else{
-            this.y+=Math.min(this.speed,-deltay); 
+            this.xvel-=Math.min(0.03,(this.xvel-neededxvel));
         }
+        if(neededyvel>=this.yvel){
+            this.yvel+= Math.min(0.03,(neededyvel-this.yvel));
+        }
+        else{
+            this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
+        }
+        this.y-= this.yvel *player.playertime
+
         }
     this.update = function() {
         d = new Date();
@@ -142,7 +164,14 @@ function Tank(x,y,angle,colour,image,projectileimage){
         if (clock - player.lastHitTime > player.invulnTime) {
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                player.health -= 5;
+                player.health -= 20;
+                if(player.damagemultiplyer < 1){
+                    this.health-=40;
+                    if(this.health <= 0){
+                        mobindex=entityList.mobList.indexOf(this);
+                        entityList.mobList.splice(mobindex, 1);
+                    }
+                }
                 player.invuln = true;
                 player.lastHitTime = clock;
             }
@@ -180,7 +209,6 @@ function yellowTank(x,y,angle){
 
 function leftTank(x,y,angle,colour,image,projectileimage){
     Tank.call(this,x,y,angle,colour,image,projectileimage);
-
     this.shoot = function(){
         guess=Math.random()
         if(guess < (this.shotprobability/10005)){
@@ -214,7 +242,6 @@ function Mothership(x,y,angle){
     mothershiphitbox=new rectHitbox(-60,-30,120,40);
     fullmothershiphitbox= new Hitbox([mothershiphitbox]);
     sinMoveMob.call(this,128,64,x,y,angle,fullmothershiphitbox,document.getElementById("mothership"),500,"none");
-    //console.log("testplace1")
     this.imageindex=0;
     this.healable=true;
     this.spawnprobability=0;
@@ -227,15 +254,13 @@ function Mothership(x,y,angle){
     this.image5=document.getElementById("mothership5")
     this.image6=document.getElementById("mothership6")
     this.image7=document.getElementById("mothership7")
-    //console.log("testplace2")
     this.images=[this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6,this.image7];
-    //console.log("testplace3")
     this.draw = function(ctx){
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
-        ctx.drawImage(this.images[Math.floor(this.imageindex) % 8], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(this.images[Math.floor(this.imageindex) % this.images.length], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.restore(); 
     }
 
@@ -245,7 +270,7 @@ function Mothership(x,y,angle){
     }
 
     this.newPos = function() {
-        this.x = this.initX + 200 * Math.tan(Math.sin(clock/2000)) - this.width/2;
+        this.x = this.initX + 200 *player.playertime * Math.tan(Math.sin(clock/2000)) - this.width/2;
     }
 
     this.update=function(){
@@ -255,7 +280,14 @@ function Mothership(x,y,angle){
         if (clock - player.lastHitTime > player.invulnTime) {
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
-                player.health -= 5;
+                player.health -= 10;
+                if(player.damagemultiplyer < 1){
+                    this.health-=20;
+                    if(this.health <= 0){
+                        mobindex=entityList.mobList.indexOf(this);
+                        entityList.mobList.splice(mobindex, 1);
+                    }
+                }
                 player.invuln = true;
                 player.lastHitTime = clock;
             }
@@ -297,7 +329,6 @@ function Medic(x,y,angle,colour,image){
 
     this.draw = function(ctx){
         ctx.save();
-        //console.log("here")
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.translate(-this.x, -this.y);
@@ -310,6 +341,9 @@ function Medic(x,y,angle,colour,image){
         entityList.mobList.forEach(mob=>{
             if(mob.healable!=undefined && this.Healinghitbox.collision(mob.hitbox,this,mob)==true && mob.health < mob.maxHealth){
                 mob.health+= Math.min(0.1,mob.maxHealth-mob.health);
+                if(mob.colour==this.colour){
+                    mob.health+= Math.min(0.1,mob.maxHealth-mob.health);
+                }
             }
         })
         if(this.healing!=undefined){
@@ -336,13 +370,11 @@ function Medic(x,y,angle,colour,image){
     }
 
     this.track = function(targetx,targety){
-        //console.log(this.x,this.y,targetx,targety)
         newdeltax= this.x-targetx;
         newdeltay= this.y-targety;
         newhypoteneus= Math.sqrt((newdeltax**2)+(newdeltay**2));
         if(newhypoteneus==0){newhypoteneus=1;}
         newspeedfactor= this.speed/newhypoteneus
-        //console.log(newhypoteneus);
         neededxvel= newdeltax*newspeedfactor
         neededyvel=newdeltay*newspeedfactor
         if(neededxvel>=this.xvel){
@@ -357,8 +389,8 @@ function Medic(x,y,angle,colour,image){
         else{
             this.yvel-=Math.min(0.03,(this.yvel-neededyvel));
         }
-        this.x-= this.xvel
-        this.y-= this.yvel
+        this.x-= this.xvel *player.playertime
+        this.y-= this.yvel *player.playertime
 
         }
 }
@@ -394,57 +426,211 @@ function purpleRobotMedic(x,y,angle){
 }
 
 function leftredRobotTank(x,y,angle){
-    leftTank.call(this,x,y,angle,"red",document.getElementById("leftredRobotTank"),document.getElementById("redorb"));
+    leftTank.call(this,x,y,angle,"red",document.getElementById("leftredRobotTank"),document.getElementById("rednuke"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function leftyellowRobotTank(x,y,angle){
-    leftTank.call(this,x,y,angle,"yellow",document.getElementById("leftyellowRobotTank"),document.getElementById("yelloworb"));
+    leftTank.call(this,x,y,angle,"yellow",document.getElementById("leftyellowRobotTank"),document.getElementById("yellownuke"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function leftgreenRobotTank(x,y,angle){
-    leftTank.call(this,x,y,angle,"green",document.getElementById("leftgreenRobotTank"),document.getElementById("greenorb"));
+    leftTank.call(this,x,y,angle,"green",document.getElementById("leftgreenRobotTank"),document.getElementById("greennuke"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function leftpurpleRobotTank(x,y,angle){
-    leftTank.call(this,x,y,angle,"purple",document.getElementById("leftpurpleRobotTank"),document.getElementById("purpleorb"));
+    leftTank.call(this,x,y,angle,"purple",document.getElementById("leftpurpleRobotTank"),document.getElementById("purplenuke"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-70,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new lefttanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function purpleRobotTank(x,y,angle){
-    Tank.call(this,x,y,angle,"purple",document.getElementById("rightpurpleRobotTank"),document.getElementById("purpleorb"));
+    Tank.call(this,x,y,angle,"purple",document.getElementById("rightpurpleRobotTank"),document.getElementById("purplenuke1"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new tanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function redRobotTank(x,y,angle){
-    Tank.call(this,x,y,angle,"red",document.getElementById("rightredRobotTank"),document.getElementById("redorb"));
+    Tank.call(this,x,y,angle,"red",document.getElementById("rightredRobotTank"),document.getElementById("rednuke1"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new tanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function yellowRobotTank(x,y,angle){
-    Tank.call(this,x,y,angle,"yellow",document.getElementById("rightyellowRobotTank"),document.getElementById("yelloworb"));
+    Tank.call(this,x,y,angle,"yellow",document.getElementById("rightyellowRobotTank"),document.getElementById("yellownuke1"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new tanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
 }
 
 function greenRobotTank(x,y,angle){
-    Tank.call(this,x,y,angle,"green",document.getElementById("rightgreenRobotTank"),document.getElementById("greenorb"));
+    Tank.call(this,x,y,angle,"green",document.getElementById("rightgreenRobotTank"),document.getElementById("greennuke1"));
     this.width=170;
     this.height=56;
     this.hitbox=new Hitbox([new rectHitbox(-85,-15,170,25),new rectHitbox(-20,10,90,18)]);
+
+    this.shoot = function(){
+        guess=Math.random()
+        if(guess < (this.shotprobability/10005)){
+            entityList.mobProjectiles.push(new tanknuke(this.x,this.y,this.colour,this.projectileimage));
+        this.shotprobability =0;
+        }
+        else{
+            this.shotprobability+=1
+        }
+    }
+}
+
+function RoboMothership(x,y,angle){
+Mothership.call(this,x,y,angle);
+this.width=200;
+this.height=80;
+this.hitbox= new Hitbox([new rectHitbox(-90,-30,150,40),new rectHitbox(60,-30,40,14)])
+this.image0=document.getElementById("robomothership");
+this.image1=document.getElementById("robomothership1");
+this.image2=document.getElementById("robomothership2");
+this.image3=document.getElementById("robomothership3");
+this.image4=document.getElementById("robomothership4");
+this.image5=document.getElementById("robomothership5");
+this.image6=document.getElementById("robomothership6");
+this.images=[this.image0,this.image1,this.image2,this.image3,this.image4,this.image5,this.image6];
+
+this.spawnmob=function(){
+    randommobslist=[new purpleRoboTracker(this.x,this.y+50,0), new yellowRoboTracker(this.x,this.y+50,0), new greenRoboTracker(this.x,this.y+50,0), new redRoboTracker(this.x,this.y+50,0)];
+    entityList.mobList.push(randommobslist[Math.floor(Math.random()*4)]);
+}
+}
+
+function redRoboTracker(x,y,angle){
+    redTracker.call(this,x,y,angle);
+    this.image0=document.getElementById("redrobotracker");
+    this.images=[this.image0]
+}
+
+function yellowRoboTracker(x,y,angle){
+    yellowTracker.call(this,x,y,angle);
+    this.image0=document.getElementById("yellowrobotracker");
+    this.images=[this.image0]
+}
+
+function greenRoboTracker(x,y,angle){
+    greenTracker.call(this,x,y,angle);
+    this.image0=document.getElementById("greenrobotracker");
+    this.images=[this.image0]
+    this.width=60;
+    this.height=36
+}
+
+function purpleRoboTracker(x,y,angle){
+    purpleTracker.call(this,x,y,angle);
+    this.image0=document.getElementById("purplerobotracker");
+    this.images=[this.image0]
+}
+
+function greenRoboSinMob(x,y,angle){
+    GreenSinMob.call(this,x,y,angle);
+    this.image=document.getElementById("greenrobosinmob");
+}
+
+function redRoboSinMob(x,y,angle){
+    RedSinMob.call(this,x,y,angle);
+    this.image=document.getElementById("redrobosinmob");
+}
+
+function yellowRoboSinMob(x,y,angle){
+    YellowSinMob.call(this,x,y,angle);
+    this.image=document.getElementById("yellowrobosinmob");
+}
+
+function purpleRoboSinMob(x,y,angle){
+    PurpleSinMob.call(this,x,y,angle);
+    this.image=document.getElementById("purplerobosinmob");
 }

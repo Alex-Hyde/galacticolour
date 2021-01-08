@@ -17,6 +17,7 @@ function InventoryScreen(bgCoord) {
     this.background = document.getElementById("inventoryBG");
     this.menuBG = document.getElementById("menuBG");
     this.shipBG = document.getElementById("inventoryShipBG");
+    this.shipBGManual = document.getElementById("openManual");
     this.animationImage = document.getElementById("inventoryAnimation");
     this.x = bgCoord;
     this.currentColor = 0;
@@ -36,7 +37,7 @@ function InventoryScreen(bgCoord) {
     this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new ColorButton());
     this.gunEffectsList = ['sounds/equip gun1.mp3', 'sounds/equip gun2.mp3', 'sounds/equip gun3.mp3', 'sounds/equip gun4.mp3', 'sounds/equip gun5.mp3', 'sounds/equip gun6.mp3', 'sounds/equip gun7.mp3', 'sounds/equip gun8.mp3'];
-    this.audio = new Audio('songs/menuscreen_3.mp3');
+    //this.audio = new Audio('songs/menuscreen_3.mp3');
 
 
     this.draw = function(ctx) {
@@ -45,6 +46,7 @@ function InventoryScreen(bgCoord) {
             ctx.drawImage(this.menuBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 3000 - this.x, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         }
         ctx.drawImage(this.shipBG, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.shipBGManual, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
         if (this.animationIndex > this.animationLength && this.opening) {
             ctx.drawImage(this.background, 0, 0);
             this.drawCircle(ctx);
@@ -61,7 +63,7 @@ function InventoryScreen(bgCoord) {
             } else {
                 this.animationIndex--;
                 if (this.animationIndex < 0) {
-                    loadMenu(this.x, entityList.other[0].audio.currentTime);
+                    loadMenu(this.x, false);
                 }
             }
         }
@@ -122,8 +124,8 @@ function PlayerInventory() {
     this.purpleGuns = [new Gun(0, 20, 120, 400), new Gun(1, 10, 360, 200)];
     this.yellowGuns = [new Gun(0, 20, 120, 400), new Gun(2, 60, 60, 600), new Gun(3, 8, 60, 200)];
     this.greenGuns = [new Gun(0, 20, 120, 400), new Gun(2, 10, 60, 600)];
-    this.bodies = [new Body(0, 100), new Body(1, 150), new Body(2, 125), new Body(3, 125)];
-    this.engines = [new Engine(0, 3), new Engine(1, 4), new Engine(2, 3.5), new Engine(3, 3.5)];
+    this.bodies = [new Body(0, 100), new Body(1, 125), new Body(2, 200), new Body(3, 75)];
+    this.engines = [new Engine(0, 4.5), new Engine(1, 6.5), new Engine(2, 7), new Engine(3, 10)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
     this.allItems = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns, this.bodies, this.engines];
 }
@@ -141,7 +143,7 @@ function Body(type, health) {
     this.type = type;
     this.health = health;
     this.allStats = [["Health", health]];
-    this.maxStats = [1000];
+    this.maxStats = [200];
 }
 
 function Engine(type, speed) {
@@ -175,9 +177,9 @@ function OpenInventoryButton() {
     }
 
     this.onRelease = function() {
-        entityList.other[0].audio.pause();
+        //menuscreenAudio.pause();
         new Audio('sounds/openinventory.mp3').play();
-        loadInventory(entityList.other[0].x, entityList.other[0].audio.currentTime);
+        loadInventory(entityList.other[0].x);
     }
 }
 
@@ -191,7 +193,7 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
-        entityList.other[0].audio.pause();
+        //menuscreenAudio.pause();
         new Audio('sounds/closeinventory.mp3').play();
         entityList.other[0].opening = false;;
         this.w -= 4;

@@ -2,6 +2,7 @@ var projsFired = 0;
 var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
+var gameclock=0;
 //var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
 var player = null;
@@ -9,15 +10,22 @@ const RED = 0;
 const PURPLE = 1;
 const YELLOW = 2;
 const GREEN = 3;
+var menuAudio =  new Audio('songs/menuscreen_3.mp3');
+menuAudio.loop = true;
+var playingAlready = false;
 
 // function run on start
-function loadMenu(bgCoord = 0, audioTime) {
+function loadMenu(bgCoord = 0, playMusic) {
     if (!gameScreen.context) { // check if already started (if loading menu from a back button)
         gameScreen.start();
         levelList = createLevelList();
     }
     if (!player) {
         player = new Player(100, 100, 0);
+    }
+    if (playMusic) {
+        menuAudio.currentTime = 0;
+        menuAudio.play();
     }
     entityList.clear();
     entityList.other.push(new MainMenu(bgCoord));
@@ -27,6 +35,8 @@ function loadMenu(bgCoord = 0, audioTime) {
     button2.addToScreen();
     button3 = new OpenInstructionsButton();
     button3.addToScreen();
+    button4 = new AudioButton();
+    button4.addToScreen();
 }
 
 /*     ******** NOT IN USE ANYMORE ********
@@ -50,12 +60,16 @@ var entityList = {
         this.mobList = [];
         this.mobProjectiles = [];
         this.playerProjectiles = [];
+        this.staticTexturesBack = [];
         this.staticTextures = [];
         this.buttons = [];
     },
     draw : function() {
         // drawn in predetermined order: (mobs, player, static textures, mob bullets, player bullets, buttons)
         this.other.forEach(e => {
+            e.draw(gameScreen.context);
+        });
+        this.staticTexturesBack.forEach(e => {
             e.draw(gameScreen.context);
         });
         this.mobList.forEach(e => {
@@ -165,11 +179,11 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
+    gameclock+= (5 * player.playertime);
     // listen for level triggers
     //levelSelect();                // uses Level.loadLevel which sets currentLevel
     // load current level
     
-    //console.log(currentLevel);
     if (currentLevel) {
         levelList[currentLevel-1].update();
     }

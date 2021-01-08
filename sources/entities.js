@@ -4,8 +4,6 @@ function Player(x,y,angle){
     bodyhitbox=new rectHitbox(-25,-15,50,35);
     fullhitbox=new Hitbox([headhitbox,bodyhitbox]);
     Entity.call(this,x,y,angle,fullhitbox);
-    this.maxHealth = 100;
-    this.health = 100;
     this.width = 60;
     this.height = 60;
     this.speed = 5;
@@ -20,12 +18,19 @@ function Player(x,y,angle){
     this.shiptextures=[this.redship,this.purpleship,this.greenship,this.yellowship];
     this.shootCooldown = 0;
     this.invuln = false;
+    this.damagemultiplyer=1;
+    this.playertime=1;
+    this.bullettime=undefined;
+    this.bullettimer=400;
+    /////USE THIS TO SLOW GAME WHEN YOU PRESS SHIFT
     this.lastHitTime = 0;
     this.invulnTime = 1000;
     this.lowerBoundX = gameScreen.x + 35;
     this.upperBoundX = gameScreen.canvas.width - 35;
     this.lowerBoundY = gameScreen.y + 35;
     this.upperBoundY = gameScreen.canvas.height - 35;
+    this.regen=false
+    this.killregen=false
     this.example = false;
 
     // indices of inventory
@@ -35,6 +40,25 @@ function Player(x,y,angle){
     this.inventory = new PlayerInventory();
 
     this.update = function() {
+        if(this.regen && this.health < this.maxHealth){
+            this.health+= Math.min(0.01,this.maxHealth-this.health)
+        }
+        if (gameScreen.keys && gameScreen.keys[16] & this.bullettime==undefined){
+            if(this.inventory.bodies[this.body].type==1){
+                this.bullettime=true
+                this.damagemultiplyer=5
+                this.playertime=0.1
+            }
+        }
+        if(this.bullettime){
+            this.bullettimer-=1
+            this.bulletTimerBar(this.bullettimer)
+        }
+        if(this.bullettimer==0){
+            this.bullettime=false
+            this.damagemultiplyer=1
+            this.playertime=1
+        }
         this.healthBar();
         this.newPos();
         this.shoot();
@@ -62,10 +86,10 @@ function Player(x,y,angle){
         this.moveAngle = 0;
         var speedx = 0;
         var speedy = 0;
-        if (gameScreen.keys && gameScreen.keys[65]) {speedx = -5;}
-        if (gameScreen.keys && gameScreen.keys[68]) {speedx = 5; }
-        if (gameScreen.keys && gameScreen.keys[87]) {speedy= 5; }
-        if (gameScreen.keys && gameScreen.keys[83]) {speedy= -5; }
+        if (gameScreen.keys && gameScreen.keys[65]) {speedx = -this.speed;}
+        if (gameScreen.keys && gameScreen.keys[68]) {speedx = this.speed; }
+        if (gameScreen.keys && gameScreen.keys[87]) {speedy= this.speed; }
+        if (gameScreen.keys && gameScreen.keys[83]) {speedy= -this.speed; }
         if (speedx && speedy) {
             speedx /= root2;
             speedy /= root2;
@@ -122,10 +146,35 @@ function Player(x,y,angle){
     }
 
     this.spawn = function(x, y, angle) {
+        this.maxHealth = this.inventory.bodies[this.body].health
+        this.health = this.maxHealth
+        bodytype=this.inventory.bodies[this.body].type
+
+        if(bodytype==0){
+            this.regen=true;
+        }
+        if(bodytype==1){
+            this.bullettime=undefined;
+            this.bullettimer=400;
+        }
+        
+        if(bodytype==2){
+            this.damagemultiplyer=0.75;
+        }
+        if(bodytype==3){
+            this.killregen=true;
+        }
+        this.speed = this.inventory.engines[this.engine].speed
         this.x = x;
         this.y = y;
         this.angle = angle;
         entityList.player = this;
+    }
+    this.bulletTimerBar = function(timer){
+        ctx = gameScreen.context;
+        ctx.fillStyle = "#17F5F0";
+        ctx.drawImage(document.getElementById("BulletTimer"), 15, 50);
+        ctx.fillRect(146,55,timer/2,10);
     }
 }
 
@@ -141,8 +190,8 @@ function projectile(height, width,angle, speed, colour, x, y,hitbox,image,damage
     this.image=image
 
     this.newPos = function() {
-        this.x += this.speed * Math.cos(this.angle-Math.PI/2);
-        this.y += this.speed * Math.sin(this.angle-Math.PI/2);
+        this.x += this.speed  * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed  *  Math.sin(this.angle-Math.PI/2);
     }
     this.draw=function(){
         ctx = gameScreen.context;
@@ -179,7 +228,7 @@ function enemy(width,height,x,y,angle,hitbox,speed, image, health,colour) {
         ctx.restore(); 
     }
     this.newPos = function() {
-        this.x += this.speed * Math.cos(this.angle-Math.PI/2);
-        this.y += this.speed * Math.sin(this.angle-Math.PI/2);
+        this.x += this.speed *player.playertime * Math.cos(this.angle-Math.PI/2);
+        this.y += this.speed *player.playertime * Math.sin(this.angle-Math.PI/2);
     }
 }

@@ -30,7 +30,7 @@ function InstructionsScreen(bgCoord) {
     this.exampleBGX = 500;
     this.exampleBGY = 120;
     this.nextButtonX = 790;
-    this.audio = new Audio('songs/menuscreen_3.mp3');
+    //this.audio = new Audio('songs/menuscreen_3.mp3');
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -100,14 +100,16 @@ function InstructionsScreen(bgCoord) {
 
 
 function OpenInstructionsButton() {
-    Button.call(this, 85, 312, 120, 90);
-    this.defaultImage = document.getElementById("manualopenbutton");
-    this.hoverImage = document.getElementById("manualopenbuttonhovered");
-    this.pressedImage = document.getElementById("manualopenbuttonpressed");
+    Button.call(this, 100, 312, 105, 90);
+    this.frontImage = document.getElementById("openManual");
+    this.defaultImage = document.getElementById("openManualDefault");
+    this.hoverImage = document.getElementById("openManualHover");
+    this.pressedImage = document.getElementById("openManualPressed");
     this.image = this.defaultImage;
     
     this.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(this.image, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
+        ctx.drawImage(this.frontImage, 0, 0, gameScreen.canvas.width, gameScreen.canvas.height);
     }
 
     this.onHover = function() {
@@ -124,8 +126,8 @@ function OpenInstructionsButton() {
 
     this.onRelease = function() {
         new Audio('sounds/page turn2.mp3').play();
-        entityList.other[0].audio.pause();
-        loadInstructions(entityList.other[0].x, entityList.other[0].audio.currentTime);
+        //entityList.other[0].audio.pause();
+        loadInstructions(entityList.other[0].x);
         entityList.other[0].updatePage();
     }
 }
@@ -142,9 +144,9 @@ function CloseInstructionsButton() {
     }
 
     this.onRelease = function() {
-        entityList.other[0].audio.pause();
+        //menuscreenAudio.pause();
         new Audio('sounds/manual close.mp3').play();
-        loadMenu(0, entityList.other[0].audio.currentTime);
+        loadMenu(0, false);
         entityList.player = null;
     }
 
