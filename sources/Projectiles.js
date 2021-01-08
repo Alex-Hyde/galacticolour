@@ -90,9 +90,9 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                 explosionAudio.volume = 0.3;
                 explosionAudio.play();
                 if (this.type == 2) {
-                    explosionAnimation(this.x-60, this.y-60, 120, 120);
+                    explosionAnimation(this.x-100, this.y-100, 200, 200);
                     mIndex = 0;
-                    this.hitbox = new Hitbox([new rectHitbox(-60, -60, 120, 120)]);
+                    this.hitbox = new Hitbox([new rectHitbox(-100, -100, 200, 200)]);
                     entityList.mobList.forEach(m => {
                         if (m.collision(this)) {
                             if (m.colour==this.colour){
