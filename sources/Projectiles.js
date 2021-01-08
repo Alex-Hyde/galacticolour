@@ -93,7 +93,7 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                 }
                 explosionAudio.play();
                 if (this.type == 2) {
-                    new explosionAnimation(this.x-60, this.y-60, 120, 120);
+                    new explosionAnimation(this.x-100, this.y-100, 200, 200);
                     mIndex = 0;
                     this.hitbox = new Hitbox([new rectHitbox(-60, -60, 120, 120)]);
                     entityList.mobList.forEach(m => {

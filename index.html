@@ -14,6 +14,14 @@ canvas {
     justify-content: center;
     align-content: center;
 }
+.body {
+    background-color: black;
+}
+@media only screen and (min-height: 850px){
+    .body {
+        padding-top: 100px;
+    }
+}
 </style>
 </head>
 <img id="playerred" width="0" height="0" src="textures/player/bodies/shipred.png">
@@ -334,7 +342,7 @@ canvas {
 <img id="damage_explosion9" width="0" height="0" src="damage explosion09.png">
 
 
-<body onload="loadMenu(0, false)" style="background-color: black;">
+<body onload="loadMenu(0, false)" class="body">
 
 <script src = "sources/main.js"></script>
 <script src = "sources/entityTemplate.js"></script>
