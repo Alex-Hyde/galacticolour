@@ -1,4 +1,4 @@
-function loadInstructions(bgCoord) {
+function loadInstructions(bgCoord, audioTime) {
     entityList.clear();
     entityList.other.push(new InstructionsScreen(bgCoord));
 }
@@ -30,6 +30,7 @@ function InstructionsScreen(bgCoord) {
     this.exampleBGX = 500;
     this.exampleBGY = 120;
     this.nextButtonX = 790;
+    //this.audio = new Audio('songs/menuscreen_3.mp3');
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -125,6 +126,7 @@ function OpenInstructionsButton() {
 
     this.onRelease = function() {
         new Audio('sounds/page turn2.mp3').play();
+        //entityList.other[0].audio.pause();
         loadInstructions(entityList.other[0].x);
         entityList.other[0].updatePage();
     }
@@ -142,8 +144,9 @@ function CloseInstructionsButton() {
     }
 
     this.onRelease = function() {
+        //menuscreenAudio.pause();
         new Audio('sounds/manual close.mp3').play();
-        loadMenu();
+        loadMenu(0, false);
         entityList.player = null;
     }
 

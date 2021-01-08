@@ -28,6 +28,7 @@ function Level(waveList, levelID) {
         this.waveList.forEach(wave => {
             wave.resetWave();
         })
+        this.currentWave = this.waveList[this.waveNumber];
         startDate = new Date();
         this.startTime = startDate.getTime();
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;

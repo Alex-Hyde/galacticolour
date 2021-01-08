@@ -1,3 +1,5 @@
+playInterval = null // setInterval(playAudio, menuscreenAudio.duration*1000, menuscreenAudio);
+
 function MainMenu(bgCoord) {
     this.image = document.getElementById("menuBG");
     this.shipImage = document.getElementById("menuShipBG");
@@ -11,17 +13,10 @@ function MainMenu(bgCoord) {
     this.scale = 1;
     this.zx = 0;
     this.zy = 0;
-    if (gameScreen.audio.currentTime == 0) {
-        gameScreen.playing = false;
-    }
-    if (!gameScreen.playing) {
-        gameScreen.audio.play();
-        gameScreen.playing = true;
-    }
+    
+    
     gameScreen.context.save();
-
     this.update = function() {
-        
         this.x += 0.5;
         this.x = this.x % 3000;
         if (this.zoomIndex > this.zoomLength) {
@@ -79,10 +74,11 @@ function PlayButton(x, y) {
 
     this.onRelease = function() {
         new Audio('sounds/play.mp3').play();
+        menuAudio.pause();
+        playingAlready = false;
+        //menuscreenAudio.currentTime = 0;
+        clearInterval(playInterval);
         this.image = this.defaultImage;
-        // loadLevelSelect();
         entityList.other[0].zoomIndex = 1;
-        gameScreen.audio.pause();
-        gameScreen.audio.currentTime = 0;
     }
 }
