@@ -87,7 +87,10 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 var explosionAudio = new Audio('sounds/explosion.mp3');
-                explosionAudio.volume = 0.3;
+                explosionAudio.volume = 0.2;
+                if(this.type==1){
+                    explosionAudio.volume = 0.06; 
+                }
                 explosionAudio.play();
                 if (this.type == 2) {
                     explosionAnimation(this.x-60, this.y-60, 120, 120);
@@ -101,8 +104,10 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                             else{
                                 m.health -= this.damage * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
                             }
+                            console.log(m.health);
                             if (m.health <= 0) {
-                                entityList.mobList.splice(mIndex, 1);
+                                mobdeleteindex=entityList.mobList.indexOf(m);
+                                entityList.mobList.splice(mobdeleteindex, 1);
                                 if(player.killregen && player.health < player.maxHealth){
                                     player.health+=Math.min(m.maxHealth*0.03,player.maxHealth-player.health)
                                 }

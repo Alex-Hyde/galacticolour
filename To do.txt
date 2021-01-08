@@ -1,17 +1,12 @@
 -Ship Upgrades
-	-Body(Health,speed,invulnerability period after taking damage)
 		-Add descriptions for attributes
 	-Engine(Speed,dash)
 		-Portal animations for dash
 
 	-Taking Damage animation
-	-Bullet time bar (done)
 
 -Mobs
-	-Look into negative health bar glitch
-	-make mobs spawn far away from you (DONE)
 	-check random deletion of mobs 
-	-Make sure mobs dont spawn during bullet time (done)
 
 
 -Level Design
@@ -23,12 +18,9 @@
 	-Motherships have no type
 	-Add new mob images
 
--Health Bar
 
 -Sound
 	-Tweak volumes
-
--Website Background
 
 
 -screens

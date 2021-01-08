@@ -126,6 +126,7 @@ function Player(x,y,angle){
         if (!this.example || (this.example && gameScreen.x < 790 && gameScreen.y > 63)) {
             if (!this.shootCooldown && gameScreen.pressed) {
                 var shootAudio = new Audio('sounds/blast.mp3');
+                shootAudio.volume=0.1;
                 shootAudio.play();
                 projsFired++;
                 if (currentGun.type == 3) {
