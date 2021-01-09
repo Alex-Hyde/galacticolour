@@ -39,20 +39,6 @@ function loadMenu(bgCoord = 0, playMusic) {
     button4.addToScreen();
 }
 
-/*     ******** NOT IN USE ANYMORE ********
-function loadGame() {
-    levelList = createLevelList();
-    entityList.clear();
-   
-    player1 = new Player1(300, 100, 0);
-    player2 = new Player2(100, 300, 0);
-    player1.spawn();
-    player2.spawn();
-    tracker1= new tracker("red",100,100)
-    tracker1.spawn();
-}
-*/
-
 var entityList = {
     clear : function() {
         this.other = [];
