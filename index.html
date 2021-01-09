@@ -9,11 +9,11 @@ canvas {
     margin: auto;
     display: block;
 }
-#wrapper{
+/* #wrapper{
     display: flex;
     justify-content: center;
     align-content: center;
-}
+} */
 .body {
     background-color: black;
 }
@@ -21,6 +21,10 @@ canvas {
     .body {
         padding-top: 100px;
     }
+}
+#title {
+    display: block;
+    margin: auto;
 }
 </style>
 </head>
@@ -364,6 +368,8 @@ canvas {
 
 
 <body onload="loadMenu(0, false)" class="body">
+
+<img src="title.png" id="title">
 
 <script src = "sources/main.js"></script>
 <script src = "sources/entityTemplate.js"></script>

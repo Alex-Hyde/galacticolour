@@ -108,7 +108,7 @@ var gameScreen = {
         this.canvas.width = 960;
         this.canvas.height = 540;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        document.body.appendChild(this.canvas);
         this.interval = setInterval(main, 15);
         this.clickedKeys = []; // detecting single press of key
         this.x = -1;
