@@ -15,7 +15,6 @@ function AudioButton() {
     this.onRelease = function() {
         if (!playingAlready) {
             loadMenu(entityList.other[0].x, true);
-            //playInterval = setInterval(playAudio, menuAudio.duration*1000, menuAudio);
         }
     }
 }

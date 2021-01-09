@@ -160,7 +160,6 @@ function startLevelButton() {
         entityList.other[0].audio.pause();
         entityList.other[0].audio.currentTime = 0;
         levelList[levelIndex].loadLevel();
-        clearInterval(playInterval);
     }
 }
 
@@ -189,12 +188,8 @@ function BackButton() {
 
     this.onRelease = function() {
         new Audio('sounds/back.mp3').play();
-        //console.log(entityList.other[0].audio);
         entityList.other[0].audio.pause();
-        playingAlready = true;
         loadMenu(0, true);
-        //menuscreenAudio.play();
-        //playInterval = setInterval(playAudio, menuAudio.duration*1000, menuAudio);
         
     }
 }
