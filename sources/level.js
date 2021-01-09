@@ -134,7 +134,7 @@ function Level(waveList, levelID) {
         this.audio.currentTime = 0;
         this.complete = true;
         currentLevel = NaN;
-        if (this.levelNum == 1) {
+        if (this.levelNum == 14) {
             loadWinScreen();
         } else {
             levelList[this.levelNum].unlocked = true;
