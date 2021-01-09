@@ -12,7 +12,7 @@ const YELLOW = 2;
 const GREEN = 3;
 var menuAudio =  new Audio('songs/menuscreen_3.mp3');
 menuAudio.loop = true;
-menuAudio.volume = 0.3;
+menuAudio.volume = 0.1;
 
 // function run on start
 function loadMenu(bgCoord = 0, playMusic) {
