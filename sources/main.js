@@ -63,6 +63,7 @@ var entityList = {
         this.staticTexturesBack = [];
         this.staticTextures = [];
         this.buttons = [];
+        player.clear();
     },
     draw : function() {
         // drawn in predetermined order: (mobs, player, static textures, mob bullets, player bullets, buttons)
@@ -179,9 +180,9 @@ function getAngle(x1, y1, x2, y2) {
 
 function main() {
     gameScreen.clear();
-    gameclock+= (5 * player.playertime);
+    gameclock+= (4 * player.playertime);
     
-    if (currentLevel) {
+    if (currentLevel && levelList[currentLevel-1].bgX == undefined) {
         levelList[currentLevel-1].update();
     }
     // update all the entities (movement, collision, etc.)

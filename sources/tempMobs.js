@@ -67,6 +67,7 @@ function sinMoveMob(width, height, x, y, angle, hitbox, image, maxHealth, colour
             player.invuln = false;
             if (!player.invuln && player.collision(this) && player.health >= 0) {
                 player.health -= 2.5;
+                player.hit=true;
                 if(player.damagemultiplyer < 1){
                     this.health-=5;
                     if(this.health <= 0){
@@ -80,10 +81,5 @@ function sinMoveMob(width, height, x, y, angle, hitbox, image, maxHealth, colour
         }
         this.newPos();
         this.angle = getAngle(this.x, this.y, player.x, player.y);
-        if (this.y > gameScreen.canvas.height) {
-            this.initY = 5
-        } else if (this.y < 0) {
-            this.initY = gameScreen.canvas.height - 5
-        }
     }
 }

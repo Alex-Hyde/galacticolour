@@ -14,6 +14,14 @@ canvas {
     justify-content: center;
     align-content: center;
 }
+.body {
+    background-color: black;
+}
+@media screen and (min-height: 850px){
+    .body {
+        padding-top: 100px;
+    }
+}
 </style>
 </head>
 <img id="playerred" width="0" height="0" src="textures/player/bodies/shipred.png">
@@ -148,6 +156,7 @@ canvas {
 <img id="inventoryShipBG" width="0" height="0" src="textures/menus/inventory/inventoryShipBG.png">
 <img id="inventoryAnimation" width="0" height="0" src="textures/menus/inventory/inventoryAnimation.png">
 <img id="inventoryStatsBG" width="0" height="0" src="textures/menus/inventory/inventoryStatsBG.png">
+<img id="warpCooldown" width="0" height="0" src="textures/player/warp_cooldown.png">
 
 <img id="menuBG" width="0" height="0" src="textures/menus/mainmenu/menuBG.png">
 <img id="menuShipBG" width="0" height="0" src="textures/menus/mainmenu/menuShipBG.png">
@@ -162,6 +171,11 @@ canvas {
 <img id="shipGlowPurple" width="0" height="0" src="textures/player/glow/shipGlowPurple.png">
 <img id="shipGlowYellow" width="0" height="0" src="textures/player/glow/shipGlowYellow.png">
 <img id="shipGlowGreen" width="0" height="0" src="textures/player/glow/shipGlowGreen.png">
+
+<img id="regenIcon" width="0" height="0" src="textures/player/invicons/regen.png">
+<img id="bulletTimeIcon" width="0" height="0" src="textures/player/invicons/bulletTime.png">
+<img id="shieldIcon" width="0" height="0" src="textures/player/invicons/shield.png">
+<img id="healthKillIcon" width="0" height="0" src="textures/player/invicons/healthKill.png">
 
 <img id="body1Green" width="0" height="0" src="textures/player/bodies/body1Green.png">
 <img id="body1Red" width="0" height="0" src="textures/player/bodies/body1Red.png">
@@ -325,8 +339,21 @@ canvas {
 
 <img id="audioButton" width="0" height="0" src="speaker.png">
 
+<img id="damage_explosion" width="0" height="0" src="damage explosion00.png">
+<img id="damage_explosion1" width="0" height="0" src="damage explosion01.png">
+<img id="damage_explosion2" width="0" height="0" src="damage explosion02.png">
+<img id="damage_explosion3" width="0" height="0" src="damage explosion03.png">
+<img id="damage_explosion4" width="0" height="0" src="damage explosion04.png">
+<img id="damage_explosion5" width="0" height="0" src="damage explosion05.png">
+<img id="damage_explosion6" width="0" height="0" src="damage explosion06.png">
+<img id="damage_explosion7" width="0" height="0" src="damage explosion07.png">
+<img id="damage_explosion8" width="0" height="0" src="damage explosion08.png">
+<img id="damage_explosion9" width="0" height="0" src="damage explosion09.png">
 
-<body onload="loadMenu(0, false)" style="background-color: black;">
+<img id="deathScreen" width="0" height="0" src="textures/deathScreen.png">
+
+
+<body onload="loadMenu(0, false)" class="body">
 
 <script src = "sources/main.js"></script>
 <script src = "sources/entityTemplate.js"></script>
@@ -347,6 +374,7 @@ canvas {
 <script src="sources/inventory.js"></script>
 <script src="sources/manual.js"></script>
 <script src="sources/sound.js"></script>
+<script src="sources/deathScreen.js"></script>
 
 <img src="textures/pageBG.png" style="position: fixed;bottom: 0;left: 0;width: 100%;height: auto;z-index: -10;">
 

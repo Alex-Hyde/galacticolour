@@ -1,12 +1,14 @@
-guns = [document.getElementById("gun1"),document.getElementById("gun2"),document.getElementById("gun3"),document.getElementById("gun4")];
-gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon"),document.getElementById("gun3Icon"),document.getElementById("gun4Icon")];
-bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
+var guns = [document.getElementById("gun1"),document.getElementById("gun2"),document.getElementById("gun3"),document.getElementById("gun4")];
+var gunIcons = [document.getElementById("gun1Icon"),document.getElementById("gun2Icon"),document.getElementById("gun3Icon"),document.getElementById("gun4Icon")];
+var bodies = [[document.getElementById("body1Red"), document.getElementById("body1Purple"), document.getElementById("body1Yellow"), document.getElementById("body1Green")],
           [document.getElementById("body2Red"), document.getElementById("body2Purple"), document.getElementById("body2Yellow"), document.getElementById("body2Green")],
           [document.getElementById("body3Red"), document.getElementById("body3Purple"), document.getElementById("body3Yellow"), document.getElementById("body3Green")],
           [document.getElementById("body4Red"), document.getElementById("body4Purple"), document.getElementById("body4Yellow"), document.getElementById("body4Green")]];
-engines = [document.getElementById("engine1"),document.getElementById("engine2"),document.getElementById("engine3"),document.getElementById("engine4")];
-engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
-glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
+var engines = [document.getElementById("engine1"),document.getElementById("engine2"),document.getElementById("engine3"),document.getElementById("engine4")];
+var engineIcons = [document.getElementById("engine1Icon"),document.getElementById("engine2Icon"),document.getElementById("engine3Icon"),document.getElementById("engine4Icon")];
+var glowBG = [document.getElementById("shipGlowRed"), document.getElementById("shipGlowPurple"), document.getElementById("shipGlowYellow"), document.getElementById("shipGlowGreen")];
+var specialPowers = ["Regeneration", "Bullet Time", "Body Damage", "Health on Kill"];
+var specialPowerIcons = [document.getElementById("regenIcon"),document.getElementById("bulletTimeIcon"),document.getElementById("shieldIcon"),document.getElementById("healthKillIcon")];
 
 function loadInventory(bgCoord, audioTime) {
     entityList.clear();
@@ -120,12 +122,12 @@ function InventoryScreen(bgCoord) {
 }
 
 function PlayerInventory() {
-    this.redGuns = [new Gun(0, 20, 120, 400), new Gun(1, 7, 600, 200), new Gun(3, 8, 60, 200)];
-    this.purpleGuns = [new Gun(0, 20, 120, 400), new Gun(1, 10, 360, 200)];
-    this.yellowGuns = [new Gun(0, 20, 120, 400), new Gun(2, 60, 60, 600), new Gun(3, 8, 60, 200)];
-    this.greenGuns = [new Gun(0, 20, 120, 400), new Gun(2, 10, 60, 600)];
+    this.redGuns = [new Gun(1, 7, 600, 200), new Gun(3, 10, 60, 200)];
+    this.purpleGuns = [new Gun(0, 50, 120, 400), new Gun(1, 7, 360, 200)];
+    this.yellowGuns = [new Gun(2, 30, 60, 600), new Gun(3, 10, 60, 200)];
+    this.greenGuns = [new Gun(0, 50, 120, 400), new Gun(2, 30, 60, 600)];
     this.bodies = [new Body(0, 100), new Body(1, 125), new Body(2, 200), new Body(3, 75)];
-    this.engines = [new Engine(0, 4.5), new Engine(1, 6.5), new Engine(2, 7), new Engine(3, 10)];
+    this.engines = [new Engine(0, 10, 60), new Engine(1, 7, 120), new Engine(2, 5, 180), new Engine(3, 3, 240)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
     this.allItems = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns, this.bodies, this.engines];
 }
@@ -136,7 +138,7 @@ function Gun(type, damage, firerate, range) {
     this.firerate = firerate;            // measured in shots/min
     this.range = range;
     this.allStats = [["Damage", damage], ["Firerate", firerate], ["Range", range]];
-    this.maxStats = [100, 600, 1000];
+    this.maxStats = [50, 600, 1000];
 }
 
 function Body(type, health) {
@@ -146,11 +148,12 @@ function Body(type, health) {
     this.maxStats = [200];
 }
 
-function Engine(type, speed) {
+function Engine(type, speed, cooldown) {
     this.type = type;
     this.speed = speed;
-    this.allStats = [["Speed", speed]];
-    this.maxStats = [10];
+    this.cooldown = cooldown;
+    this.allStats = [["Speed", speed],["Cooldown Speed", cooldown]];
+    this.maxStats = [10, 240];
 }
 
 function OpenInventoryButton() {
@@ -252,17 +255,40 @@ function SelectionButton(type, x, y, w, h) {
     this.draw = function(ctx) {
         if (this.hovered) {
             ctx.drawImage(this.statsImage, this.x - 291, this.y+2, 300, this.h-4);
-            for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
+            if (this.type != 4) {
+                for (i = 0; i < player.inventory.allItems[this.type][this.index].allStats.length; i++) {
+                    ctx.fillStyle = "white"; 
+                    ctx.font = "20px Arial";
+                    ctx.textAlign = "left";
+                    if(player.inventory.allItems[this.type][this.index].allStats[i][0]== "Cooldown Speed"){
+                        ctx.font = "20px Arial";
+                        ctx.fillText("Warp", this.x - 270, this.y-12 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                        ctx.fillText("Regen", this.x - 270, this.y+7 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);  
+                    }
+                    else{
+                        ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                    }
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(this.x - 170, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(this.x - 170, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 
+                                 150*player.inventory.allItems[this.type][this.index].allStats[i][1]/player.inventory.allItems[this.type][this.index].maxStats[i], 20);
+                }
+            } else {
                 ctx.fillStyle = "white";
                 ctx.font = "20px Arial";
                 ctx.textAlign = "left";
-                ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[i][0], this.x - 270, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)+10);
+                ctx.fillText(player.inventory.allItems[this.type][this.index].allStats[0][0], this.x - 270, this.y+60);
                 ctx.fillStyle = "black";
-                ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 150, 20);
+                ctx.fillRect(this.x - 180, this.y+40, 150, 20);
                 ctx.fillStyle = "white";
-                ctx.fillRect(this.x - 180, this.y+2 + (this.h-4)/(player.inventory.allItems[this.type][this.index].allStats.length+1)*(i+1)-10, 
-                             150*player.inventory.allItems[this.type][this.index].allStats[i][1]/player.inventory.allItems[this.type][this.index].maxStats[i], 20);
+                ctx.fillRect(this.x - 180, this.y+40, 
+                                150*player.inventory.allItems[this.type][this.index].allStats[0][1]/player.inventory.allItems[this.type][this.index].maxStats[0], 20);
+                                
+                ctx.drawImage(specialPowerIcons[player.inventory.allItems[this.type][this.index].type], this.x - 230, this.y + 85, 30, 30);
+                ctx.fillText(specialPowers[player.inventory.allItems[this.type][this.index].type], this.x - 190, this.y+110);
             }
+            
         }
         if (this.image) {
             ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
