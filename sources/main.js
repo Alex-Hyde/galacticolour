@@ -12,7 +12,7 @@ const YELLOW = 2;
 const GREEN = 3;
 var menuAudio =  new Audio('songs/menuscreen_3.mp3');
 menuAudio.loop = true;
-var playingAlready = false;
+menuAudio.volume = 0.3;
 
 // function run on start
 function loadMenu(bgCoord = 0, playMusic) {
@@ -180,9 +180,6 @@ function getAngle(x1, y1, x2, y2) {
 function main() {
     gameScreen.clear();
     gameclock+= (5 * player.playertime);
-    // listen for level triggers
-    //levelSelect();                // uses Level.loadLevel which sets currentLevel
-    // load current level
     
     if (currentLevel) {
         levelList[currentLevel-1].update();

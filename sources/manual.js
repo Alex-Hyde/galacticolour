@@ -8,12 +8,15 @@ function InstructionsScreen(bgCoord) {
     [document.getElementById("manualpage2-1"), document.getElementById("manualpage2-3"), document.getElementById("manualpage2-2"), document.getElementById("manualpage2-3"), 
     document.getElementById("manualpage2-4"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-5"), document.getElementById("manualpage2-6"), document.getElementById("manualpage2-7"), document.getElementById("manualpage2-9"),
     document.getElementById("manualpage2-8"), document.getElementById("manualpage2-9"), document.getElementById("manualpage2-10"), document.getElementById("manualpage2-12"), document.getElementById("manualpage2-11"),
-    document.getElementById("manualpage2-12")], [document.getElementById("manualpage3-1"), document.getElementById("manualpage3-2")], [document.getElementById("manualpage4-1"), 
+    document.getElementById("manualpage2-12")], [document.getElementById("manualpage3-1"), document.getElementById("manualpage3-2"), document.getElementById("manualpage3-3"), 
+    document.getElementById("manualpage3-4")], [document.getElementById("manualpage4-1"), 
     document.getElementById("manualpage4-2"), document.getElementById("manualpage4-3"), document.getElementById("manualpage4-4"), document.getElementById("manualpage4-5"),
     document.getElementById("manualpage4-6"), document.getElementById("manualpage4-7"), document.getElementById("manualpage4-8"), document.getElementById("manualpage4-9")],
     [document.getElementById("manualpage5-1"), document.getElementById("manualpage5-2"), document.getElementById("manualpage5-3"), document.getElementById("manualpage5-4"),
     document.getElementById("manualpage5-5"), document.getElementById("manualpage5-6"), document.getElementById("manualpage5-7"), document.getElementById("manualpage5-8"),
-    document.getElementById("manualpage5-9"), document.getElementById("manualpage5-10")]];
+    document.getElementById("manualpage5-9"), document.getElementById("manualpage5-10")],
+    [document.getElementById('manualpage6-1'), document.getElementById('manualpage6-2'), document.getElementById('manualpage6-3'), document.getElementById('manualpage6-4')],
+    [document.getElementById('manualpage7')]];
     this.pageIndex = 0;
     this.currentPage = this.pages[this.pageIndex];
     this.lastRefresh = 0;
@@ -30,7 +33,6 @@ function InstructionsScreen(bgCoord) {
     this.exampleBGX = 500;
     this.exampleBGY = 120;
     this.nextButtonX = 790;
-    //this.audio = new Audio('songs/menuscreen_3.mp3');
     
     this.draw = function(ctx) {
         this.currentPage = this.pages[this.pageIndex];
@@ -93,7 +95,13 @@ function InstructionsScreen(bgCoord) {
             this.nextLastButtonList.push(new NextPageButton(4));
             this.nextLastButtonList.push(new PreviousPageButton(2));
         } else if (this.pageIndex == 4) {
+            this.nextLastButtonList.push(new NextPageButton(5));
             this.nextLastButtonList.push(new PreviousPageButton(3));
+        } else if (this.pageIndex == 5) {
+            this.nextLastButtonList.push(new NextPageButton(6));
+            this.nextLastButtonList.push(new PreviousPageButton(4));
+        } else if (this.pageIndex == 6) {
+            this.nextLastButtonList.push(new PreviousPageButton(5));
         }
     }
 }
@@ -144,7 +152,6 @@ function CloseInstructionsButton() {
     }
 
     this.onRelease = function() {
-        //menuscreenAudio.pause();
         new Audio('sounds/manual close.mp3').play();
         loadMenu(0, false);
         entityList.player = null;
@@ -164,7 +171,7 @@ function CloseInstructionsButton() {
 }
 
 function NextPageButton(next) {
-    this.changingX = entityList.other[0].nextButtonX + 12 * entityList.other[0].pageIndex;
+    this.changingX = entityList.other[0].nextButtonX + 10 * entityList.other[0].pageIndex;
     Button.call(this, this.changingX, 200, 50, 125);
     this.defaultImage = document.getElementById("manualnextbutton");
     this.hoverImage = document.getElementById("manualnextbuttonhovered");
