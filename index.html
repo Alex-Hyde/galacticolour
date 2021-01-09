@@ -9,11 +9,11 @@ canvas {
     margin: auto;
     display: block;
 }
-#wrapper{
+/* #wrapper{
     display: flex;
     justify-content: center;
     align-content: center;
-}
+} */
 .body {
     background-color: black;
 }
@@ -21,6 +21,10 @@ canvas {
     .body {
         padding-top: 100px;
     }
+}
+#title {
+    display: block;
+    margin: auto;
 }
 </style>
 </head>
@@ -136,6 +140,15 @@ canvas {
 <img id="planet3" width="0" height="0" src="textures/menus/levelselect/planet3.png">
 <img id="planet4" width="0" height="0" src="textures/menus/levelselect/planet4.png">
 <img id="planet5" width="0" height="0" src="textures/menus/levelselect/planet5.png">
+<img id="planet6" width="0" height="0" src="textures/menus/levelselect/planet6.png">
+<img id="planet7" width="0" height="0" src="textures/menus/levelselect/planet7.png">
+<img id="planet8" width="0" height="0" src="textures/menus/levelselect/planet8.png">
+<img id="planet9" width="0" height="0" src="textures/menus/levelselect/planet9.png">
+<img id="planet10" width="0" height="0" src="textures/menus/levelselect/planet10.png">
+<img id="planet11" width="0" height="0" src="textures/menus/levelselect/planet11.png">
+<img id="planet12" width="0" height="0" src="textures/menus/levelselect/planet12.png">
+<img id="planet13" width="0" height="0" src="textures/menus/levelselect/planet13.png">
+<img id="planet14" width="0" height="0" src="textures/menus/levelselect/planet14.png">
 
 <img id="explosion1" width="0" height="0" src="textures/explosion/explosion1.png">
 <img id="explosion2" width="0" height="0" src="textures/explosion/explosion2.png">
@@ -351,9 +364,12 @@ canvas {
 <img id="damage_explosion9" width="0" height="0" src="damage explosion09.png">
 
 <img id="deathScreen" width="0" height="0" src="textures/deathScreen.png">
+<img id="winBG" width="0" height="0" src="textures/winScreen.png">
 
 
 <body onload="loadMenu(0, false)" class="body">
+
+<img src="title.png" id="title">
 
 <script src = "sources/main.js"></script>
 <script src = "sources/entityTemplate.js"></script>
@@ -375,6 +391,7 @@ canvas {
 <script src="sources/manual.js"></script>
 <script src="sources/sound.js"></script>
 <script src="sources/deathScreen.js"></script>
+<script src="sources/win.js"></script>
 
 <img src="textures/pageBG.png" style="position: fixed;bottom: 0;left: 0;width: 100%;height: auto;z-index: -10;">
 

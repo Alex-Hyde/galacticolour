@@ -36,20 +36,6 @@ function loadMenu(bgCoord = 0, playMusic) {
     button4.addToScreen();
 }
 
-/*     ******** NOT IN USE ANYMORE ********
-function loadGame() {
-    levelList = createLevelList();
-    entityList.clear();
-   
-    player1 = new Player1(300, 100, 0);
-    player2 = new Player2(100, 300, 0);
-    player1.spawn();
-    player2.spawn();
-    tracker1= new tracker("red",100,100)
-    tracker1.spawn();
-}
-*/
-
 var entityList = {
     clear : function() {
         this.other = [];
@@ -119,7 +105,7 @@ var gameScreen = {
         this.canvas.width = 960;
         this.canvas.height = 540;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        document.body.appendChild(this.canvas);
         this.interval = setInterval(main, 15);
         this.clickedKeys = []; // detecting single press of key
         this.x = -1;

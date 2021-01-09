@@ -134,8 +134,12 @@ function Level(waveList, levelID) {
         this.audio.currentTime = 0;
         this.complete = true;
         currentLevel = NaN;
-        levelList[this.levelNum].unlocked = true;
-        loadLevelSelect(this.levelNum - 1);
+        if (this.levelNum == 14) {
+            loadWinScreen();
+        } else {
+            levelList[this.levelNum].unlocked = true;
+            loadLevelSelect(this.levelNum - 1);
+        }
     }
 
     this.clearMobs = function() {
@@ -194,14 +198,10 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
             mobSpawnY = Math.random()*(gameScreen.canvas.height-150)
             mobspawnX = offsetX + gameScreen.canvas.width/2
             if(Math.abs(player.x-mobspawnX) < 100){
-                while(Math.abs(player.y-mobSpawnY) < 150){
-                    mobSpawnY = Math.random()*(gameScreen.canvas.height-150) 
+                while(Math.abs(player.y-mobSpawnY) < 100 && mobSpawnY < 100){
+                    mobSpawnY = Math.random()*(gameScreen.canvas.height-100) 
                 }
             }
-            if(mobSpawnY < 120){
-                mobSpawnY+=100;
-            }
-            
         }
         else {
             mobspawnX = offsetX + gameScreen.canvas.width/2
