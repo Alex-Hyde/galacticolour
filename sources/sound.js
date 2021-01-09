@@ -21,3 +21,8 @@ function AudioButton() {
 
 
 var ambientAudio = new Audio('songs/ambient.mp3');
+var menuAudio =  new Audio('songs/menuscreen_3.mp3');
+menuAudio.loop = true;
+menuAudio.volume = 0.3;
+var winScreenAudio = new Audio('songs/winscreen.mp3');
+winScreenAudio.loop = true;
