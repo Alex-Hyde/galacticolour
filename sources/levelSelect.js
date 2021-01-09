@@ -1,7 +1,10 @@
 // position of levels on the map
 levelCoordinates = [[100,300], [400, 100], [500, 400], [700, 200], [900, 300], [1100, 100], [1200, 400], 
                     [1400, 300], [1600, 100], [1800, 250], [2020, 175], [2200, 300], [2430, 400], [2600, 250]];
-levelImages = [document.getElementById("planet"), document.getElementById("planet2"), document.getElementById("planet3"), document.getElementById("planet4"), document.getElementById("planet5")];
+levelImages = [document.getElementById("planet3"), document.getElementById("planet"), document.getElementById("planet4"), document.getElementById("planet13"), 
+               document.getElementById("planet8"), document.getElementById("planet7"), document.getElementById("planet6"), document.getElementById("planet9"),
+               document.getElementById("planet12"), document.getElementById("planet2"), document.getElementById("planet10"), document.getElementById("planet14"),
+               document.getElementById("planet5"), document.getElementById("planet11")];
 
 // loads the level select screen to display it
 function loadLevelSelect(levelInd) {
@@ -11,7 +14,8 @@ function loadLevelSelect(levelInd) {
     entityList.buttons.push(new BackButton());
 
 }
-
+// n, n, n, a, r, 
+// n, n, r, a, n, n, a, r, n
 function LevelSelect(levelInd) {
     this.w = 50;
     this.h = 50;
