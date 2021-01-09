@@ -299,7 +299,7 @@ function Mothership(x,y,angle){
             this.imageindex=0;
             spawnroll=Math.random()
             if(spawnroll > this.spawnprobability){
-                this.spawnprobability+=0.000001
+                this.spawnprobability+=0.000005
             }
             else{
                 this.spawnactive=true;
@@ -340,6 +340,12 @@ function Medic(x,y,angle,colour,image){
     }
 
     this.update = function(){
+        console.log(this.healing)
+        if(this.healing!=undefined){
+            if(!entityList.mobList.includes(this.healing)){
+                this.healing=undefined
+            }
+        }
         let weakestmob=entityList.mobList[0];
         entityList.mobList.forEach(mob=>{
             if(mob.healable!=undefined && this.Healinghitbox.collision(mob.hitbox,this,mob)==true && mob.health < mob.maxHealth){
