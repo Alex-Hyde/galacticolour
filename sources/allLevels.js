@@ -13,7 +13,7 @@ function createLevelList() {
     Level12 = new levelScroll1(12);
     Level13 = new Level([new Wave([[RoboMothership,1],[greenRobotMedic,1],[leftpurpleRobotTank,1],[greenRobotTank,1],[redRoboSinMob,10],[purpleRoboSinMob,3]],1500),new Wave([[leftyellowRobotTank,1],[redRobotTank,1],[purpleRobotMedic,1],[RoboMothership,1],[yellowRoboSinMob,5],[purpleRoboSinMob,5]],1500)],12)
     Level14 = new Level([new Wave([[redTracker,15],[greenTracker,15],[YellowSinMob,5],[PurpleSinMob,5]],1500),new Wave([[RedSinMob,5],[GreenSinMob,5],[YellowSinMob,5],[PurpleSinMob,5],[greenTank,1],[Mothership,1],[greenMedic,1]],1500),new Wave([[redTracker,5],[greenTracker,5],[yellowTracker,5],[purpleTracker,5],[Mothership,1]],1500), new Wave([[redTank,1],[purpleLeftTank,1],[redMedic,1]],1500), new Wave([[greenTank,1],[purpleLeftTank,1],[purpleMedic,1],[Mothership,1],[redTracker,5],[greenTracker,5],[RedSinMob,10]],1500)],14)
-    return [Level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, Level14];
+    return [level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, Level14];
 }
 function levelSelect() {
     d = new Date();
