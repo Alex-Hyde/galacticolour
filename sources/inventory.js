@@ -127,7 +127,7 @@ function PlayerInventory() {
     this.yellowGuns = [new Gun(2, 30, 60, 600), new Gun(3, 10, 60, 200)];
     this.greenGuns = [new Gun(0, 50, 120, 600), new Gun(2, 30, 60, 600)];
     this.bodies = [new Body(0, 100), new Body(1, 125), new Body(2, 200), new Body(3, 75)];
-    this.engines = [new Engine(0, 10, 60), new Engine(1, 7, 120), new Engine(2, 5, 180), new Engine(3, 3, 240)];
+    this.engines = [new Engine(0, 8, 60), new Engine(1, 6, 120), new Engine(2, 5, 180), new Engine(3, 3, 240)];
     this.allGuns = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns];
     this.allItems = [this.redGuns, this.purpleGuns, this.yellowGuns, this.greenGuns, this.bodies, this.engines];
 }
@@ -153,7 +153,7 @@ function Engine(type, speed, cooldown) {
     this.speed = speed;
     this.cooldown = cooldown;
     this.allStats = [["Speed", speed],["Cooldown Speed", cooldown]];
-    this.maxStats = [10, 240];
+    this.maxStats = [8, 240];
 }
 
 function OpenInventoryButton() {
