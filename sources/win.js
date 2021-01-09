@@ -8,6 +8,8 @@ function WinScreen() {
     this.update = function() {
         if (gameScreen.pressed) {
             loadLevelSelect(13);
+            winScreenAudio.pause();
+            winScreenAudio.currentAudio = 0;
         }
     }
 }
@@ -15,4 +17,6 @@ function WinScreen() {
 function loadWinScreen() {
     entityList.clear();
     entityList.other.push(new WinScreen());
+    winScreenAudio.currentTime = 0;
+    winScreenAudio.play();
 }

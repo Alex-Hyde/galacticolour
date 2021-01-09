@@ -87,9 +87,9 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
             projIndex = entityList.playerProjectiles.findIndex(p => p.projID == this.projID);
             if (mob.collision(this)) {
                 var explosionAudio = new Audio('sounds/explosion.mp3');
-                explosionAudio.volume = 0.2;
+                explosionAudio.volume = 0.4;
                 if(this.type==1){
-                    explosionAudio.volume = 0.06; 
+                    explosionAudio.volume = 0.1; 
                 }
                 explosionAudio.play();
                 if (this.type == 2) {
