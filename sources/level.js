@@ -198,14 +198,10 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
             mobSpawnY = Math.random()*(gameScreen.canvas.height-150)
             mobspawnX = offsetX + gameScreen.canvas.width/2
             if(Math.abs(player.x-mobspawnX) < 100){
-                while(Math.abs(player.y-mobSpawnY) < 150){
-                    mobSpawnY = Math.random()*(gameScreen.canvas.height-150) 
+                while(Math.abs(player.y-mobSpawnY) < 100 && mobSpawnY < 100){
+                    mobSpawnY = Math.random()*(gameScreen.canvas.height-100) 
                 }
             }
-            if(mobSpawnY < 120){
-                mobSpawnY+=100;
-            }
-            
         }
         else {
             mobspawnX = offsetX + gameScreen.canvas.width/2

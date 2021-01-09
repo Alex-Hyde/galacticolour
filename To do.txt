@@ -1,11 +1,6 @@
 
 
-
-
--Level Design
--Design the actual levels
-	-Take Damage in asteroid levels 
-	-Unlock past asteroid level
+-Mob spawn away from you
 
 -How to play page/Manual
 	-change manual (can heal more than one, cant heal healers)
@@ -14,10 +9,8 @@
 
 
 -screens
-	-All the planets
-	-Death screens
 	-Winning screens
-	-End of level screens
+	-planets
 	-Title
 
 
