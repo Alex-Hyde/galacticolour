@@ -134,8 +134,12 @@ function Level(waveList, levelID) {
         this.audio.currentTime = 0;
         this.complete = true;
         currentLevel = NaN;
-        levelList[this.levelNum].unlocked = true;
-        loadLevelSelect(this.levelNum - 1);
+        if (this.levelNum == 1) {
+            loadWinScreen();
+        } else {
+            levelList[this.levelNum].unlocked = true;
+            loadLevelSelect(this.levelNum - 1);
+        }
     }
 
     this.clearMobs = function() {
