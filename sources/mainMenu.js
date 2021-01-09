@@ -1,5 +1,3 @@
-playInterval = null // setInterval(playAudio, menuscreenAudio.duration*1000, menuscreenAudio);
-
 function MainMenu(bgCoord) {
     this.image = document.getElementById("menuBG");
     this.shipImage = document.getElementById("menuShipBG");
@@ -75,9 +73,6 @@ function PlayButton(x, y) {
     this.onRelease = function() {
         new Audio('sounds/play.mp3').play();
         menuAudio.pause();
-        playingAlready = false;
-        //menuscreenAudio.currentTime = 0;
-        clearInterval(playInterval);
         this.image = this.defaultImage;
         entityList.other[0].zoomIndex = 1;
     }

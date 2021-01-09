@@ -94,8 +94,7 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                 explosionAudio.play();
                 if (this.type == 2) {
                     new explosionAnimation(this.x-100, this.y-100, 200, 200);
-                    mIndex = 0;
-                    this.hitbox = new Hitbox([new rectHitbox(-60, -60, 120, 120)]);
+                    this.hitbox = new Hitbox([new rectHitbox(-100, -100, 200, 200)]);
                     entityList.mobList.forEach(m => {
                         if (m.collision(this)) {
                             if (m.colour==this.colour){
@@ -104,7 +103,6 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                             else{
                                 m.health -= this.damage * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
                             }
-                            console.log(m.health);
                             if (m.health <= 0) {
                                 mobdeleteindex=entityList.mobList.indexOf(m);
                                 entityList.mobList.splice(mobdeleteindex, 1);
@@ -112,8 +110,6 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                                     player.health+=Math.min(m.maxHealth*0.03,player.maxHealth-player.health)
                                 }
                             }
-                        } else {
-                            mIndex++;
                         }
                     });
                 } else {
@@ -124,16 +120,14 @@ function playerProjectile(angle,colour,x,y,damage,range,type){
                         mob.health -= this.damage * player.damagemultiplyer * Math.min(1, this.range/Math.sqrt((this.initX-this.x)*(this.initX-this.x)+(this.initY-this.y)*(this.initY-this.y)));  
                     }
                     if (mob.health <= 0) {
-                        entityList.mobList.splice(mobIndex, 1);
+                        entityList.mobList.splice(entityList.mobList.indexOf(mob), 1);
                         if(player.killregen && player.health < player.maxHealth){
                             player.health+=Math.min(mob.maxHealth*0.03,player.maxHealth-player.health)
                         }
                     }
                 }
                 entityList.playerProjectiles.splice(projIndex, 1);
-                return
-            } else {
-                mobIndex++;
+                return;
             }
             
         })

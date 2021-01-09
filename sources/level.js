@@ -34,7 +34,8 @@ function Level(waveList, levelID) {
         currentLevel = levelList.findIndex(l => l.levelNum == this.levelNum) + 1;
         this.audio = new Audio('songs/battle_4.mp3');
         this.audio.volume = 0.3;
-        this.audio.play();
+        this.audio.play()
+        this.audio.loop = true;
     }
     
     this.update = function() {
@@ -56,23 +57,13 @@ function Level(waveList, levelID) {
             loadLevelSelect(this.levelNum - 1);
         }
         if (player.health <= 0) {
-            if (!this.gameOver) {
-                this.gameOverTime = clock;
-                this.gameOver = true;
-            }
+            this.clearMobs();
+            currentLevel = NaN;
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            loadDeathScreen(this.levelNum - 1);
         }
         if (this.gameOver) {
-            if (clock - this.gameOverTime < 3000) {
-                ctx.font = "20px Courier";
-                ctx.fillText("Game Over!", gameScreen.canvas.width/2, gameScreen.canvas.height/2);
-            } else {
-                this.clearMobs();
-                currentLevel = NaN;
-                this.audio.pause();
-                this.audio.currentTime = 0;
-                loadLevelSelect(this.levelNum - 1);
-            //    entityList.other[0].currentLevelIndex = this.levelNum - 1;
-            }
         } else if (clock - this.startTime < 3000) {
             ctx.textAlign = "center";
             ctx.font = "20px Courier";
