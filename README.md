@@ -5,9 +5,9 @@
 - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Menus](#menus)
-    * [Main Menu](##main-menu)
-    * [Manual](##manual)
-    * [Inventory](##inventory)
+    * [Main Menu](#main-menu)
+    * [Manual](#manual)
+    * [Inventory](#inventory)
     * [Level Select]
 - [Levels]
     * [Waves]
