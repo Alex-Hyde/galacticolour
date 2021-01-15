@@ -6,11 +6,8 @@
 - [Introduction](#introduction)
 - [Menus](#menus)
     * [Main Menu](##main-menu)
-    * [Manual]
-    * [Upgrades]
-        + [Guns]
-        + [Bodies]
-        + [Engines]
+    * [Manual](##manual)
+    * [Inventory](##inventory)
     * [Level Select]
 - [Levels]
     * [Waves]
