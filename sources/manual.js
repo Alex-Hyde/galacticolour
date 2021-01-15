@@ -134,7 +134,6 @@ function OpenInstructionsButton() {
 
     this.onRelease = function() {
         new Audio('sounds/page turn2.mp3').play();
-        //entityList.other[0].audio.pause();
         loadInstructions(entityList.other[0].x);
         entityList.other[0].updatePage();
     }

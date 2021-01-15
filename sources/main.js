@@ -3,7 +3,6 @@ var levelList = [];
 var entityList = [];
 var currentLevel = NaN;
 var gameclock=0;
-//var levelStartTime = NaN;
 const root2 = Math.sqrt(2);
 var player = null;
 const RED = 0;

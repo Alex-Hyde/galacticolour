@@ -32,8 +32,6 @@ function Button(x, y, w, h) {
     this.draw = function(ctx) {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h);
-        // ctx.strokeStyle = "black";
-        // ctx.strokeRect(this.x, this.y, this.w, this.h);
     }
 
     this.mouseOver = function() {

@@ -39,7 +39,7 @@ function InventoryScreen(bgCoord) {
     this.buttonList.push(new SelectionButton(5, 710, gameScreen.canvas.height/2 + 85, 150, 150));
     this.buttonList.push(new ColorButton());
     this.gunEffectsList = ['sounds/equip gun1.mp3', 'sounds/equip gun2.mp3', 'sounds/equip gun3.mp3', 'sounds/equip gun4.mp3', 'sounds/equip gun5.mp3', 'sounds/equip gun6.mp3', 'sounds/equip gun7.mp3', 'sounds/equip gun8.mp3'];
-    //this.audio = new Audio('songs/menuscreen_3.mp3');
+
 
 
     this.draw = function(ctx) {
@@ -180,7 +180,6 @@ function OpenInventoryButton() {
     }
 
     this.onRelease = function() {
-        //menuscreenAudio.pause();
         new Audio('sounds/openinventory.mp3').play();
         loadInventory(entityList.other[0].x);
     }
@@ -196,7 +195,6 @@ function CloseInventoryButton() {
     }
 
     this.onRelease = function() {
-        //menuscreenAudio.pause();
         new Audio('sounds/closeinventory.mp3').play();
         entityList.other[0].opening = false;;
         this.w -= 4;

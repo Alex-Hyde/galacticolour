@@ -77,18 +77,6 @@ function levelScroll(levelID, background, speed, endCoord) {
                 }
             }
         });
-        // this.blockList.forEach(b => {
-        //     entityList.playerProjectiles.forEach(p => {
-        //         if (b.collision(p)) {
-        //             b.health -= 40;
-        //             if (b.health <= 0) {
-        //                 this.blockList.splice(this.blockList.indexOf(b), 1);
-        //             }
-        //             entityList.playerProjectiles.splice(entityList.playerProjectiles.indexOf(p), 1);
-        //             explosionAnimation(p.x-20, p.y-20, 40, 40, 3);
-        //         }
-        //     });
-        // });
         entityList.staticTextures.forEach(e => {
             e.x -= this.speed;
         });
@@ -125,10 +113,6 @@ function levelScroll(levelID, background, speed, endCoord) {
 
 function levelScroll1(levelID) {
     background = document.getElementById("asteroidBG");
-    // for (i = 0; i < 30; i++) {
-    //     blockList.push(new Asteroid(Math.random()*1600+500, Math.random()*540 - 30, Math.random()*40 + 50, Math.random()*40 + 50, 
-    //                                 Math.random()*Math.PI*2, Math.floor(Math.random()*2), (Math.random()-0.5)/5, Math.random()*4-2, Math.random()*4-2));
-    // }
     levelScroll.call(this, levelID, background, 3, 5000);
 
     this.additionalUpdate = function() {

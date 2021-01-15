@@ -15,7 +15,6 @@ function Level(waveList, levelID) {
     if (this.levelNum == 1) {
         this.unlocked = true;
     }
-    //this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
 
     this.loadLevel = function() { //.slice(0,2);   // make empty in actual game
         this.gameOver = false;
@@ -23,8 +22,6 @@ function Level(waveList, levelID) {
         player.spawn(gameScreen.canvas.width/2, gameScreen.canvas.height/2, 0);
         this.waveList = this.initWaveList.map(wave=>wave);
         this.waveNumber = 0;
-        //entityList.mobList = entityList.mobList.slice(entityList.mobList.length-1, entityList.mobList.length); // or just clear list but this puts new spawned player in same pos as existing
-        //globalMobList = []
         this.waveList.forEach(wave => {
             wave.resetWave();
         })
@@ -79,21 +76,16 @@ function Level(waveList, levelID) {
                 ctx.fillText(`Level ${currentLevel} Starting in 3`, gameScreen.canvas.width/2, gameScreen.canvas.height/2);
             }
         } 
-        //ASK KEVIN IF THIS IS OKAY
         else if (this.currentWave.mList.length != 0 && player.bullettime!=true) {
             if ((clock-this.startTime) % this.currentWave.spawnTime < 15) {
                 this.currentWave.spawnEnemies();
             }
         } else if (this.currentWave.mList.length == 0 && entityList.mobList.length == 0) {
             if (!this.currentWave.waveDone) {
-                //d = new Date();
-                //t = d.getTime();
                 this.clearMobs();
                 this.currentWave.doneTime = clock;
                 this.currentWave.waveDone = true;
             }
-            //d = new Date();
-            //ti = d.getTime();
             this.waveClear(clock);
         }
     }
@@ -149,12 +141,8 @@ function Level(waveList, levelID) {
     this.nextWave = function() {
         this.waveNumber ++;
         this.currentWave = this.waveList[this.waveNumber];
-    //    this.startWave();
     }
 
-    //this.startWave = function() {
-    //    this.spawnInterval = setInterval(this.currentWave.spawnEnemies, this.currentWave.spawnTime);
-    //}
     this.draw = function() {
 
     }
@@ -179,9 +167,6 @@ function Wave(mobList, spawnTime) {  // mobList is an association list with the 
         mobIndex = Math.floor(Math.random() * this.mList.length);
         offsetX = Math.floor(Math.random()*100);
         currentMob = this.mList[mobIndex];
-        //let mobSpawnY = 0;
-        //let mobSpawnX = 0;
-        //newMob = new currentMob[0]("yellow", gameScreen.canvas.width/2, Math.random()*gameScreen.canvas.height);
         if (currentMob[0] == Mothership || currentMob[0] == RoboMothership){
             mobSpawnY = 50;
             mobspawnX= gameScreen.canvas.width/2
