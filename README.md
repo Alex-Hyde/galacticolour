@@ -5,15 +5,15 @@
 ### - [Table of Contents](#table-of-contents)
 ### - [Introduction](#introduction)
 ### - [Menus]
-####  * [Controls]
-####  * [Upgrades]
-#####   + [Guns]
-#####   + [Bodies]
-#####   + [Engines]
-####  * [Level Select]
+####     * [Controls]
+####     * [Upgrades]
+#####        + [Guns]
+#####        + [Bodies]
+#####        + [Engines]
+####     * [Level Select]
 ### - [Levels]
-####  * [Waves]
-####  * [Enemies]
+####     * [Waves]
+####     * [Enemies]
 ### - [Screenshots]
 
 # Introduction
