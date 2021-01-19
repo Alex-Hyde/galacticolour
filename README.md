@@ -9,7 +9,7 @@
     * [Manual](#manual)
     * [Inventory](#inventory)
     * [Level Selection](#level-selection)
-- [Levels]
+- [Levels](#levels)
 
 # Introduction
 
