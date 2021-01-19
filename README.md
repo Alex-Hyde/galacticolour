@@ -8,11 +8,8 @@
     * [Main Menu](#main-menu)
     * [Manual](#manual)
     * [Inventory](#inventory)
-    * [Level Select]
+    * [Level Selection](#level-selection)
 - [Levels]
-    * [Waves]
-    * [Enemies]
-- [Screenshots]
 
 # Introduction
 
@@ -88,14 +85,24 @@ to warp your ship to your mouse's location</p>
 ![openInvGif](/screenshots/inventory.gif/)
 
 
-<p>Each body has its unique characteristic ability. For example, a certain body will allow for health regeneration
-upon killing an enemy, but as a penalty, enemies take less damage per hit.</p>
-
-[regenGif]
+<p>Each body has its unique characteristic ability. A complete rundown of each of the abilities and stats can be found in the Manual</p>
 
 
-<p>A complete rundown of each of the abilities and stats can be found in the Manual</p>
+## Level Selection
+<p>Upon clicking the Level Select Button from the Main Menu, the player will find themselves in a map-like view of each level. The player can only
+access a level once the preceding one has been completed (of course excepting the first level).</p>
+
+![openLevelSelectGif](/screenshots/levelselect.gif/)
+
+<p>After completing a level, the next level will be accessible and the player can navigate their ship to the desired level by using either the A and D keys
+or their mouse.</p>
+
+![moveShipLevelSelectGif](/screenshots/levelselectmove.gif/)
 
 
+## Levels
+<p>Each level is consisted of a certain number of waves. Each wave has a certain set of enemies that will spawn and a max spawn limit for each. The order and position
+in which they spawn is randomized. As the player progresses, the types of enemies become stronger and the number of spawns and waves will also increase.</p>
 
-[gameOver]
+![levelGif](/screenshots/level.gif/)
+![levelWarpGif](/screenshots/warp.gif/)
