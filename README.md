@@ -19,6 +19,10 @@ games such as Asteroids and Space Invaders, along with a touch of the beloved mo
 <p>The game was created completely from scratch using JavaScript and HTML. The project served as a challenge for the 
 team that would also aid them in improving their JavaScript skills and sharpening their knowledge of its conventions.</p>
 
+<p>One main goal in the development of Galacticolour was to focus extensively on the use of Objects for different entities,
+screens and buttons. By observing the source code, users can witness how the use of Objects, their properties and 
+their methods make the game function.</p>
+
 <p>Galacticolour is heavily reliant on user mouse and keyboard input. The program runs in a game loop that constantly
 listens for cues in order to trigger certain events in-game.</p>
 
