@@ -1,4 +1,4 @@
-# GALACTICOLOUR
+# GALACTICOLOUR - [Try it Yourself!](https://alex-hyde.github.io/galacticolour/)
 
 # Table of Contents
 
