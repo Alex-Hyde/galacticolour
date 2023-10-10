@@ -35,7 +35,7 @@ to restart the level.</p>
 <p>Change the appearance and functionality of your equipment including ship body types, projectiles and engines. </p>
 
 <p>This project was developed in a team of 3 group members consisting of Alex Hyde, Sebastian Villate and Kevin Lee.
-All three are First Year students at the University of Waterloo. Their respective GitHub profiles can be found below:</p>
+All three are students at the University of Waterloo. Their respective GitHub profiles can be found below:</p>
 
 [Alex Hyde](https://github.com/Alex-Hyde)<br>
 [Sebastian Villate](https://github.com/Sebvillate)<br>
